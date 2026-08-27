@@ -1,9 +1,9 @@
 {
   "id": "uk.mostlyarmless.teacher",
-  "name": "MA-Teacher (working title)",
-  "version": "0.0.1",
-  "icon": "",
-  "launchPath": "",
+  "name": "MA-Teacher",
+  "version": "0.1.0",
+  "icon": "icon-large.png",
+  "launchPath": "MA-Teacher.exe",
   "webPort": 5201,
   "category": "education",
   "ma_signed": true,

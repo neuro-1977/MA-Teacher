@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows;
+using Microsoft.Web.WebView2.Core;
 
 namespace MostlyArmless.ModuleShell;
 
@@ -26,7 +27,10 @@ public partial class MainWindow : Window
 
         _host = new LocalModuleHost(uiRoot);
         var started = await _host.StartAsync();
-        await Browser.EnsureCoreWebView2Async();
+        var webViewData = Path.Combine(AppContext.BaseDirectory, "data", "webview");
+        Directory.CreateDirectory(webViewData);
+        var environment = await CoreWebView2Environment.CreateAsync(null, webViewData);
+        await Browser.EnsureCoreWebView2Async(environment);
         Browser.Source = started
             ? new Uri(_host.BaseAddress)
             : new Uri($"file:///{entryPoint.Replace('\\', '/')}");

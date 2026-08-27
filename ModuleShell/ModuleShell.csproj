@@ -5,6 +5,16 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>MA-Teacher</AssemblyName>
+    <RootNamespace>MostlyArmless.ModuleShell</RootNamespace>
+    <ApplicationIcon>..\assets\MA-Teacher.ico</ApplicationIcon>
+    <Version>0.1.0.0</Version>
+    <FileVersion>0.1.0.0</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <Authors>CaptainNeuro</Authors>
+    <Company>CaptainNeuro</Company>
+    <Product>MA-Teacher</Product>
+    <Copyright>CaptainNeuro</Copyright>
     <MaModuleFolder>$([System.IO.Directory]::GetParent('$(MSBuildProjectDirectory)').Name)</MaModuleFolder>
   </PropertyGroup>
   <ItemGroup>
@@ -13,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\web\dist\**\*" Link="ui\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Resource Include="..\assets\MA-Teacher.ico" Link="MA-Teacher.ico" />
   </ItemGroup>
 </Project>
