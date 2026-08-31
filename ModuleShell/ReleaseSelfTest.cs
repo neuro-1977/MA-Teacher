@@ -29,7 +29,11 @@ internal static class ReleaseSelfTest
                 legacyCommand.CommandText="CREATE TABLE legacy_migration_probe (id TEXT PRIMARY KEY, value TEXT NOT NULL); INSERT INTO legacy_migration_probe (id, value) VALUES ('release-self-test', 'preserved');";
                 legacyCommand.ExecuteNonQuery();
             }
-            using var host=new LocalModuleHost(ui,data,includeDiagnosticErrors:true);
+            using var portProbe=new System.Net.Sockets.TcpListener(IPAddress.Loopback,0);
+            portProbe.Start();
+            var selfTestPort=((IPEndPoint)portProbe.LocalEndpoint).Port;
+            portProbe.Stop();
+            using var host=new LocalModuleHost(ui,data,includeDiagnosticErrors:true,listenerPort:selfTestPort);
             if(Directory.Exists(Path.Combine(data,"data"))) return 25;
             using(var canonicalConnection=new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={Path.Combine(data,"ma-teacher.db")}"))
             {

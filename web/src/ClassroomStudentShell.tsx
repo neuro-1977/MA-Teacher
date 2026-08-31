@@ -154,6 +154,24 @@ export default function ClassroomStudentShell() {
     }
   },[view?.attempts,view?.checks])
 
+  const trailStars = useMemo(() => {
+    const attempts = view?.attempts || []
+    const reviewed = attempts.some((attempt) => attempt.reviewState === 'reviewed')
+    const attemptsPerCheck = new Map<string,number>()
+    for (const attempt of attempts) attemptsPerCheck.set(attempt.checkId,(attemptsPerCheck.get(attempt.checkId)||0)+1)
+    return [
+      { label:'Lesson opened', earned:true, detail:'Your lesson is ready on this screen.' },
+      { label:'Work sent', earned:attempts.length>0, detail:'You sent a practice answer or file.' },
+      { label:'Feedback found', earned:reviewed, detail:'Your teacher reviewed some work.' },
+      { label:'Tried again', earned:Array.from(attemptsPerCheck.values()).some((count)=>count>1), detail:'You used feedback and made another attempt.' },
+    ]
+  },[view?.attempts])
+  const activityStops = 1
+    + ((view?.checks||[]).length>0?1:0)
+    + (learningTrail.submittedChecks.size>0?1:0)
+    + (learningTrail.reviewedChecks.size>0?1:0)
+  const activityPercent = activityStops*25
+
   if (joining || !view?.ok || !view.lesson) return <main className="student-classroom student-classroom--join">
     <section className="student-classroom__join-card">
       <img src={logoUrl} alt="MA-Teacher smiling tutor wearing a graduation cap" />
@@ -185,11 +203,19 @@ export default function ClassroomStudentShell() {
         <li className={learningTrail.submittedChecks.size>0?'is-done':''}><b>3</b><span><strong>{learningTrail.submittedChecks.size>0?'Work sent':'Send your work'}</strong><small>{learningTrail.submittedChecks.size>0?`${learningTrail.submittedChecks.size} practice check${learningTrail.submittedChecks.size===1?'':'s'} sent.`:'Nothing has been sent yet.'}</small></span></li>
         <li className={learningTrail.reviewedChecks.size>0?'is-done':learningTrail.waitingCount>0?'is-waiting':''}><b>4</b><span><strong>{learningTrail.reviewedChecks.size>0?'Feedback ready':learningTrail.waitingCount>0?'Teacher reviewing':'Feedback next'}</strong><small>{learningTrail.reviewedChecks.size>0?`${learningTrail.reviewedChecks.size} check${learningTrail.reviewedChecks.size===1?'':'s'} reviewed.`:learningTrail.waitingCount>0?'A human review is still needed.':'It appears after human review.'}</small></span></li>
       </ol>
+      <div className="student-classroom__activity-meter">
+        <div><strong>{activityStops} of 4 activity stops reached</strong><small>This records what happened. It does not score how well you learned.</small></div>
+        <div role="progressbar" aria-label="Learning trail activity" aria-valuemin={0} aria-valuemax={4} aria-valuenow={activityStops}><span style={{width:`${activityPercent}%`}} /></div>
+      </div>
       <div className="student-classroom__next-step">
         <span>What should I do now?</span>
         <div><strong>{learningTrail.nextTitle}</strong><small>{learningTrail.nextDetail}</small></div>
         <button type="button" onClick={()=>setTab(learningTrail.nextTab)}>{learningTrail.nextButton}</button>
       </div>
+      <section className="student-classroom__trail-stars" aria-labelledby="trail-stars-title">
+        <header><div><p className="student-classroom__eyebrow">Trail stars</p><h3 id="trail-stars-title">Small actions worth noticing</h3></div><small>Stars celebrate activity only. They are not grades or prizes.</small></header>
+        <div>{trailStars.map((star)=><article key={star.label} className={star.earned?'is-earned':''}><span aria-hidden="true">{star.earned?'★':'○'}</span><div><strong>{star.label}</strong><small>{star.detail}</small></div></article>)}</div>
+      </section>
     </section>
     <nav aria-label="Your lesson steps">
       <button className={tab==='lesson'?'is-active':''} onClick={()=>setTab('lesson')}>1. My lesson</button>

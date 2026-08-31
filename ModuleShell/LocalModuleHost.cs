@@ -50,12 +50,12 @@ internal sealed class LocalModuleHost : IDisposable
 
     private readonly bool _includeDiagnosticErrors;
 
-    public LocalModuleHost(string uiRoot, string dataRoot, bool includeDiagnosticErrors = false)
+    public LocalModuleHost(string uiRoot, string dataRoot, bool includeDiagnosticErrors = false, int? listenerPort = null)
     {
         _includeDiagnosticErrors = includeDiagnosticErrors;
         _uiRoot = Path.GetFullPath(uiRoot);
         CanonicalDataRootMigration.Migrate(dataRoot);
-        _identity = Identity;
+        _identity = listenerPort is > 0 and <= 65535 ? Identity with { Port = listenerPort.Value } : Identity;
         _evidence = new CurriculumEvidenceStore(dataRoot);
         _documents = new CurriculumDocumentStore(dataRoot);
         _documentParser = new CurriculumDocumentParserStore(dataRoot);

@@ -2,6 +2,8 @@
 
 ## 0.1.0 public preview
 
+- Added a child-friendly four-stop activity meter and evidence-backed trail stars for opening a lesson, sending work, receiving human feedback, and trying again. They use existing local records and never become points, grades, streaks, ranks, rewards, ability labels, or mastery claims.
+- Isolated the packaged release self-test onto a free ephemeral loopback port so an installed MA-Teacher already serving the real classroom on port 5201 no longer causes a false release failure; production classroom identity and school-network guidance remain unchanged.
 - Fixed Guided Setup so an interrupted local response cannot expose raw JavaScript JSON parser text: the host now returns a valid, privacy-safe JSON error, the page validates response bodies before parsing, and the packaged self-test checks all four setup APIs.
 - Corrected sixteen local stores that accidentally appended a second `data` directory. Every feature now uses the canonical install-root `data/ma-teacher.db`; a transactional startup migration copies and verifies legacy `data/data/ma-teacher.db` rows before removing the stale nested database.
 - Expanded contextual-vocabulary, descriptive-feedback, evidence-questioning, and synthetic worked-example planning from six to fourteen subject domains, with models, non-examples, observable-evidence triggers, learner-owned actions, follow-ups, bounded human reviews, next-evidence steps, and explicit cautions.

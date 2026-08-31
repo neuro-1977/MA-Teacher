@@ -10,6 +10,8 @@ When you join a shared classroom, the learning trail shows four simple stops: le
 
 The `What should I do now?` card points to one useful next step. If your work is waiting, it says that a human review is still needed. If feedback is ready, it takes you straight to it.
 
+The activity bar counts the four trail stops. Trail stars notice four real actions: opening the lesson, sending work, finding teacher feedback, and trying the same check again. They are gentle reminders, not points, prizes, grades, streaks, ranks, or claims about ability. A star appears only when the matching local record exists.
+
 ## Submit work
 
 1. Ask the teacher to open **Teach > Practice and review**.
