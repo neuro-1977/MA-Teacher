@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $PSScriptRoot
 $forbidden = @(
     "MostlyArmless", "Mostly Armless", "MA-Dev",
-    "uk.mostlyarmless", "D:\_Code_", "C:\Users\Captain", "D:\MA-Updates"
+    "uk.mostlyarmless", "D:\_Code_", "D:\\_Code_", "C:\Users\Captain", "C:\\Users\\Captain", "D:\MA-Updates", "D:\\MA-Updates"
 )
 $extensions = @(".cs", ".xaml", ".csproj", ".ts", ".tsx", ".css", ".json", ".md", ".ps1", ".iss", ".yml", ".yaml")
 $publishablePaths = & git -C $repo ls-files --cached --others --exclude-standard

@@ -40,6 +40,7 @@ internal sealed class LocalModuleHost : IDisposable
     private readonly DataStewardshipStore _dataStewardship;
     private readonly AccessibilityReviewStore _accessibilityReviews;
     private readonly DevelopmentBreadcrumbService _developmentBreadcrumbs;
+    private readonly GitHubFeedbackStore _githubFeedback;
     private readonly CancellationTokenSource _stopping = new();
     private Task? _serveTask;
 
@@ -65,6 +66,7 @@ internal sealed class LocalModuleHost : IDisposable
         _dataStewardship = new DataStewardshipStore(dataRoot);
         _accessibilityReviews = new AccessibilityReviewStore(dataRoot);
         _developmentBreadcrumbs = new DevelopmentBreadcrumbService(dataRoot);
+        _githubFeedback = new GitHubFeedbackStore(dataRoot);
         BaseAddress = $"http://127.0.0.1:{_identity.Port}/";
         _listener.Prefixes.Add(BaseAddress);
     }
@@ -764,6 +766,36 @@ internal sealed class LocalModuleHost : IDisposable
                 context.Response.StatusCode = TeachingReferenceMutationStatus(result); await WriteJsonAsync(context.Response, result); return;
             }
 
+            if (string.Equals(path, "/api/development/feedback", StringComparison.OrdinalIgnoreCase))
+            {
+                if (string.Equals(context.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        var state = context.Request.QueryString["state"];
+                        var limit = BoundedQueryInteger(context.Request, "limit", 200, 1, 500);
+                        await WriteJsonAsync(context.Response, new { ok = true, feedback = _githubFeedback.GetQueue(state, limit) });
+                    }
+                    catch (ArgumentException exception)
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        await WriteJsonAsync(context.Response, new { ok = false, error = exception.Message });
+                    }
+                    return;
+                }
+                if (!ValidGitHubFeedbackImportRequest(context.Request))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Same-origin GitHub-feedback import intent is required." });
+                    return;
+                }
+                var mutation = await ReadGitHubFeedbackImportAsync(context.Request);
+                context.Response.StatusCode = mutation.Ok ? (int)HttpStatusCode.OK : mutation.State == "invalid"
+                    ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.InternalServerError;
+                await WriteJsonAsync(context.Response, mutation);
+                return;
+            }
+
             if (string.Equals(path, "/api/development/breadcrumbs", StringComparison.OrdinalIgnoreCase))
             {
                 if (string.Equals(context.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
@@ -947,6 +979,33 @@ internal sealed class LocalModuleHost : IDisposable
             && string.Equals(request.Headers["Origin"], expectedOrigin, StringComparison.OrdinalIgnoreCase)
             && string.Equals(request.Headers["X-MA-Teacher-Intent"], "append-development-breadcrumb", StringComparison.Ordinal)
             && request.ContentLength64 is > 0 and <= 32768;
+    }
+
+    private bool ValidGitHubFeedbackImportRequest(HttpListenerRequest request)
+    {
+        var expectedOrigin = BaseAddress.TrimEnd('/');
+        return string.Equals(request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(request.Headers["Origin"], expectedOrigin, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(request.Headers["X-MA-Teacher-Intent"], "import-github-feedback", StringComparison.Ordinal)
+            && request.ContentLength64 is > 0 and <= 4194304;
+    }
+
+    private async Task<GitHubFeedbackMutation> ReadGitHubFeedbackImportAsync(HttpListenerRequest request)
+    {
+        try
+        {
+            using var reader = new StreamReader(request.InputStream, request.ContentEncoding ?? Encoding.UTF8,
+                detectEncodingFromByteOrderMarks: false, leaveOpen: true);
+            var body = await reader.ReadToEndAsync(_stopping.Token);
+            var input = JsonSerializer.Deserialize<GitHubFeedbackBatchImport>(body,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return input is null ? new GitHubFeedbackMutation(false, "invalid", 0, 0, 0, 0, "A valid feedback batch is required.")
+                : _githubFeedback.Import(input);
+        }
+        catch (JsonException)
+        {
+            return new GitHubFeedbackMutation(false, "invalid", 0, 0, 0, 0, "Body must be valid JSON.");
+        }
     }
 
     private async Task<DevelopmentBreadcrumbMutation> ReadDevelopmentBreadcrumbMutationAsync(HttpListenerRequest request)

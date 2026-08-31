@@ -5,6 +5,7 @@ $version = [string]((Get-Content (Join-Path $repo "ma-app.json") -Raw | ConvertF
 $artifacts = Join-Path $repo "artifacts"
 $installRoot = Join-Path ([IO.Path]::GetTempPath()) "MA-Teacher-CI-$([Guid]::NewGuid().ToString('N'))"
 & (Join-Path $PSScriptRoot "test-public-boundary.ps1")
+[void][scriptblock]::Create((Get-Content (Join-Path $PSScriptRoot "sync-github-feedback.ps1") -Raw))
 Push-Location (Join-Path $repo "web")
 try {
     & npm.cmd ci

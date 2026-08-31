@@ -20,6 +20,14 @@ internal static class ReleaseSelfTest
             var root=await client.GetAsync(host.BaseAddress);
             if(root.StatusCode!=HttpStatusCode.OK||!(await root.Content.ReadAsStringAsync()).Contains("MA-Teacher",StringComparison.OrdinalIgnoreCase)) return 14;
             if((await client.GetAsync(new Uri(new Uri(host.BaseAddress),"assets/definitely-missing.js"))).StatusCode!=HttpStatusCode.NotFound) return 15;
+            var feedbackPayload=JsonSerializer.Serialize(new{repository="neuro-1977/MA-Teacher",issues=new[]{new{number=1,nodeId="I_synthetic_release_test",state="open",title="Synthetic release feedback",body="No learner data.",url="https://github.com/neuro-1977/MA-Teacher/issues/1",author="release-test",createdAt="2026-08-31T00:00:00Z",updatedAt="2026-08-31T00:00:00Z",labels=new[]{"test"},comments=Array.Empty<object>()}}});
+            using var feedbackRequest=new HttpRequestMessage(HttpMethod.Post,new Uri(new Uri(host.BaseAddress),"api/development/feedback"));
+            feedbackRequest.Headers.TryAddWithoutValidation("Origin",host.BaseAddress.TrimEnd('/'));
+            feedbackRequest.Headers.TryAddWithoutValidation("X-MA-Teacher-Intent","import-github-feedback");
+            feedbackRequest.Content=new StringContent(feedbackPayload,System.Text.Encoding.UTF8,"application/json");
+            if((await client.SendAsync(feedbackRequest)).StatusCode!=HttpStatusCode.OK) return 16;
+            var feedbackResponse=await client.GetAsync(new Uri(new Uri(host.BaseAddress),"api/development/feedback?state=open"));
+            if(feedbackResponse.StatusCode!=HttpStatusCode.OK||(await feedbackResponse.Content.ReadAsStringAsync()).IndexOf("Synthetic release feedback",StringComparison.Ordinal)<0) return 17;
             return 0;
         }
         catch{return 20;}

@@ -117,10 +117,10 @@ internal sealed class ProjectReadinessStore
             "not-verified", "Responsive CSS and semantic labels exist in source; no accessibility audit exists.",
             "Perform keyboard, focus, screen-reader, zoom, narrow viewport and contrast checks on a built app.", "specialist review may be required", 110));
         Upsert(connection, transaction, new("build-runtime", "delivery", "Compile, typecheck and disposable runtime smoke",
-            "not-run", "A requirement-by-requirement verification contract exists; no validation command was authorized or executed for the 0.2.0 work.",
+            "not-run", "A requirement-by-requirement verification contract exists; no validation command was authorized or executed for the 0.1.0 work.",
             "Run restore/build/typecheck, launch with disposable install root, inspect logs and exercise guarded APIs.", "future verification lane", 120));
         Upsert(connection, transaction, new("installer", "delivery", "Fresh installer, upgrade and uninstall",
-            "not-built", "The prior 0.1.0 installer does not prove or package current 0.2.0 source.",
+            "not-built", "The prior 0.1.0 installer does not prove or package current 0.1.0 source.",
             "After build/runtime proof, package licenses and exact source, hash artifact, test install/upgrade/uninstall and single-root storage.", "future release lane", 130));
         Upsert(connection, transaction, new("local-backup", "storage", "Manual consistent local database snapshots and hash verification",
             "implemented-unverified", "Source creates serialized SQLite snapshots under data/backups, records SHA-256 and verifies on demand without automatic deletion.",

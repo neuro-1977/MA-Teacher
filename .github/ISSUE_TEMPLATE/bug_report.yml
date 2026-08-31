@@ -8,7 +8,7 @@ body:
       value: "Never attach learner work, names, school records, passwords, or a database. Use synthetic examples."
   - type: input
     id: version
-    attributes: {label: MA-Teacher version, placeholder: "0.2.0"}
+    attributes: {label: MA-Teacher version, placeholder: "0.1.0"}
     validations: {required: true}
   - type: dropdown
     id: role

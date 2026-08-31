@@ -48,6 +48,8 @@ Teachers and students use the **same installer**. The teacher or operator sets u
 
 Use [GitHub Issues](https://github.com/neuro-1977/MA-Teacher/issues) for reproducible bugs and workflow feedback. Never post real learner names, submitted work, school records, credentials, or a copied MA-Teacher database. Use synthetic examples.
 
+Teachers and supervised students may comment on existing issues or use [GitHub Discussions](https://github.com/neuro-1977/MA-Teacher/discussions) for general product feedback. Current issue bodies, labels, and comments can be imported idempotently into MA-Teacher's local development feedback queue so Serenity can review them before planning future work.
+
 Security and privacy reports belong in a [private security advisory](https://github.com/neuro-1977/MA-Teacher/security/advisories/new).
 
 ## Build and verify
@@ -61,6 +63,8 @@ To build from source, developers need the .NET 9 SDK, Node.js 22, and Inno Setup
 That command scans the public boundary, type-checks and builds the UI, builds the desktop host and installer, self-tests the published and installed payloads, silently uninstalls, and emits installers plus checksums under `artifacts/`.
 
 See [development and CI](docs/DEVELOPMENT.md) and [architecture](docs/ARCHITECTURE.md).
+
+School deployment teams should use the [school IT deployment and security guide](docs/SCHOOL_IT_DEPLOYMENT.md) for the exact port, firewall, application-control, outbound-domain, storage, privacy, and acceptance-test requirements.
 
 ## Licence
 

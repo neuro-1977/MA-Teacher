@@ -51,4 +51,4 @@ jobs:
           $version = (Get-Content ma-app.json -Raw | ConvertFrom-Json).version
           if ($version -ne "0.1.0") { throw "Release version must remain exactly 0.1.0." }
           gh release upload 0.1.0 artifacts/MA-Teacher-Setup-$version.exe artifacts/MA-Teacher-Setup-latest.exe artifacts/SHA256SUMS.txt --repo $env:GITHUB_REPOSITORY --clobber
-          gh release edit 0.1.0 --repo $env:GITHUB_REPOSITORY --title "MA-Teacher 0.1.0" --notes "Verified Windows build from main commit $env:GITHUB_SHA. The same installer supports teacher-led setup and supervised student use. Setup includes .NET and handles WebView2. Verify SHA256SUMS.txt before installing." --latest
+          gh release edit 0.1.0 --repo $env:GITHUB_REPOSITORY --title "MA-Teacher 0.1.0" --notes "Verified Windows build from main commit $env:GITHUB_SHA. The same installer supports teacher-led setup and supervised student use. Setup includes .NET and handles WebView2. Verify SHA256SUMS.txt before installing. This remains a prerelease while public feedback is collected."

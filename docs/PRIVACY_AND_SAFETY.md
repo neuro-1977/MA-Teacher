@@ -1,6 +1,6 @@
 # Privacy and safety boundary
 
-Version 0.2.0 has no product cloud account, telemetry service, remote learner sync, or automatic model-based grading.
+Version 0.1.0 has no product cloud account, telemetry service, remote learner sync, or automatic model-based grading.
 
 The selected install folder can contain learner and plan records, curriculum evidence, lessons, reviews, session and progress records, submitted work, feedback, backups, and WebView2 profile data. Treat all of it as sensitive.
 

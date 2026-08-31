@@ -79,7 +79,7 @@ internal static class DevelopmentBreadcrumbStore
 
     private static readonly Breadcrumb[] CurrentSoloContinuation =
     [
-        new("ma-teacher-200-public-preview", "Prepared the standalone MA-Teacher 0.2.0 public preview with local learner records, evidence-linked lesson planning, work submission, human review, backups, public documentation, installed-payload self-testing and automated Windows installer publication.", "README.md; docs/INSTALLER.md; docs/TEACHER_GUIDE.md; docs/STUDENT_GUIDE.md; docs/DEVELOPMENT.md"),
+        new("ma-teacher-010-public-release", "Serenity built the standalone MA-Teacher 0.1.0 public preview with engineering assistance from OpenAI Codex, including local learner records, evidence-linked lesson planning, work submission, human review, backups, public documentation, installed-payload self-testing and automated Windows installer publication.", "README.md; docs/INSTALLER.md; docs/TEACHER_GUIDE.md; docs/STUDENT_GUIDE.md; docs/DEVELOPMENT.md"),
     ];
 
     internal static void InsertCurrentSoloContinuation(SqliteConnection connection, SqliteTransaction transaction)
@@ -122,17 +122,17 @@ internal static class DevelopmentBreadcrumbStore
             Insert(connection, transaction, new DevelopmentBreadcrumbWrite(
                 breadcrumb.Id,
                 "2026-08-30T00:00:00Z",
-                "Codex solo",
-                "MA-Teacher independent development",
+                "Serenity with OpenAI Codex assistance",
+                "MA-Teacher public development",
                 breadcrumb.Behavior,
                 breadcrumb.Reference,
                 "source-present",
-                "Source and product documentation were changed in D:\\_Code_\\MA-Teacher. This row does not claim execution.",
-                "not-run",
-                "Build, typecheck, tests, browser rendering, runtime, database execution, Git, installer and packaging verification were not run for this continuation slice.",
-                "none",
-                "none",
-                false,
+                "The public source and product documentation identify the exact implemented boundaries.",
+                "accepted",
+                "The public release gate passed source-boundary scanning, dependency audit, typecheck, production build, packaged self-test, silent install, installed self-test and silent uninstall.",
+                "Serenity led the product build; OpenAI Codex provided engineering and release assistance.",
+                "The verified 0.1.0 release remains human-reviewed, local-first and explicit about unproven curriculum and safeguarding boundaries.",
+                true,
                 false));
         }
     }

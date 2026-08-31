@@ -24,6 +24,7 @@ docs/*.md
 !docs/ARCHITECTURE.md
 !docs/DEVELOPMENT.md
 !docs/INSTALLER.md
+!docs/SCHOOL_IT_DEPLOYMENT.md
 !docs/PRIVACY_AND_SAFETY.md
 !docs/STUDENT_GUIDE.md
 !docs/TEACHER_GUIDE.md

@@ -4,6 +4,8 @@
 
 MA-Teacher supports 64-bit Windows 10 and Windows 11. Users do not need to install the .NET SDK, Node.js, npm, or Inno Setup. The installer contains the required .NET runtime and silently installs or updates Microsoft Edge WebView2 when required. An internet connection may be needed during the first installation so Microsoft's WebView2 bootstrapper can retrieve the current runtime.
 
+Managed school deployments should follow the [school IT deployment and security guide](SCHOOL_IT_DEPLOYMENT.md). In particular, do not expose the local TCP `127.0.0.1:5201` interface to the network.
+
 ## Install
 
 1. Download `MA-Teacher-Setup-latest.exe` and `SHA256SUMS.txt` from the latest GitHub release.

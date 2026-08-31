@@ -318,7 +318,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-evidence-spine',
+                'ma-teacher-0.1.0-evidence-spine',
                 '2026-08-30T00:00:00Z',
                 'Codex solo',
                 'Added the install-root curriculum evidence database, official-source registry, read-only APIs, and provenance console.',
@@ -329,7 +329,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-source-capture',
+                'ma-teacher-0.1.0-source-capture',
                 '2026-08-30T00:00:01Z',
                 'Codex solo',
                 'Added bounded operator-triggered capture of official curriculum pages with SHA-256 revision identity and compressed database retention.',
@@ -338,7 +338,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-teaching-workspace-contract',
+                'ma-teacher-0.1.0-teaching-workspace-contract',
                 '2026-08-30T00:00:02Z',
                 'Codex solo',
                 'Added the relational teaching-workspace contract for learner profiles, study plans, source-linked curriculum statements, evidence-linked lessons, assessments, teaching principles, and explicit capability gates.',
@@ -347,7 +347,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-learning-workspace-api',
+                'ma-teacher-0.1.0-learning-workspace-api',
                 '2026-08-30T00:00:03Z',
                 'Codex solo',
                 'Added guarded same-origin learner and study-plan creation, bounded validation, caller-owned idempotency, conflict refusal, workspace reads, and transactional local activity evidence.',
@@ -356,7 +356,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-learning-workspace-ui',
+                'ma-teacher-0.1.0-learning-workspace-ui',
                 '2026-08-30T00:00:04Z',
                 'Codex solo',
                 'Added the responsive local learning workspace for learner continuity, study-plan creation, active-plan evidence, teaching principles, and capability-gate visibility.',
@@ -365,7 +365,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-curriculum-candidate-review',
+                'ma-teacher-0.1.0-curriculum-candidate-review',
                 '2026-08-30T00:00:05Z',
                 'Codex solo',
                 'Added bounded deterministic extraction of curriculum text candidates from captured HTML revisions, immutable source locators and hashes, duplicate suppression, and explicit local accept or reject receipts.',
@@ -374,7 +374,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-curriculum-review-ui',
+                'ma-teacher-0.1.0-curriculum-review-ui',
                 '2026-08-30T00:00:06Z',
                 'Codex solo',
                 'Added the curriculum candidate queue, captured-revision selector, bounded scan action, provenance display, and explicit accept or reject controls to the local learning workspace.',
@@ -383,7 +383,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-official-document-capture',
+                'ma-teacher-0.1.0-official-document-capture',
                 '2026-08-30T00:00:07Z',
                 'Codex solo',
                 'Added bounded same-origin discovery of linked official PDF, ODT, and DOCX curriculum documents plus explicit per-document capture, SHA-256 revision identity, compression, and duplicate suppression.',
@@ -392,7 +392,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-document-redirect-hardening',
+                'ma-teacher-0.1.0-document-redirect-hardening',
                 '2026-08-30T00:00:08Z',
                 'Codex solo',
                 'Corrected the initial document transport before verification by disabling automatic redirects and validating every redirect target against the HTTPS official-host allowlist with a five-hop ceiling.',
@@ -401,7 +401,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-official-document-ui',
+                'ma-teacher-0.1.0-official-document-ui',
                 '2026-08-30T00:00:09Z',
                 'Codex solo',
                 'Added linked-document discovery and explicit capture controls, document state, source revision, official link, latest hash, and byte evidence to the local curriculum workspace.',
@@ -410,7 +410,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-odt-docx-text-blocks',
+                'ma-teacher-0.1.0-odt-docx-text-blocks',
                 '2026-08-30T00:00:10Z',
                 'Codex solo',
                 'Added bounded ODT and DOCX ZIP/XML extraction into immutable unreviewed text blocks with document revision, parser identity, locator, ordinal, SHA-256, and parse receipts.',
@@ -419,7 +419,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-revision-integrity-check',
+                'ma-teacher-0.1.0-revision-integrity-check',
                 '2026-08-30T00:00:11Z',
                 'Codex solo',
                 'Hardened captured source and document reads so decompressed bytes must reproduce the stored SHA-256 before discovery, extraction, or parsing can proceed.',
@@ -428,7 +428,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-document-parser-ui',
+                'ma-teacher-0.1.0-document-parser-ui',
                 '2026-08-30T00:00:12Z',
                 'Codex solo',
                 'Added ODT/DOCX extraction controls, explicit PDF lock state, and bounded unreviewed text-block provenance to the local curriculum workspace.',
@@ -437,7 +437,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-document-media-normalization',
+                'ma-teacher-0.1.0-document-media-normalization',
                 '2026-08-30T00:00:13Z',
                 'Codex solo',
                 'Corrected the document capture-to-parser handoff so an allowed application/octet-stream response is stored under the already allowlisted PDF, ODT, or DOCX extension media type.',
@@ -446,7 +446,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-pdfpig-page-text',
+                'ma-teacher-0.1.0-pdfpig-page-text',
                 '2026-08-30T00:00:14Z',
                 'Codex solo',
                 'Selected and pinned managed PdfPig 0.1.16 under Apache-2.0 for strict page-addressed PDF text extraction, PDF signature and 2,000-page bounds, immutable page/offset locators, hashes, and unreviewed block receipts.',
@@ -455,7 +455,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-document-block-candidates',
+                'ma-teacher-0.1.0-document-block-candidates',
                 '2026-08-30T00:00:15Z',
                 'Codex solo',
                 'Joined PDF, ODT, and DOCX text blocks to the existing curriculum candidate queue with deterministic phrase segmentation, source-page revision, document revision, block, locator, and hash evidence.',
@@ -464,7 +464,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-curriculum-revision-drift',
+                'ma-teacher-0.1.0-curriculum-revision-drift',
                 '2026-08-30T00:00:16Z',
                 'Codex solo',
                 'Added immutable source/document revision comparisons, extraction-set fingerprints, added/removed item evidence, operator dispositions, and a local reconciliation interface without automatic curriculum mutation.',
@@ -473,7 +473,7 @@ internal sealed class CurriculumEvidenceStore
             INSERT OR IGNORE INTO development_events(
                 id, occurred_utc, actor, activity, response, evidence_state)
             VALUES (
-                'ma-teacher-0.2.0-drift-identity-hardening',
+                'ma-teacher-0.1.0-drift-identity-hardening',
                 '2026-08-30T00:00:17Z',
                 'Codex solo',
                 'Corrected the initial drift design before verification so comparison identity includes extracted-item fingerprints, route parsing is explicit, revision chronology is proven from capture time, and no-impact cannot bypass missing extraction coverage.',
