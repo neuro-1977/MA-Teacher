@@ -3,6 +3,7 @@
 ## 0.1.0 public preview
 
 - Added a learner-friendly Safe Code Lab that runs bounded JavaScript in a disposable Web Worker with network, storage and host access blocked.
+- Enforced an official learning-source allowlist before curriculum downloads and at every redirect destination; news, social, search and arbitrary hosts fail closed.
 
 - Added task-led navigation instead of an endless panel wall.
 - Added local learner, plan, curriculum, lesson, review, session, and progress records.

@@ -49,6 +49,7 @@ Teachers and students use the **same installer**. The teacher or operator sets u
 - [Privacy and safeguarding boundaries](docs/PRIVACY_AND_SAFETY.md)
 - [Why the interface uses layered, approachable language](docs/APPROACHABILITY.md)
 - [Safe Code Lab security model](docs/SAFE_CODE_LAB.md)
+- [Trusted learning-source policy](docs/TRUSTED_LEARNING_SOURCES.md)
 
 ## Feedback
 

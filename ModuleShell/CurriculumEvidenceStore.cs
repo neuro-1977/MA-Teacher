@@ -145,8 +145,7 @@ internal sealed class CurriculumEvidenceStore
         {
             try
             {
-                using var request = new HttpRequestMessage(HttpMethod.Get, source.Url);
-                using var response = await SourceClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                using var response = await TrustedLearningSourcePolicy.GetAsync(SourceClient, source.Url, cancellationToken);
                 if (!response.IsSuccessStatusCode)
                 {
                     failed.Add(new SourceRefreshFailure(source.Id, $"HTTP {(int)response.StatusCode}"));
@@ -617,7 +616,7 @@ internal sealed class CurriculumEvidenceStore
 
     private static HttpClient CreateSourceClient()
     {
-        var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+        var client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false }) { Timeout = TimeSpan.FromSeconds(30) };
         client.DefaultRequestHeaders.UserAgent.ParseAdd("MA-Teacher/0.1.0 curriculum-evidence-capture");
         client.DefaultRequestHeaders.Accept.ParseAdd("text/html,application/xhtml+xml");
         return client;

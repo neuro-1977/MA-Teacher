@@ -12,10 +12,6 @@ namespace MATeacher.ModuleShell;
 internal sealed class CurriculumDocumentStore
 {
     private const int MaximumDocumentBytes = 25 * 1024 * 1024;
-    private static readonly HashSet<string> AllowedHosts = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "www.gov.uk", "gov.uk", "assets.publishing.service.gov.uk"
-    };
     private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
         ".pdf", ".odt", ".docx"
@@ -319,7 +315,7 @@ internal sealed class CurriculumDocumentStore
         return values;
     }
 
-    private static bool IsAllowedUri(Uri uri) => uri.Scheme == Uri.UriSchemeHttps && AllowedHosts.Contains(uri.IdnHost);
+    private static bool IsAllowedUri(Uri uri) => TrustedLearningSourcePolicy.TryValidate(uri, out _);
     private static bool IsAllowedContentType(string contentType, Uri uri)
     {
         if (!AllowedExtensions.Contains(Path.GetExtension(uri.AbsolutePath))) return false;

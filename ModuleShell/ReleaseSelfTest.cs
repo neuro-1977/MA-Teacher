@@ -5,6 +5,13 @@ internal static class ReleaseSelfTest
 {
     public static async Task<int> RunAsync()
     {
+        if(!TrustedLearningSourcePolicy.TryValidate(new Uri("https://www.gov.uk/government/collections/national-curriculum"),out _)) return 2;
+        if(TrustedLearningSourcePolicy.TryValidate(new Uri("https://www.gov.uk.example.org/curriculum"),out _)) return 3;
+        if(!TrustedLearningSourcePolicy.TryValidate(new Uri("https://www.bbc.co.uk/bitesize/subjects"),out _)) return 4;
+        if(TrustedLearningSourcePolicy.TryValidate(new Uri("https://www.bbc.co.uk/news/education"),out _)) return 5;
+        if(TrustedLearningSourcePolicy.TryValidate(new Uri("https://127.0.0.1/curriculum"),out _)) return 6;
+        if(TrustedLearningSourcePolicy.TryValidate(new Uri("https://user:secret@www.gov.uk/curriculum"),out _)) return 7;
+        if(TrustedLearningSourcePolicy.TryValidate(new Uri("https://www.gov.uk:8443/curriculum"),out _)) return 8;
         var ui=Path.Combine(AppContext.BaseDirectory,"ui");
         if(!File.Exists(Path.Combine(ui,"index.html"))) return 10;
         var data=Path.Combine(Path.GetTempPath(),$"ma-teacher-self-test-{Guid.NewGuid():N}");
