@@ -4,6 +4,40 @@ import { focusWorkspaceSurface } from './workspace-navigation';
 
 type Step = { id: string; title: string; explanation: string; count: number; anchor: string; label: string };
 
+type LocalEvidencePayload = { ok?: boolean; error?: string; [key: string]: unknown };
+type WorkspacePayload = LocalEvidencePayload & {
+  learners?: object[];
+  studyPlans?: { status: string }[];
+  lessonDrafts?: object[];
+};
+type CandidatePayload = LocalEvidencePayload & { candidates?: { reviewState: string }[] };
+type CheckPayload = LocalEvidencePayload & { checks?: object[]; attempts?: { reviewState: string }[] };
+type LessonReviewPayload = LocalEvidencePayload & {
+  lessons?: { latestDecision?: string; latestReviewCurrent: boolean }[];
+};
+
+async function readLocalEvidence<T extends LocalEvidencePayload>(endpoint: string): Promise<T> {
+  const response = await fetch(endpoint, { cache: 'no-store', headers: { Accept: 'application/json' } });
+  const body = await response.text();
+  if (!body.trim()) {
+    throw new Error('MA-Teacher could not read its saved steps. Press Check again. If this happens again, close MA-Teacher and open it again.');
+  }
+
+  let payload: T;
+  try {
+    payload = JSON.parse(body) as T;
+  } catch {
+    throw new Error('MA-Teacher received an incomplete reply while checking saved steps. Press Check again.');
+  }
+
+  if (!response.ok || payload.ok === false) {
+    throw new Error(typeof payload.error === 'string' && payload.error.trim()
+      ? payload.error
+      : 'MA-Teacher could not check one of the saved steps. Press Check again.');
+  }
+  return payload;
+}
+
 export function GettingStartedPanel() {
   const [loaded, setLoaded] = useState(false); const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false); const refreshActive = useRef(false);
@@ -13,11 +47,12 @@ export function GettingStartedPanel() {
     refreshActive.current = true; setRefreshing(true);
     setError('');
     try {
-      const [workspaceResponse, candidateResponse, checkResponse, lessonReviewResponse] = await Promise.all([
-        fetch('/api/teaching/workspace'), fetch('/api/curriculum/candidates'), fetch('/api/teaching/checks'), fetch('/api/teaching/lesson-reviews'),
+      const [workspace, candidateData, checkData, lessonReviewData] = await Promise.all([
+        readLocalEvidence<WorkspacePayload>('/api/teaching/workspace'),
+        readLocalEvidence<CandidatePayload>('/api/curriculum/candidates'),
+        readLocalEvidence<CheckPayload>('/api/teaching/checks'),
+        readLocalEvidence<LessonReviewPayload>('/api/teaching/lesson-reviews'),
       ]);
-      const workspace = await workspaceResponse.json(); const candidateData = await candidateResponse.json(); const checkData = await checkResponse.json(); const lessonReviewData = await lessonReviewResponse.json();
-      if (!workspaceResponse.ok || !workspace.ok || !candidateResponse.ok || !candidateData.ok || !checkResponse.ok || !checkData.ok || !lessonReviewResponse.ok || !lessonReviewData.ok) throw new Error('One or more local evidence APIs refused the request.');
       const learners = Array.isArray(workspace.learners) ? workspace.learners : []; const plans = Array.isArray(workspace.studyPlans) ? workspace.studyPlans : [];
       const candidates = Array.isArray(candidateData.candidates) ? candidateData.candidates : []; const lessons = Array.isArray(workspace.lessonDrafts) ? workspace.lessonDrafts : [];
       const checks = Array.isArray(checkData.checks) ? checkData.checks : []; const attempts = Array.isArray(checkData.attempts) ? checkData.attempts : [];

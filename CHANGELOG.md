@@ -2,6 +2,8 @@
 
 ## 0.1.0 public preview
 
+- Fixed Guided Setup so an interrupted local response cannot expose raw JavaScript JSON parser text: the host now returns a valid, privacy-safe JSON error, the page validates response bodies before parsing, and the packaged self-test checks all four setup APIs.
+- Corrected sixteen local stores that accidentally appended a second `data` directory. Every feature now uses the canonical install-root `data/ma-teacher.db`; a transactional startup migration copies and verifies legacy `data/data/ma-teacher.db` rows before removing the stale nested database.
 - Expanded contextual-vocabulary, descriptive-feedback, evidence-questioning, and synthetic worked-example planning from six to fourteen subject domains, with models, non-examples, observable-evidence triggers, learner-owned actions, follow-ups, bounded human reviews, next-evidence steps, and explicit cautions.
 - Added a feedback-to-retry loop that returns learners to the matching practice check while preserving every earlier attempt and human review, and aligned the answer length with the server's 10,000-character boundary.
 - Added a learner classroom trail that shows lesson, practice, submitted-work, and human-feedback activity from real records, plus one clear next action without grades, ranks, streaks, or mastery claims.

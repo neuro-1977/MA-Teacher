@@ -11,7 +11,7 @@ internal sealed class TeachingOperationsStore
     public TeachingOperationsStore(string moduleRoot, LessonReviewStore lessonReviews, TeachingSessionStore teachingSessions)
     {
         _lessonReviews = lessonReviews; _teachingSessions = teachingSessions;
-        var dataRoot = Path.Combine(moduleRoot, "data"); Directory.CreateDirectory(dataRoot);
+        var dataRoot = Path.GetFullPath(moduleRoot); Directory.CreateDirectory(dataRoot);
         _connectionString = new SqliteConnectionStringBuilder
         {
             DataSource = Path.Combine(dataRoot, "ma-teacher.db"), Mode = SqliteOpenMode.ReadWriteCreate,

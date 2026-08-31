@@ -9,7 +9,7 @@ internal sealed class ProjectReadinessStore
 
     public ProjectReadinessStore(string moduleRoot)
     {
-        var dataRoot = Path.Combine(moduleRoot, "data");
+        var dataRoot = Path.GetFullPath(moduleRoot);
         Directory.CreateDirectory(dataRoot);
         _connectionString = new SqliteConnectionStringBuilder
         {

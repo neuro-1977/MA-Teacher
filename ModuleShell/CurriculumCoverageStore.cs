@@ -10,7 +10,7 @@ internal sealed class CurriculumCoverageStore
 
     public CurriculumCoverageStore(string moduleRoot)
     {
-        var dataRoot = Path.Combine(moduleRoot, "data");
+        var dataRoot = Path.GetFullPath(moduleRoot);
         Directory.CreateDirectory(dataRoot);
         _connectionString = new SqliteConnectionStringBuilder
         {

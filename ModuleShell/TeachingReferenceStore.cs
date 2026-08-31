@@ -19,7 +19,7 @@ internal sealed class TeachingReferenceStore
 
     public TeachingReferenceStore(string moduleRoot)
     {
-        var dataRoot = Path.Combine(moduleRoot, "data");
+        var dataRoot = Path.GetFullPath(moduleRoot);
         Directory.CreateDirectory(dataRoot);
         _connectionString = new SqliteConnectionStringBuilder
         {

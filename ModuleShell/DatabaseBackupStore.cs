@@ -16,7 +16,7 @@ internal sealed class DatabaseBackupStore
 
     public DatabaseBackupStore(string moduleRoot)
     {
-        var dataRoot = Path.Combine(moduleRoot, "data"); Directory.CreateDirectory(dataRoot);
+        var dataRoot = Path.GetFullPath(moduleRoot); Directory.CreateDirectory(dataRoot);
         _databasePath = Path.Combine(dataRoot, "ma-teacher.db");
         _backupRoot = Path.Combine(dataRoot, "backups"); Directory.CreateDirectory(_backupRoot);
         _connectionString = new SqliteConnectionStringBuilder

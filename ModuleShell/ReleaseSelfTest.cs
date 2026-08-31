@@ -20,13 +20,45 @@ internal static class ReleaseSelfTest
         var data=Path.Combine(Path.GetTempPath(),$"ma-teacher-self-test-{Guid.NewGuid():N}");
         try
         {
-            using var host=new LocalModuleHost(ui,data);
+            var legacyData=Path.Combine(data,"data");
+            Directory.CreateDirectory(legacyData);
+            using(var legacyConnection=new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={Path.Combine(legacyData,"ma-teacher.db")}"))
+            {
+                legacyConnection.Open();
+                using var legacyCommand=legacyConnection.CreateCommand();
+                legacyCommand.CommandText="CREATE TABLE legacy_migration_probe (id TEXT PRIMARY KEY, value TEXT NOT NULL); INSERT INTO legacy_migration_probe (id, value) VALUES ('release-self-test', 'preserved');";
+                legacyCommand.ExecuteNonQuery();
+            }
+            using var host=new LocalModuleHost(ui,data,includeDiagnosticErrors:true);
+            if(Directory.Exists(Path.Combine(data,"data"))) return 25;
+            using(var canonicalConnection=new Microsoft.Data.Sqlite.SqliteConnection($"Data Source={Path.Combine(data,"ma-teacher.db")}"))
+            {
+                canonicalConnection.Open();
+                using var migrationCommand=canonicalConnection.CreateCommand();
+                migrationCommand.CommandText="SELECT value FROM legacy_migration_probe WHERE id = 'release-self-test';";
+                if(!string.Equals(migrationCommand.ExecuteScalar()?.ToString(),"preserved",StringComparison.Ordinal)) return 26;
+            }
             if(!await host.StartAsync()) return 11;
             using var client=new HttpClient{Timeout=TimeSpan.FromSeconds(30)};
             var healthResponse=await client.GetAsync(new Uri(new Uri(host.BaseAddress),"api/health"));
             if(healthResponse.StatusCode!=HttpStatusCode.OK) return 12;
             using var health=JsonDocument.Parse(await healthResponse.Content.ReadAsStringAsync());
             if(!health.RootElement.TryGetProperty("ok",out var ok)||!ok.GetBoolean()) return 13;
+            var setupEndpoints=new[]{"api/teaching/workspace","api/curriculum/candidates","api/teaching/checks","api/teaching/lesson-reviews"};
+            for(var endpointIndex=0;endpointIndex<setupEndpoints.Length;endpointIndex++)
+            {
+                var endpoint=setupEndpoints[endpointIndex];
+                var evidenceResponse=await client.GetAsync(new Uri(new Uri(host.BaseAddress),endpoint));
+                var evidenceBody=await evidenceResponse.Content.ReadAsStringAsync();
+                if(evidenceResponse.StatusCode!=HttpStatusCode.OK)
+                {
+                    Console.Error.WriteLine($"Self-test endpoint {endpoint} failed: {evidenceBody}");
+                    return 30+endpointIndex;
+                }
+                if(string.IsNullOrWhiteSpace(evidenceBody)) return 40+endpointIndex;
+                using var evidence=JsonDocument.Parse(evidenceBody);
+                if(!evidence.RootElement.TryGetProperty("ok",out var evidenceOk)||!evidenceOk.GetBoolean()) return 50+endpointIndex;
+            }
             var root=await client.GetAsync(host.BaseAddress);
             if(root.StatusCode!=HttpStatusCode.OK||!(await root.Content.ReadAsStringAsync()).Contains("MA-Teacher",StringComparison.OrdinalIgnoreCase)) return 14;
             if((await client.GetAsync(new Uri(new Uri(host.BaseAddress),"assets/definitely-missing.js"))).StatusCode!=HttpStatusCode.NotFound) return 15;
@@ -40,7 +72,11 @@ internal static class ReleaseSelfTest
             if(feedbackResponse.StatusCode!=HttpStatusCode.OK||(await feedbackResponse.Content.ReadAsStringAsync()).IndexOf("Synthetic release feedback",StringComparison.Ordinal)<0) return 17;
             return 0;
         }
-        catch{return 20;}
+        catch(Exception exception)
+        {
+            Console.Error.WriteLine(exception);
+            return 20;
+        }
         finally{try{if(Directory.Exists(data))Directory.Delete(data,true);}catch{}}
     }
 }

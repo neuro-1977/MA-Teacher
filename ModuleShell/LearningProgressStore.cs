@@ -9,7 +9,7 @@ internal sealed class LearningProgressStore
 
     public LearningProgressStore(string moduleRoot)
     {
-        var dataRoot = Path.Combine(moduleRoot, "data"); Directory.CreateDirectory(dataRoot);
+        var dataRoot = Path.GetFullPath(moduleRoot); Directory.CreateDirectory(dataRoot);
         _connectionString = new SqliteConnectionStringBuilder
         {
             DataSource = Path.Combine(dataRoot, "ma-teacher.db"), Mode = SqliteOpenMode.ReadWriteCreate,

@@ -48,9 +48,13 @@ internal sealed class LocalModuleHost : IDisposable
     private readonly CancellationTokenSource _stopping = new();
     private Task? _serveTask;
 
-    public LocalModuleHost(string uiRoot, string dataRoot)
+    private readonly bool _includeDiagnosticErrors;
+
+    public LocalModuleHost(string uiRoot, string dataRoot, bool includeDiagnosticErrors = false)
     {
+        _includeDiagnosticErrors = includeDiagnosticErrors;
         _uiRoot = Path.GetFullPath(uiRoot);
+        CanonicalDataRootMigration.Migrate(dataRoot);
         _identity = Identity;
         _evidence = new CurriculumEvidenceStore(dataRoot);
         _documents = new CurriculumDocumentStore(dataRoot);
@@ -1040,12 +1044,30 @@ internal sealed class LocalModuleHost : IDisposable
         catch (OperationCanceledException)
         {
         }
-        catch
+        catch (Exception exception)
         {
-            if (context.Response.OutputStream.CanWrite)
+            // Never close an API request with an empty body. The Guided Setup
+            // page reads several independent local evidence stores together;
+            // one route exception previously became an empty HTTP 500 and the
+            // browser exposed JavaScript's "Unexpected end of JSON input" text.
+            // Keep implementation details local, but always return a valid,
+            // child-safe JSON refusal when the response can still be written.
+            try
             {
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                if (context.Response.OutputStream.CanWrite)
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    var failure = new Dictionary<string, object?>
+                    {
+                        ["ok"] = false,
+                        ["error"] = "MA-Teacher could not complete this local request. Press Check again."
+                    };
+                    if (_includeDiagnosticErrors)
+                        failure["diagnostic"] = $"{exception.GetType().Name}: {exception.Message}";
+                    await WriteJsonAsync(context.Response, failure);
+                }
             }
+            catch { }
         }
         finally
         {
