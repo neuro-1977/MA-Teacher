@@ -1,0 +1,10 @@
+.feedback-hub { display:grid; gap:1rem; padding:clamp(1rem,2vw,1.7rem); border:1px solid rgba(244,161,29,.34); border-radius:1.1rem; color:#f7f1df; background:linear-gradient(145deg,rgba(8,28,52,.98),rgba(11,42,55,.96)); }
+.feedback-hub>header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+.feedback-hub>header p { margin:0 0 .3rem; color:#ffbd45; font-size:.68rem; font-weight:950; letter-spacing:.13em; }
+.feedback-hub h2 { margin:0 0 .35rem; font-size:clamp(1.7rem,3vw,2.5rem); }.feedback-hub>header span { color:#bed2df; line-height:1.5; }
+.feedback-hub__prompts,.feedback-hub__actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+.feedback-hub__prompts article { display:grid; gap:.35rem; min-height:6rem; padding:1rem; border:1px solid rgba(94,231,178,.25); border-radius:.75rem; background:rgba(94,231,178,.06); }.feedback-hub__prompts strong { color:#89ebc6; }.feedback-hub__prompts span { color:#bed2df; line-height:1.45; }
+.feedback-hub aside { display:grid; grid-template-columns:auto 1fr; gap:.65rem; padding:.85rem 1rem; border-left:4px solid #ffbd45; color:#f5dfb0; background:rgba(255,189,69,.08); line-height:1.45; }
+.feedback-hub__actions a { display:grid; gap:.2rem; padding:1rem; border:1px solid #f4a11d; border-radius:.75rem; color:#081326; background:#ffd875; text-decoration:none; }.feedback-hub__actions a:last-child { color:#eff9f5; border-color:#5ee7b2; background:#176550; }.feedback-hub__actions a:hover,.feedback-hub__actions a:focus-visible { outline:3px solid #fff4d5; outline-offset:2px; transform:translateY(-1px); }.feedback-hub__actions span { font-size:.78rem; line-height:1.4; }
+.feedback-hub details { padding:.8rem 1rem; border:1px solid rgba(145,167,195,.3); border-radius:.65rem; color:#b8c9da; background:rgba(5,13,27,.42); }.feedback-hub summary { color:#e8f0fa; font-weight:850; cursor:pointer; }.feedback-hub details p { margin:.7rem 0 0; line-height:1.5; }.feedback-hub code { color:#8cebc7; }
+@media (max-width:650px) { .feedback-hub__prompts,.feedback-hub__actions { grid-template-columns:1fr; }.feedback-hub aside { grid-template-columns:1fr; } }

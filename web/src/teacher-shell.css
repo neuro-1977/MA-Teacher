@@ -59,3 +59,14 @@
 @media (max-width:520px) { .teacher-brand img { width:2.5rem; height:2.5rem; } .teacher-home__hero { grid-template-columns:1fr; } .teacher-home__hero img { width:5.5rem; height:5.5rem; } .teacher-home aside { display:grid; } }
 @media print { .teacher-topbar,.teacher-sidebar,.teacher-workspace-heading { display:none!important; } .teacher-layout { display:block; } .teacher-main { padding:0; } .teacher-workspace { width:100%; } }
 @media (prefers-reduced-motion:reduce) { .teacher-app-shell * { scroll-behavior:auto!important; transition:none!important; } }
+
+/* The simple/teacher split keeps learner choices calm while preserving the full evidence toolkit. */
+.teacher-topbar { flex-wrap:wrap; gap:.45rem .8rem; }
+.teacher-topbar nav { flex:1 1 100%; justify-content:flex-end; margin-left:0; padding-top:.35rem; border-top:1px solid rgba(145,167,195,.12); }
+.teacher-topbar__quick { display:flex; align-items:center; gap:.3rem; margin-left:auto; }
+.teacher-topbar__quick>button,.teacher-topbar__quick summary { padding:.5rem .62rem; border:1px solid rgba(145,167,195,.28); border-radius:.5rem; color:#dce7f3; background:rgba(49,95,156,.12); font-size:.7rem; font-weight:850; cursor:pointer; list-style:none; }
+.teacher-topbar__quick details { position:relative; }.teacher-topbar__quick details>div { position:absolute; top:calc(100% + .45rem); right:0; z-index:220; display:grid; min-width:12rem; padding:.45rem; border:1px solid rgba(255,216,117,.5); border-radius:.6rem; background:#111d2d; box-shadow:0 1rem 2.5rem rgba(0,0,0,.4); }
+.teacher-topbar__quick a { padding:.55rem .65rem; color:#e9f2fb; border-radius:.4rem; font-size:.72rem; text-decoration:none; }.teacher-topbar__quick a:hover,.teacher-topbar__quick a:focus-visible { color:#081326; background:#ffd875; outline:none; }
+.teacher-view-switch { display:flex; align-items:center; gap:.2rem; padding:.18rem; border:1px solid rgba(94,231,178,.3); border-radius:.65rem; background:rgba(94,231,178,.05); }.teacher-view-switch>button { padding:.42rem .58rem; border:0; border-radius:.45rem; color:#aebfd2; background:transparent; font-size:.68rem; font-weight:900; cursor:pointer; }.teacher-view-switch>button.is-active { color:#062318; background:#8cebc7; }
+.teacher-effect { display:flex; align-items:center; gap:.45rem; }.teacher-effect>strong { flex:0 0 auto; padding:.42rem .58rem; border-left:3px solid #5aac93; color:#9fd8c1; background:rgba(90,172,147,.09); font-size:.62rem; letter-spacing:.06em; }.teacher-effect>strong[data-effect='database-write'] { border-color:#d48145; color:#f2ba91; }.teacher-effect>strong[data-effect='backup-write'] { border-color:#d9a548; color:#f1ce7f; }.teacher-effect>strong[data-effect='clipboard-optional'] { border-color:#9b83d0; color:#cab9ee; }
+@media (max-width:760px) { .teacher-topbar { flex-direction:row; }.teacher-topbar__quick { order:3; width:100%; margin:0; }.teacher-view-switch { margin-left:auto; }.teacher-topbar nav { justify-content:flex-start; } }

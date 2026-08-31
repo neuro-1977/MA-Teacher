@@ -11,6 +11,8 @@
 
 MA-Teacher is a local-first Windows teaching workspace for planning evidence-linked lessons, recording supervised learning, accepting student work, and keeping human feedback and progress evidence together.
 
+**Quick links:** [Download](https://github.com/neuro-1977/MA-Teacher/releases/tag/0.1.0) · [Student guide](docs/STUDENT_GUIDE.md) · [Teacher guide](docs/TEACHER_GUIDE.md) · [School IT guide](docs/SCHOOL_IT_DEPLOYMENT.md) · [What changed](CHANGELOG.md) · [Share feedback](https://github.com/neuro-1977/MA-Teacher/discussions) · [Report a bug](https://github.com/neuro-1977/MA-Teacher/issues/new/choose)
+
 Version `0.1.0` is a public preview. It is usable for feedback, but it is not a finished curriculum, learning-management system, safeguarding service, or automatic AI tutor.
 
 ## What works
@@ -24,6 +26,8 @@ Version `0.1.0` is a public preview. It is usable for feedback, but it is not a 
 - Record teaching sessions and progress evidence without inventing scores.
 - Create and verify local database backups.
 - Keep the application, database, WebView data, and assets under the chosen install folder.
+- Start in a calm Simple view, with the full planning and evidence toolkit available in Teacher view.
+- Explore fourteen subject guides and activity-only progress trail markers without invented grades.
 
 MA-Teacher does **not** automatically grade work, recognise handwriting, diagnose learning needs, guarantee curriculum accuracy, or send learner records to a cloud service.
 
@@ -43,6 +47,7 @@ Teachers and students use the **same installer**. The teacher or operator sets u
 - [Teacher guide](docs/TEACHER_GUIDE.md)
 - [Student guide](docs/STUDENT_GUIDE.md)
 - [Privacy and safeguarding boundaries](docs/PRIVACY_AND_SAFETY.md)
+- [Why the interface uses layered, approachable language](docs/APPROACHABILITY.md)
 
 ## Feedback
 

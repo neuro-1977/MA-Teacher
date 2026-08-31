@@ -1,0 +1,5 @@
+.info-tip { position:relative; display:inline-flex; vertical-align:middle; }
+.info-tip>button { display:grid; place-items:center; width:1.35rem; height:1.35rem; padding:0; border:1px solid rgba(255,216,117,.58); border-radius:50%; color:#081326; background:#ffd875; font-size:.75rem; font-weight:950; cursor:help; }
+.info-tip>span { position:absolute; right:0; bottom:calc(100% + .5rem); z-index:300; display:none; width:min(18rem,70vw); padding:.65rem .75rem; border:1px solid rgba(255,216,117,.55); border-radius:.55rem; color:#f8f2df; background:#111d2d; box-shadow:0 .8rem 2rem rgba(0,0,0,.4); font-size:.75rem; font-weight:600; line-height:1.45; text-align:left; }
+.info-tip>button:hover+span,.info-tip>button:focus-visible+span { display:block; }
+.info-tip>button:focus-visible { outline:3px solid #fff4d5; outline-offset:2px; }

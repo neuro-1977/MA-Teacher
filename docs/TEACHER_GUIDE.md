@@ -2,6 +2,8 @@
 
 MA-Teacher records evidence and decisions; it does not replace professional judgement.
 
+MA-Teacher opens in `Simple` view so learners see only the clearest day-to-day choices. Choose `Teacher` in the header to open planning, curriculum, safety, backup, and advanced controls. This is a display choice, not a password or permission boundary.
+
 ## First useful workflow
 
 1. Open **Teach > Learners and study plans**.
@@ -14,6 +16,12 @@ MA-Teacher records evidence and decisions; it does not replace professional judg
 8. Let the learner submit typed work, one supported file, or both.
 9. Review the attempt and provide specific feedback.
 10. Record the session and inspect the progress record.
+
+The interface uses plain language that many nine-year-olds can understand. Lesson content should not stay at that reading level: increase vocabulary, explanations, examples, and subject precision to match the learner's age, stage, evidence, and needs. See [approachability and layered language](APPROACHABILITY.md).
+
+## Build the app with users
+
+Invite students to say what was easy, hard, broken, or missing. Use the in-app Feedback page, [GitHub Discussions](https://github.com/neuro-1977/MA-Teacher/discussions), or the guided [issue form](https://github.com/neuro-1977/MA-Teacher/issues/new/choose). Help learners use made-up examples and remove names, school details, work, health information, and other private data before posting.
 
 ## Marking work
 

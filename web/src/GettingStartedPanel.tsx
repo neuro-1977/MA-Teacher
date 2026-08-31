@@ -30,32 +30,32 @@ export function GettingStartedPanel() {
   }
   useEffect(() => { void refresh(); }, []);
   const steps = useMemo<Step[]>(() => [
-    { id: 'learner', title: 'Create a local learner', explanation: 'A local profile owns plans, lessons and attempts. Keep identifying information minimal.', count: counts.learners, anchor: 'workspace-learning', label: 'Open learner workspace' },
-    { id: 'plan', title: 'Create an active study plan', explanation: 'Choose one subject, stage and clear learning goal. A plan is not curriculum evidence.', count: counts.plans, anchor: 'workspace-learning', label: 'Open study plans' },
-    { id: 'evidence', title: 'Capture and review official curriculum', explanation: 'Refresh an allowlisted source, extract candidates, then explicitly accept relevant statements.', count: counts.candidates, anchor: 'workspace-learning', label: 'Open curriculum evidence' },
-    { id: 'lesson', title: 'Draft an evidence-linked lesson', explanation: 'Write the objective and teaching sequence against accepted subject and stage evidence.', count: counts.lessons, anchor: 'workspace-lesson-draft', label: 'Open lesson drafting' },
-    { id: 'lesson-review', title: 'Review the exact saved lesson', explanation: 'Inspect all criteria against the saved fingerprint. Practice stays locked until a current approved-for-use review exists.', count: counts.lessonReviews, anchor: 'workspace-lesson-review-records', label: 'Open lesson review' },
-    { id: 'check', title: 'Author a manual practice check', explanation: 'Write a prompt and success criteria linked to evidence already used by the lesson.', count: counts.checks, anchor: 'workspace-learning-checks', label: 'Open practice authoring' },
-    { id: 'attempt', title: 'Submit a learner response', explanation: 'The response remains unreviewed and unscored until a human examines it.', count: counts.attempts, anchor: 'workspace-learning-checks', label: 'Open learner practice' },
-    { id: 'review', title: 'Record a human response review', explanation: 'Apply one bounded outcome and feedback to one attempt. Do not infer broad mastery.', count: counts.attemptReviews, anchor: 'workspace-learning-checks', label: 'Open human review' },
+    { id: 'learner', title: 'Add a learner', explanation: 'Use as little personal information as possible.', count: counts.learners, anchor: 'workspace-learning', label: 'Add a learner' },
+    { id: 'plan', title: 'Make a learning plan', explanation: 'Pick a subject, an age stage, and one clear goal.', count: counts.plans, anchor: 'workspace-learning', label: 'Make a plan' },
+    { id: 'evidence', title: 'Check the subject guide', explanation: 'A teacher checks a trusted curriculum source before making a lesson.', count: counts.candidates, anchor: 'workspace-learning', label: 'Check sources' },
+    { id: 'lesson', title: 'Make a lesson', explanation: 'Write a lesson that matches the goal and checked source.', count: counts.lessons, anchor: 'workspace-lesson-draft', label: 'Make a lesson' },
+    { id: 'lesson-review', title: 'Check the lesson', explanation: 'A teacher checks the saved lesson before anyone uses it.', count: counts.lessonReviews, anchor: 'workspace-lesson-review-records', label: 'Check a lesson' },
+    { id: 'check', title: 'Add a practice question', explanation: 'Say what the learner should try and what good work may show.', count: counts.checks, anchor: 'workspace-learning-checks', label: 'Add practice' },
+    { id: 'attempt', title: 'Send in work', explanation: 'Type an answer, add one file, or do both. A person will review it.', count: counts.attempts, anchor: 'workspace-learning-checks', label: 'Send in work' },
+    { id: 'review', title: 'Give helpful feedback', explanation: 'A teacher reads the work and writes what to try next.', count: counts.attemptReviews, anchor: 'workspace-learning-checks', label: 'Review work' },
   ], [counts]);
   const firstEmpty = steps.find(step => step.count === 0);
   function go(anchor: string) { focusWorkspaceSurface(anchor); }
   return <section id="workspace-start" className="getting-started-shell" aria-labelledby="getting-started-title">
-    <header><div><p>START HERE · RECORDS, NOT BUTTON CLICKS</p><h2 id="getting-started-title">Follow the evidence path in order.</h2></div><button onClick={() => void refresh()} disabled={refreshing}>{refreshing ? 'Refreshing counts...' : 'Refresh local counts'}</button></header>
-    {error && <div className="getting-started-error"><strong>Local journey unavailable</strong>{error}</div>}
+    <header><div><p>START HERE</p><h2 id="getting-started-title">Let us get ready to learn.</h2><span>Do these steps in order. A teacher does the setup and reviews the work.</span></div><button onClick={() => void refresh()} disabled={refreshing}>{refreshing ? 'Checking...' : 'Check again'}</button></header>
+    {error && <div className="getting-started-error"><strong>We could not check your steps.</strong>{error}</div>}
     <section className="getting-started-preflight" aria-labelledby="getting-started-preflight-title">
-      <header><div><p>PREPARE BEFORE RECORDS</p><h3 id="getting-started-preflight-title">Orient without claiming progress.</h3></div><span>Browser-memory navigation only</span></header>
+      <header><div><p>TEACHER HELP</p><h3 id="getting-started-preflight-title">Need to check how the app is set up?</h3></div><span>These buttons do not change records</span></header>
       <div>
-        <article><strong>Choose the right view</strong><p>Use Teacher workspace for everything, Planning focus for preparation references, or Lesson focus for the current lesson and practice.</p><button type="button" onClick={() => go('workspace-view-mode')}>Open view selector</button></article>
-        <article><strong>Inspect side effects first</strong><p>Search every registered surface and filter read-only, database-write, backup-write, or clipboard-optional destinations.</p><button type="button" onClick={() => go('workspace-index')}>Open workspace index</button></article>
-        <article><strong>Check navigation structure</strong><p>Run the explicit local registry audit when you need evidence that registered IDs have mounted destinations.</p><button type="button" onClick={() => go('workspace-registry-audit')}>Open registry audit</button></article>
+        <article><strong>Choose a view</strong><p>Simple view is calm and learner-friendly. Teacher view shows planning and record tools.</p><button type="button" onClick={() => go('workspace-view-mode')}>View options</button></article>
+        <article><strong>Find every tool</strong><p>Search the full list and see which tools can save or change a record.</p><button type="button" onClick={() => go('workspace-index')}>Full tool list</button></article>
+        <article><strong>Check the menu</strong><p>Use this technical check only when a page seems to be missing.</p><button type="button" onClick={() => go('workspace-registry-audit')}>Check the menu</button></article>
       </div>
-      <footer>Opening these surfaces does not create a record, satisfy a step, approve content, or prove the workspace works.</footer>
+      <footer>Opening these help pages does not save learning work or finish a step.</footer>
     </section>
     <div className="getting-started-grid">{steps.map((step, index) => <article key={step.id} className={step.count > 0 ? 'present' : firstEmpty?.id === step.id ? 'first-empty' : ''}>
-      <span>{index + 1}</span><div><header><strong>{step.title}</strong><em>{step.count > 0 ? `${step.count} ${step.count === 1 ? 'RECORD' : 'RECORDS'} PRESENT` : firstEmpty?.id === step.id ? 'FIRST EMPTY RECORD TYPE' : 'NO RECORDS'}</em></header><p>{step.explanation}</p><button onClick={() => go(step.anchor)}>{step.label}</button></div>
+      <span>{index + 1}</span><div><header><strong>{step.title}</strong><em>{step.count > 0 ? `${step.count} SAVED` : firstEmpty?.id === step.id ? 'DO THIS NEXT' : 'NOT READY YET'}</em></header><p>{step.explanation}</p><button onClick={() => go(step.anchor)}>{step.label}</button></div>
     </article>)}</div>
-    <footer>{!loaded ? 'Counts are unavailable; no record type is assumed present.' : firstEmpty ? `First empty record type: ${firstEmpty.title}. Global counts do not prove the visible records belong to one linked learner, plan, evidence, lesson, check, attempt, and review chain.` : 'Every record type has at least one record. This does not prove one linked evidence chain, curriculum quality, lesson quality, retention, accessibility, or project completion.'}</footer>
+    <footer>{!loaded ? 'We cannot see the saved steps yet.' : firstEmpty ? `Next step: ${firstEmpty.title}. A teacher should check that it belongs to the right learner and lesson.` : 'Every step has something saved. A teacher still checks that the records belong together and are ready to use.'}</footer>
   </section>;
 }

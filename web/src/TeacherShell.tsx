@@ -14,7 +14,9 @@ import { DevelopmentHistoryPanel } from './DevelopmentHistoryPanel';
 import { DevelopmentReceiptPanel } from './DevelopmentReceiptPanel';
 import { EvidenceLegendPanel } from './EvidenceLegendPanel';
 import { FeedbackPlanningPanel } from './FeedbackPlanningPanel';
+import { FeedbackHubPanel } from './FeedbackHubPanel';
 import { GettingStartedPanel } from './GettingStartedPanel';
+import { InfoTip } from './InfoTip';
 import { InclusivePlanningPanel } from './InclusivePlanningPanel';
 import { JurisdictionStageGuidePanel } from './JurisdictionStageGuidePanel';
 import { LearningCheckPanel } from './LearningCheckPanel';
@@ -62,7 +64,7 @@ type WorkspaceGroup = { id: string; label: string; eyebrow: string; description:
 
 const groups: WorkspaceGroup[] = [
   {
-    id: 'teach', label: 'Teach', eyebrow: 'THE DAY-TO-DAY WORK', description: 'Learners, lessons, practice and progress.',
+    id: 'teach', label: 'Learn & teach', eyebrow: 'EVERYDAY LEARNING', description: 'Lessons, work, feedback and progress.',
     entries: [
       { id: 'workspace-start', label: 'Guided setup', description: 'See the next missing record in the teaching journey.' },
       { id: 'workspace-learning', label: 'Learners and study plans', description: 'Create a learner, choose a subject and set a goal.' },
@@ -70,12 +72,13 @@ const groups: WorkspaceGroup[] = [
       { id: 'workspace-lesson-reader', label: 'Open a lesson', description: 'Read the selected lesson in a clean teaching view.' },
       { id: 'workspace-learning-checks', label: 'Practice and review', description: 'Create a check, record an answer and review it.' },
       { id: 'workspace-progress', label: 'Progress record', description: 'See recorded learning evidence without invented scores.' },
+      { id: 'workspace-feedback-hub', label: 'Share an idea', description: 'Help improve MA-Teacher without sharing private information.' },
       { id: 'workspace-teaching-sessions', label: 'Record a teaching session', description: 'Record what was taught against the exact lesson.' },
       { id: 'workspace-teaching-operations', label: 'Teaching pipeline', description: 'See what evidence is missing from a lesson journey.' },
     ],
   },
   {
-    id: 'plan', label: 'Plan', eyebrow: 'BUILD A STRONGER LESSON', description: 'Practical planning aids, examples and review prompts.',
+    id: 'plan', label: 'Make lessons', eyebrow: 'TEACHER TOOLS', description: 'Plan lessons, questions and helpful feedback.',
     entries: [
       { id: 'workspace-session-brief', label: 'Quick session brief', description: 'Combine subject, stage and your teaching intent.' },
       { id: 'workspace-planning-packet', label: 'Planning packet', description: 'Gather matching vocabulary, questions and feedback.' },
@@ -93,7 +96,7 @@ const groups: WorkspaceGroup[] = [
     ],
   },
   {
-    id: 'curriculum', label: 'Curriculum', eyebrow: 'WHAT SHOULD BE TAUGHT', description: 'Official sources, subject coverage and teaching references.',
+    id: 'curriculum', label: 'Subjects', eyebrow: 'WHAT TO TEACH', description: 'Subjects, age guidance and trusted sources.',
     entries: [
       { id: 'workspace-curriculum-sources', label: 'Curriculum source status', description: 'See registered official sources and capture status.' },
       { id: 'workspace-coverage', label: 'Curriculum coverage', description: 'See supported, partial and unsupported areas.' },
@@ -109,7 +112,7 @@ const groups: WorkspaceGroup[] = [
     ],
   },
   {
-    id: 'library', label: 'Teaching library', eyebrow: 'REFERENCE BANKS', description: 'Inspect and improve the app-owned teaching material.',
+    id: 'library', label: 'Teacher library', eyebrow: 'TEACHER REFERENCE', description: 'Extra planning material and evidence checks.',
     entries: [
       { id: 'workspace-teaching-toolkit-path', label: 'Planning pathway', description: 'Follow the plan, ask, notice and respond sequence.' },
       { id: 'workspace-teaching-data-provenance', label: 'Material provenance', description: 'See where each teaching bank came from.' },
@@ -121,7 +124,7 @@ const groups: WorkspaceGroup[] = [
     ],
   },
   {
-    id: 'manage', label: 'Manage', eyebrow: 'LOCAL RECORDS AND SAFETY', description: 'Backups, privacy, accessibility and readiness.',
+    id: 'manage', label: 'Keep safe', eyebrow: 'TEACHER AND IT TOOLS', description: 'Backups, privacy, access and readiness.',
     entries: [
       { id: 'workspace-backups', label: 'Database backups', description: 'Create or verify an explicit local snapshot.' },
       { id: 'workspace-data-stewardship', label: 'Data stewardship', description: 'Inspect record counts and record retention policy.' },
@@ -172,6 +175,7 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
   'workspace-learning-checks': () => <LearningCheckPanel />,
   'workspace-misconception-response': () => <MisconceptionResponsePanel />,
   'workspace-progress': () => <LearningProgressPanel />,
+  'workspace-feedback-hub': () => <FeedbackHubPanel />,
   'workspace-references': () => <TeachingReferencePanel />,
   'workspace-reference-review': () => <TeachingReferenceReviewPanel />,
   'workspace-evidence-appraisal': () => <TeachingEvidenceAppraisalPanel />,
@@ -201,28 +205,40 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
 const effectById = new Map<string, WorkspaceEffect>(workspaceGroups.flatMap((group) => group.surfaces.map((surface) => [surface.id, surface.effect] as const)));
 const allEntries = groups.flatMap((group) => group.entries.map((entry) => ({ ...entry, groupId: group.id })));
 const validIds = new Set(allEntries.map((entry) => entry.id));
+const simpleIds = new Set(['workspace-start', 'workspace-lesson-reader', 'workspace-learning-checks', 'workspace-progress', 'workspace-subjects', 'workspace-feedback-hub']);
+const simpleGroup: WorkspaceGroup = { id: 'simple', label: 'Learn', eyebrow: 'YOUR LEARNING SPACE', description: 'Lessons, work, progress and ideas.', entries: allEntries.filter((entry) => simpleIds.has(entry.id)).map(({ groupId: _groupId, ...entry }) => entry) };
+type AppView = 'simple' | 'teacher';
 
-function Home({ open }: { open: (id: string) => void }) {
-  const actions = [
+function Home({ open, view }: { open: (id: string) => void; view: AppView }) {
+  const actions = view === 'simple' ? [
+    ['workspace-lesson-reader', 'Open my lesson', 'Read the lesson chosen by your teacher.'],
+    ['workspace-learning-checks', 'Send in my work', 'Type an answer or add one file for a person to review.'],
+    ['workspace-progress', 'See my progress', 'See saved work and feedback. These are not grades.'],
+    ['workspace-subjects', 'Explore subjects', 'See different ways people think and learn.'],
+    ['workspace-feedback-hub', 'Share an idea', 'Tell us what is easy, hard, broken or missing.'],
+    ['workspace-start', 'Help me start', 'See the next step and what a teacher needs to set up.'],
+  ] as const : [
     ['workspace-learning', 'Set up a learner', 'Create a local learner and a clear study plan.'],
     ['workspace-lesson-draft', 'Prepare a lesson', 'Build a lesson from reviewed curriculum evidence.'],
-    ['workspace-lesson-reader', 'Teach a saved lesson', 'Open the selected lesson without the development clutter.'],
-    ['workspace-learning-checks', 'Practice and review', 'Record a response and a human review.'],
-    ['workspace-coverage', 'Explore the curriculum', 'See subjects, stages and current evidence coverage.'],
-    ['workspace-start', 'Show me where to start', 'Use the guided record-by-record setup path.'],
+    ['workspace-lesson-reader', 'Teach a saved lesson', 'Open the selected lesson in a clean view.'],
+    ['workspace-learning-checks', 'Practice and review', 'Record work and give human feedback.'],
+    ['workspace-coverage', 'Check subject coverage', 'See which sources are ready, partial or missing.'],
+    ['workspace-feedback-hub', 'Review user feedback', 'Invite safe feedback and use it to improve the app.'],
   ] as const;
   return <section className="teacher-home" aria-labelledby="teacher-home-title">
-    <div className="teacher-home__hero"><img src={tutorIcon} alt="MA-Teacher potato-shaped tutor wearing a graduation cap" /><div><p>LOCAL TEACHING WORKSPACE</p><h1 id="teacher-home-title">What do you want to do?</h1><span>Choose one task. MA-Teacher will show only the workspace needed for it.</span></div></div>
+    <div className="teacher-home__hero"><img src={tutorIcon} alt="MA-Teacher potato-shaped tutor wearing a graduation cap" /><div><p>{view === 'simple' ? 'YOUR LEARNING SPACE' : 'TEACHER WORKSPACE'}</p><h1 id="teacher-home-title">What would you like to do?</h1><span>Pick one thing. We will only show the tools you need.</span></div></div>
     <div className="teacher-home__actions">{actions.map(([id, label, description], index) => <button type="button" key={id} onClick={() => open(id)}><b>{String(index + 1).padStart(2, '0')}</b><span><strong>{label}</strong><small>{description}</small></span><em>OPEN</em></button>)}</div>
-    <aside><strong>Your records stay local.</strong><span>MA-Teacher separates curriculum evidence, lesson decisions and learner records. It does not invent approval, progress or mastery.</span></aside>
+    <aside><strong>Your work stays on this computer.</strong><span>A person checks learning and gives feedback. MA-Teacher does not guess grades or ability.</span></aside>
   </section>;
 }
 
 export function TeacherShell() {
+  const [view, setView] = useState<AppView>(() => window.localStorage.getItem('ma-teacher-view') === 'teacher' ? 'teacher' : 'simple');
   const initialHash = window.location.hash.slice(1);
   const [activeId, setActiveId] = useState(validIds.has(initialHash) ? initialHash : 'teacher-home');
+  const visibleGroups = view === 'teacher' ? groups : [simpleGroup];
   const activeEntry = allEntries.find((entry) => entry.id === activeId);
-  const activeGroup = groups.find((group) => group.id === activeEntry?.groupId) ?? groups[0];
+  const activeGroup = visibleGroups.find((group) => group.entries.some((entry) => entry.id === activeId)) ?? visibleGroups[0];
   const activeRenderer = surfaceRenderers[activeId];
 
   function open(id: string, addHistory = true) {
@@ -230,6 +246,11 @@ export function TeacherShell() {
     setActiveId(next);
     const hash = next === 'teacher-home' ? '' : `#${next}`;
     if (addHistory) window.history.pushState({ workspace: next }, '', `${window.location.pathname}${window.location.search}${hash}`);
+  }
+
+  function changeView(next: AppView) {
+    setView(next); window.localStorage.setItem('ma-teacher-view', next);
+    if (next === 'simple' && activeId !== 'teacher-home' && !simpleIds.has(activeId)) open('teacher-home');
   }
 
   useEffect(() => {
@@ -252,7 +273,9 @@ export function TeacherShell() {
     <a className="teacher-skip-link" href="#teacher-main">Skip to workspace</a>
     <header className="teacher-topbar">
       <button type="button" className="teacher-brand" onClick={() => open('teacher-home')}><img src={tutorIcon} alt="" /><span><strong>MA-TEACHER</strong><small>LEARN · PLAN · REVIEW</small></span></button>
-      <nav aria-label="Main areas">{groups.map((group) => <button type="button" key={group.id} className={activeGroup.id === group.id && activeEntry ? 'is-active' : ''} onClick={() => open(group.entries[0].id)}>{group.label}</button>)}</nav>
+      <div className="teacher-topbar__quick"><button type="button" onClick={() => open('workspace-start')}>Help</button><button type="button" onClick={() => open('workspace-feedback-hub')}>Feedback</button><details><summary>Guides</summary><div><a href="https://github.com/neuro-1977/MA-Teacher/blob/main/docs/STUDENT_GUIDE.md" target="_blank" rel="noreferrer">Student guide</a><a href="https://github.com/neuro-1977/MA-Teacher/blob/main/docs/TEACHER_GUIDE.md" target="_blank" rel="noreferrer">Teacher guide</a><a href="https://github.com/neuro-1977/MA-Teacher/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer">What changed</a><a href="https://github.com/neuro-1977/MA-Teacher/blob/main/docs/PRIVACY_AND_SAFETY.md" target="_blank" rel="noreferrer">Privacy and safety</a></div></details></div>
+      <div className="teacher-view-switch" role="group" aria-label="Choose simple or teacher view"><button type="button" className={view === 'simple' ? 'is-active' : ''} onClick={() => changeView('simple')}>Simple</button><button type="button" className={view === 'teacher' ? 'is-active' : ''} onClick={() => changeView('teacher')}>Teacher</button><InfoTip label="About these views">Simple view hides planning and technical tools. Teacher view shows them. This is not a password or security lock.</InfoTip></div>
+      {view === 'teacher' ? <nav aria-label="Teacher areas">{groups.map((group) => <button type="button" key={group.id} className={activeGroup.id === group.id && activeEntry ? 'is-active' : ''} onClick={() => open(group.entries[0].id)}>{group.label}</button>)}</nav> : null}
     </header>
     <div className="teacher-layout">
       <aside className="teacher-sidebar" aria-label={`${activeGroup.label} workspaces`}>
@@ -261,9 +284,9 @@ export function TeacherShell() {
         <div>{activeGroup.entries.map((entry) => <button type="button" key={entry.id} className={activeId === entry.id ? 'is-active' : ''} onClick={() => open(entry.id)}><strong>{entry.label}</strong><small>{entry.description}</small></button>)}</div>
       </aside>
       <main id="teacher-main" className="teacher-main" tabIndex={-1}>
-        {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <strong data-effect={effect}>{workspaceEffectLabels[effect]}</strong> : null}</header> : null}
+        {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <div className="teacher-effect"><strong data-effect={effect}>{workspaceEffectLabels[effect]}</strong><InfoTip label="What does this label mean?">This tells you whether this page can save a record, create a backup, or only read information.</InfoTip></div> : null}</header> : null}
         {activeId === 'workspace-lesson-reader' ? <div className="teacher-workspace-tools"><PrintLessonControl /></div> : null}
-        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}>{activeRenderer()}</SurfaceErrorBoundary> : <Home open={open} />}</div>
+        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}>{activeRenderer()}</SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
       </main>
     </div>
   </div>;

@@ -56,6 +56,7 @@
 }
 
 .subject-lenses-count { margin: 0.9rem 0 0.65rem; }
+.subject-lenses-tools { display:flex; align-items:flex-end; gap:.6rem; }
 .subject-lenses-grid { display: grid; gap: 0.8rem; }
 
 .subject-lenses-grid > article {
@@ -75,6 +76,7 @@
 .subject-lens-heading h3 { margin: 0; font-size: 1.22rem; }
 .subject-lens-heading code { color: #849b93; font-size: 0.68rem; }
 .subject-promise { display: block; margin: 0.7rem 0; color: #e7f2ed; }
+.subject-lenses-grid details { margin-top:.8rem; padding:.7rem; border:1px solid rgba(113,208,177,.2); border-radius:.65rem; background:rgba(113,208,177,.035); }.subject-lenses-grid summary { color:#9ee1cb; font-weight:850; cursor:pointer; }.subject-lenses-grid details[open] summary { margin-bottom:.7rem; }
 
 .subject-lens-columns {
   display: grid;

@@ -20,6 +20,8 @@ The importer reads only `neuro-1977/MA-Teacher`, accepts at most 200 issues per 
 
 Before planning public-feedback work, Serenity should sync and read the open queue, inspect linked comments, separate observation from diagnosis, and leave a development breadcrumb for accepted work. A GitHub report is input, not proof: reproduce it against the current source before changing code, and never import a private security report into the public-feedback lane.
 
+The product promotes feedback in the header, home page, learner guide, teacher guide, and Feedback workspace. Keep learner-facing prompts short and safe. Prefer small, linkable changelog entries so a student or teacher can see what changed because people spoke up.
+
 GitHub Actions runs the same command for pull requests, pushes to `main`, and manual dispatches. Successful runs upload a 30-day artifact. Successful `main` runs create an immutable release tagged with the app version and Actions run number and mark it latest.
 
 A green workflow proves the clean runner built, installed, started, exercised, and removed that artifact. It does not prove curriculum quality, accessibility, teaching effectiveness, upgrade compatibility on every machine, or signing identity.

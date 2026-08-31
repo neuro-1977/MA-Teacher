@@ -2,6 +2,8 @@
 
 MA-Teacher helps you read a lesson, answer a practice question, submit work, and read feedback. A teacher or responsible adult sets up the plan and reviews your work.
 
+The app opens in `Simple` view. Use the big choices on the home page. If you get stuck, choose `Help` in the top bar.
+
 ## Submit work
 
 1. Ask the teacher to open **Teach > Practice and review**.
@@ -15,3 +17,7 @@ Supported files are PDF, TXT, RTF, DOC, DOCX, ODT, PNG, JPEG, and WEBP up to 10 
 The labels `met`, `partially met`, `not yet`, and `invalid` describe this attempt against its criteria. They are not a permanent judgement about you. MA-Teacher does not automatically mark your work.
 
 Never upload passwords, recovery codes, private identity documents, or unnecessary personal information. Do not post your work or database in a public issue.
+
+## Help us make it better
+
+You can tell us what was easy, hard, broken, or missing. Open `Feedback` in the top bar and ask an adult before posting. Use a made-up example. Never post your real name, school, work, health details, passwords, or database.

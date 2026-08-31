@@ -58,6 +58,7 @@ export const workspaceGroups: WorkspaceGroup[] = [
       { id: 'workspace-teaching-operations', label: 'Teaching operations', description: 'Reads approval, delivery, practice, attempt, and human-review evidence to expose the next missing record.', effect: 'read-only' },
       { id: 'workspace-learning-checks', label: 'Practice and review', description: 'Creates manual checks, learner attempts, and immutable human reviews.', effect: 'database-write' },
       { id: 'workspace-progress', label: 'Progress evidence', description: 'Reads learner and subject evidence without scores, ranks, or mastery inference.', effect: 'read-only' },
+      { id: 'workspace-feedback-hub', label: 'Feedback hub', description: 'Links to public feedback routes and explains the privacy-safe development loop.', effect: 'read-only' },
     ],
   },
   {
