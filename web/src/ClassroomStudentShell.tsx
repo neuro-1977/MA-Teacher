@@ -102,6 +102,52 @@ export default function ClassroomStudentShell() {
     return map
   },[view?.attempts])
 
+  const learningTrail = useMemo(() => {
+    const checks = view?.checks || []
+    const attempts = view?.attempts || []
+    const submittedChecks = new Set(attempts.map((attempt) => attempt.checkId))
+    const reviewedChecks = new Set(attempts.filter((attempt) => attempt.reviewState === 'reviewed').map((attempt) => attempt.checkId))
+    const waitingCount = attempts.filter((attempt) => attempt.reviewState !== 'reviewed').length
+    const nextUnsent = checks.find((check) => !submittedChecks.has(check.id))
+
+    if (nextUnsent) return {
+      submittedChecks,
+      reviewedChecks,
+      waitingCount,
+      nextTab: 'practice' as const,
+      nextTitle: 'Try your next practice check',
+      nextDetail: 'Use the success clue, then send your answer or one file to your teacher.',
+      nextButton: 'Go to practice',
+    }
+    if (waitingCount > 0) return {
+      submittedChecks,
+      reviewedChecks,
+      waitingCount,
+      nextTab: 'feedback' as const,
+      nextTitle: 'Your work is with your teacher',
+      nextDetail: 'You can check its status here. A person, not the computer, will review it.',
+      nextButton: 'See work status',
+    }
+    if (reviewedChecks.size > 0) return {
+      submittedChecks,
+      reviewedChecks,
+      waitingCount,
+      nextTab: 'feedback' as const,
+      nextTitle: 'Read your teacher\'s feedback',
+      nextDetail: 'Feedback tells you what was seen in this attempt and what you can try next.',
+      nextButton: 'Read my feedback',
+    }
+    return {
+      submittedChecks,
+      reviewedChecks,
+      waitingCount,
+      nextTab: 'lesson' as const,
+      nextTitle: checks.length === 0 ? 'Start with today\'s lesson' : 'Read the lesson, then have a go',
+      nextDetail: checks.length === 0 ? 'Your teacher is still preparing the practice check.' : 'The goal and examples will help before you try the practice check.',
+      nextButton: 'Open my lesson',
+    }
+  },[view?.attempts,view?.checks])
+
   if (joining || !view?.ok || !view.lesson) return <main className="student-classroom student-classroom--join">
     <section className="student-classroom__join-card">
       <img src={logoUrl} alt="MA-Teacher smiling tutor wearing a graduation cap" />
@@ -122,6 +168,23 @@ export default function ClassroomStudentShell() {
       <div><p className="student-classroom__eyebrow">Hi {view.learner?.name}</p><h1>{view.lesson.title}</h1><p>{view.lesson.subject} · {view.lesson.stage}</p></div>
       <button type="button" onClick={logout}>Leave classroom</button>
     </header>
+    <section className="student-classroom__trail" aria-labelledby="learning-trail-title">
+      <div className="student-classroom__trail-heading">
+        <div><p className="student-classroom__eyebrow">Your learning trail</p><h2 id="learning-trail-title">One step at a time</h2></div>
+        <small>This shows activity, not a grade.</small>
+      </div>
+      <ol>
+        <li className="is-ready"><b>1</b><span><strong>Lesson ready</strong><small>Read the goal and examples.</small></span></li>
+        <li className={(view.checks||[]).length>0?'is-ready':''}><b>2</b><span><strong>{(view.checks||[]).length>0?'Practice ready':'Practice waiting'}</strong><small>{(view.checks||[]).length>0?`${(view.checks||[]).length} check${(view.checks||[]).length===1?'':'s'} to try.`:'Your teacher is preparing it.'}</small></span></li>
+        <li className={learningTrail.submittedChecks.size>0?'is-done':''}><b>3</b><span><strong>{learningTrail.submittedChecks.size>0?'Work sent':'Send your work'}</strong><small>{learningTrail.submittedChecks.size>0?`${learningTrail.submittedChecks.size} practice check${learningTrail.submittedChecks.size===1?'':'s'} sent.`:'Nothing has been sent yet.'}</small></span></li>
+        <li className={learningTrail.reviewedChecks.size>0?'is-done':learningTrail.waitingCount>0?'is-waiting':''}><b>4</b><span><strong>{learningTrail.reviewedChecks.size>0?'Feedback ready':learningTrail.waitingCount>0?'Teacher reviewing':'Feedback next'}</strong><small>{learningTrail.reviewedChecks.size>0?`${learningTrail.reviewedChecks.size} check${learningTrail.reviewedChecks.size===1?'':'s'} reviewed.`:learningTrail.waitingCount>0?'A human review is still needed.':'It appears after human review.'}</small></span></li>
+      </ol>
+      <div className="student-classroom__next-step">
+        <span>What should I do now?</span>
+        <div><strong>{learningTrail.nextTitle}</strong><small>{learningTrail.nextDetail}</small></div>
+        <button type="button" onClick={()=>setTab(learningTrail.nextTab)}>{learningTrail.nextButton}</button>
+      </div>
+    </section>
     <nav aria-label="Your lesson steps">
       <button className={tab==='lesson'?'is-active':''} onClick={()=>setTab('lesson')}>1. My lesson</button>
       <button className={tab==='practice'?'is-active':''} onClick={()=>setTab('practice')}>2. Try it</button>

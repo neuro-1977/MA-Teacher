@@ -4,6 +4,12 @@ MA-Teacher helps you read a lesson, answer a practice question, submit work, and
 
 The app opens in `Simple` view. Use the big choices on the home page. If you get stuck, choose `Help` in the top bar.
 
+## Follow your learning trail
+
+When you join a shared classroom, the learning trail shows four simple stops: lesson, practice, work sent, and feedback. It uses real classroom records only. It does not give you a grade, rank, streak, or label.
+
+The `What should I do now?` card points to one useful next step. If your work is waiting, it says that a human review is still needed. If feedback is ready, it takes you straight to it.
+
 ## Submit work
 
 1. Ask the teacher to open **Teach > Practice and review**.
