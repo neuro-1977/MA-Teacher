@@ -22,6 +22,7 @@ import { JurisdictionStageGuidePanel } from './JurisdictionStageGuidePanel';
 import { LearningCheckPanel } from './LearningCheckPanel';
 import { LearningProgressPanel } from './LearningProgressPanel';
 import { LearningWorkspacePanel } from './LearningWorkspacePanel';
+import ClassroomPanel from './ClassroomPanel';
 import { LessonDraftPanel } from './LessonDraftPanel';
 import { LessonReaderPanel } from './LessonReaderPanel';
 import { LessonReviewGatePanel } from './LessonReviewGatePanel';
@@ -166,7 +167,12 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
   'workspace-backups': () => <DatabaseBackupPanel />,
   'workspace-coverage': () => <CurriculumCoveragePanel />,
   'workspace-curriculum-review': () => <CurriculumReviewGuidePanel />,
-  'workspace-learning': () => <LearningWorkspacePanel />,
+  'workspace-learning': () => (
+    <>
+      <LearningWorkspacePanel />
+      <ClassroomPanel />
+    </>
+  ),
   'workspace-lesson-draft': () => <LessonDraftPanel />,
   'workspace-proposals': () => <TeachingProposalPanel />,
   'workspace-lesson-reader': () => <LessonReaderPanel />,

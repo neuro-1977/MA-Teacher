@@ -1,0 +1,32 @@
+.classroom-panel { border: 1px solid #c6d0c1; border-radius: 22px; padding: clamp(18px,3vw,28px); background: linear-gradient(145deg,#f9fcf6,#edf5e7); color: #293d2d; }
+.classroom-panel header { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; }
+.classroom-panel h2,.classroom-panel p { margin:0; }
+.classroom-panel__eyebrow { color:#9b4f22; font-size:.76rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+.classroom-panel__state { border-radius:999px; padding:7px 12px; background:#e6eae4; color:#566257; font-size:.75rem; font-weight:900; text-transform:uppercase; }
+.classroom-panel__state.is-on { background:#d8f0db; color:#1d6530; }
+.classroom-panel__notice { margin:18px 0; border-left:5px solid #e6a02f; border-radius:10px; padding:12px 14px; background:#fff9e7; }
+.classroom-panel__form { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.classroom-panel label { display:grid; gap:7px; font-weight:800; }
+.classroom-panel select { width:100%; border:1px solid #879682; border-radius:11px; padding:10px; background:#fff; color:#273b2b; font:inherit; }
+.classroom-panel__actions { display:flex; flex-wrap:wrap; gap:9px; margin:16px 0; }
+.classroom-panel button { border:1px solid #73816f; border-radius:999px; padding:9px 15px; background:#fff; color:#2b402e; font:inherit; font-weight:800; cursor:pointer; }
+.classroom-panel button:disabled { opacity:.48; cursor:not-allowed; }
+.classroom-panel .classroom-panel__primary { border-color:#32603a; background:#3f7448; color:#fff; }
+.classroom-panel__invite { display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px 14px; border-radius:16px; padding:16px; background:#fff; box-shadow:0 10px 28px rgba(41,61,45,.1); }
+.classroom-panel__invite span { color:#647064; font-size:.8rem; font-weight:800; text-transform:uppercase; }
+.classroom-panel__invite strong { overflow-wrap:anywhere; }
+.classroom-panel__invite button { grid-column:1 / -1; justify-self:start; }
+.classroom-panel__code { color:#a14e1e; font-size:1.35rem; letter-spacing:.1em; }
+.classroom-panel__message { min-height:1.5em; color:#4a5c4c; }
+.classroom-panel footer { color:#667367; font-size:.84rem; }
+.classroom-panel__safety-reports { margin-top:18px; border-top:1px solid #c6d0c1; padding-top:16px; }
+.classroom-panel__safety-reports article { display:grid; grid-template-columns:minmax(120px,.8fr) minmax(160px,1fr) minmax(160px,1fr) auto; gap:8px 14px; align-items:center; margin-top:8px; border-radius:12px; padding:11px 13px; background:#fff3ed; }
+.classroom-panel__safety-reports small { color:#6c645f; }
+.classroom-panel__printing { margin-top:18px; border-top:1px solid #c6d0c1; padding-top:16px; }
+.classroom-panel__printing>label { max-width:520px; }
+.classroom-panel__printing article { display:flex; align-items:center; gap:9px; margin-top:9px; border-radius:13px; padding:12px; background:#fff; }
+.classroom-panel__printing article>div { display:grid; flex:1; gap:2px; }
+.classroom-panel__printing article span { color:#667367; font-size:.86rem; }
+.classroom-panel__no-prints { margin:10px 0; border:1px dashed #9aa897; border-radius:12px; padding:12px; }
+.classroom-panel__printer-error { color:#8f3227; }
+@media(max-width:760px){.classroom-panel header{flex-direction:column}.classroom-panel__form{grid-template-columns:1fr}.classroom-panel__invite{grid-template-columns:1fr}}

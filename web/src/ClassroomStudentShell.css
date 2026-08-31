@@ -1,0 +1,32 @@
+:root { color-scheme:light; }
+.student-classroom { min-height:100vh; padding:clamp(16px,4vw,42px); background:radial-gradient(circle at 85% 4%,rgba(242,166,55,.25),transparent 26%),linear-gradient(160deg,#f7f2df,#dfeadb); color:#263b2a; font-family:"Trebuchet MS","Avenir Next",sans-serif; }
+.student-classroom--join { display:grid; place-items:center; }
+.student-classroom__join-card { width:min(520px,100%); box-sizing:border-box; border:1px solid #b5c3ae; border-radius:30px; padding:clamp(24px,6vw,48px); background:rgba(255,255,255,.9); box-shadow:0 24px 70px rgba(40,59,43,.16); text-align:center; }
+.student-classroom__join-card img { width:150px; max-height:150px; object-fit:contain; }
+.student-classroom h1,.student-classroom h2,.student-classroom p { margin-top:0; }
+.student-classroom__eyebrow { color:#a35121; font-size:.78rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+.student-classroom__join-card form,.student-classroom__join-card label { display:grid; gap:10px; text-align:left; font-weight:900; }
+.student-classroom input,.student-classroom textarea { box-sizing:border-box; width:100%; border:2px solid #788b73; border-radius:14px; padding:12px; background:#fff; color:#243628; font:inherit; }
+.student-classroom__join-card input { text-align:center; font-size:1.3rem; font-weight:900; letter-spacing:.1em; }
+.student-classroom button { border:1px solid #55715a; border-radius:999px; padding:11px 17px; background:#fff; color:#263b2a; font:inherit; font-weight:900; cursor:pointer; }
+.student-classroom button:disabled { opacity:.5; cursor:not-allowed; }
+.student-classroom__join-card button,.student-classroom__check>button { background:#3d7548; color:#fff; }
+.student-classroom__topbar { display:flex; justify-content:space-between; gap:18px; max-width:1050px; margin:0 auto 18px; }
+.student-classroom nav { position:sticky; top:8px; z-index:2; display:flex; gap:8px; width:max-content; max-width:100%; margin:0 auto 18px; padding:6px; border-radius:999px; background:rgba(255,255,255,.9); box-shadow:0 8px 30px rgba(40,59,43,.12); overflow:auto; }
+.student-classroom nav .is-active { background:#eea43b; border-color:#c67a1e; color:#25180a; }
+.student-classroom__message { max-width:900px; min-height:1.5em; margin:0 auto 12px!important; text-align:center; color:#536653; }
+.student-classroom__print-request { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:9px; max-width:900px; margin:0 auto 14px; }
+.student-classroom__print-request span { color:#667367; font-weight:800; }
+.student-classroom__print-request strong { border-radius:999px; padding:7px 11px; background:#fff3c7; color:#735217; font-size:.8rem; }
+.student-classroom__page { max-width:900px; margin:0 auto; border:1px solid #bac8b5; border-radius:26px; padding:clamp(20px,4vw,38px); background:rgba(255,255,255,.9); box-shadow:0 20px 55px rgba(40,59,43,.1); }
+.student-classroom__goal { display:grid; gap:6px; border-left:6px solid #ef9f2f; border-radius:12px; padding:14px 16px; background:#fff8df; }
+.student-classroom__goal span,.student-classroom__page article>p:first-child { color:#8b4d24; font-size:.78rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.student-classroom__page article { margin-top:18px; border-top:1px solid #dbe3d8; padding-top:18px; line-height:1.65; }
+.student-classroom__check label { display:grid; gap:7px; margin:13px 0; font-weight:900; }
+.student-classroom__check textarea { min-height:150px; resize:vertical; }
+.student-classroom__file { border:1px dashed #91a18c; border-radius:14px; padding:12px; background:#f8faf6; }
+.student-classroom__empty { border:1px dashed #9eaa9a; border-radius:16px; padding:20px; background:#f8faf6; }
+.student-classroom__feedback>div { margin-top:12px; border-radius:14px; padding:14px; background:#f1f6ed; }
+.student-classroom__feedback span { color:#687768; font-size:.8rem; }
+.student-classroom__feedback blockquote { margin:10px 0 0; border-left:4px solid #ef9f2f; padding:10px 12px; background:#fff; }
+@media(max-width:650px){.student-classroom{padding:12px}.student-classroom__topbar{flex-direction:column}.student-classroom nav{border-radius:18px;width:100%;box-sizing:border-box}.student-classroom nav button{flex:1;white-space:nowrap}.student-classroom__page{border-radius:20px}.student-classroom__join-card{border-radius:22px}}

@@ -4,6 +4,9 @@
 
 - Added a learner-friendly Safe Code Lab that runs bounded JavaScript in a disposable Web Worker with network, storage and host access blocked.
 - Enforced an official learning-source allowlist before curriculum downloads and at every redirect destination; news, social, search and arbitrary hosts fail closed.
+- Added high-confidence learner text moderation with durable privacy-minimised teacher reports for profanity, explicit content, slurs, unsafe links, obfuscation and safety-bypass attempts; learner internet search remains unavailable.
+- Added Windows printer detection and a durable learner-request/teacher-approval queue for generated lesson, feedback and teacher safety reports; learner files and markup never enter the spooler.
+- Added a separate opt-in TCP 5202 classroom relay and child-facing lesson/check/feedback surface; installer firewall/URL reservation and real-device school-network proof remain an explicit release blocker.
 
 - Added task-led navigation instead of an endless panel wall.
 - Added local learner, plan, curriculum, lesson, review, session, and progress records.

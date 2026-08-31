@@ -34,6 +34,10 @@ internal sealed class LocalModuleHost : IDisposable
     private readonly TeachingSessionStore _teachingSessions;
     private readonly TeachingOperationsStore _teachingOperations;
     private readonly LearningCheckStore _learningChecks;
+    private readonly LearnerSafetyStore _learnerSafety;
+    private readonly ClassroomPrintStore _printRequests;
+    private readonly LocalPrinterService _printing;
+    private readonly ClassroomRelayHost _classroom;
     private readonly TeachingProposalStore _teachingProposals;
     private readonly LearningProgressStore _learningProgress;
     private readonly DatabaseBackupStore _databaseBackups;
@@ -59,6 +63,10 @@ internal sealed class LocalModuleHost : IDisposable
         _lessonReviews = new LessonReviewStore(dataRoot);
         _teachingSessions = new TeachingSessionStore(dataRoot, _lessonReviews);
         _learningChecks = new LearningCheckStore(dataRoot, _lessonReviews);
+        _learnerSafety = new LearnerSafetyStore(dataRoot);
+        _printRequests = new ClassroomPrintStore(dataRoot);
+        _printing = new LocalPrinterService(_printRequests, _teaching, _learningChecks, _learnerSafety);
+        _classroom = new ClassroomRelayHost(_uiRoot, _teaching, _lessonReviews, _learningChecks, _learnerSafety, _printRequests);
         _teachingOperations = new TeachingOperationsStore(dataRoot, _lessonReviews, _teachingSessions);
         _teachingProposals = new TeachingProposalStore(dataRoot);
         _learningProgress = new LearningProgressStore(dataRoot);
@@ -896,6 +904,113 @@ internal sealed class LocalModuleHost : IDisposable
                 return;
             }
 
+            if (string.Equals(path, "/api/classroom/status", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.Equals(context.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Classroom status is read-only." });
+                    return;
+                }
+                await WriteJsonAsync(context.Response, _classroom.GetStatus());
+                return;
+            }
+
+            if (string.Equals(path, "/api/classroom/invites", StringComparison.OrdinalIgnoreCase))
+            {
+                var expectedOrigin = BaseAddress.TrimEnd('/');
+                var validOrigin = string.Equals(context.Request.Headers["Origin"], expectedOrigin, StringComparison.OrdinalIgnoreCase);
+                var validIntent = string.Equals(context.Request.Headers["X-MA-Teacher-Intent"], "create-classroom-invite", StringComparison.Ordinal);
+                if (!string.Equals(context.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) || !validOrigin || !validIntent || context.Request.ContentLength64 is < 1 or > 4096)
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Same-origin classroom-sharing intent is required." });
+                    return;
+                }
+                ClassroomInviteInput? input;
+                try
+                {
+                    using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding ?? Encoding.UTF8, leaveOpen: true);
+                    input = JsonSerializer.Deserialize<ClassroomInviteInput>(await reader.ReadToEndAsync(_stopping.Token), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                }
+                catch (JsonException) { input = null; }
+                var result = input is null
+                    ? new ClassroomInviteResult(false, "invalid", null, null, null, "The classroom invite form was not readable.")
+                    : await _classroom.CreateInviteAsync(input);
+                context.Response.StatusCode = result.Ok ? (int)HttpStatusCode.OK : (int)HttpStatusCode.BadRequest;
+                await WriteJsonAsync(context.Response, result);
+                return;
+            }
+
+            if (string.Equals(path, "/api/classroom/stop", StringComparison.OrdinalIgnoreCase))
+            {
+                var expectedOrigin = BaseAddress.TrimEnd('/');
+                var validOrigin = string.Equals(context.Request.Headers["Origin"], expectedOrigin, StringComparison.OrdinalIgnoreCase);
+                var validIntent = string.Equals(context.Request.Headers["X-MA-Teacher-Intent"], "stop-classroom-sharing", StringComparison.Ordinal);
+                if (!string.Equals(context.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) || !validOrigin || !validIntent)
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Same-origin classroom-stop intent is required." });
+                    return;
+                }
+                await WriteJsonAsync(context.Response, await _classroom.StopAsync());
+                return;
+            }
+
+            if (string.Equals(path, "/api/printing/status", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!string.Equals(context.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Printer status is read-only." });
+                    return;
+                }
+                await WriteJsonAsync(context.Response, _printing.GetOverview());
+                return;
+            }
+
+            if (string.Equals(path, "/api/printing/approve", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(path, "/api/printing/decline", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(path, "/api/printing/safety-report", StringComparison.OrdinalIgnoreCase))
+            {
+                var expectedOrigin = BaseAddress.TrimEnd('/');
+                var validOrigin = string.Equals(context.Request.Headers["Origin"], expectedOrigin, StringComparison.OrdinalIgnoreCase);
+                var expectedIntent = path.EndsWith("/approve", StringComparison.OrdinalIgnoreCase) ? "approve-local-print"
+                    : path.EndsWith("/decline", StringComparison.OrdinalIgnoreCase) ? "decline-local-print" : "print-safety-report";
+                var validIntent = string.Equals(context.Request.Headers["X-MA-Teacher-Intent"], expectedIntent, StringComparison.Ordinal);
+                if (!string.Equals(context.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase) || !validOrigin || !validIntent || context.Request.ContentLength64 is < 1 or > 4096)
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    await WriteJsonAsync(context.Response, new { ok = false, error = "Same-origin teacher print approval is required." });
+                    return;
+                }
+                string body;
+                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding ?? Encoding.UTF8, leaveOpen: true)) body = await reader.ReadToEndAsync(_stopping.Token);
+                LocalPrintMutation result;
+                try
+                {
+                    if (path.EndsWith("/approve", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var input = JsonSerializer.Deserialize<LocalPrintApprovalInput>(body, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                        result = input is null ? new(false, "invalid", null, "The approval form was not readable.") : await _printing.ApproveAsync(input);
+                    }
+                    else if (path.EndsWith("/decline", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var input = JsonSerializer.Deserialize<LocalPrintDeclineInput>(body, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                        result = input is null ? new(false, "invalid", null, "The decline form was not readable.") : _printing.Decline(input.RequestId);
+                    }
+                    else
+                    {
+                        var input = JsonSerializer.Deserialize<LocalPrinterNameInput>(body, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                        result = input is null ? new(false, "invalid", null, "The printer form was not readable.") : await _printing.PrintSafetyReportAsync(input.PrinterName);
+                    }
+                }
+                catch (JsonException) { result = new(false, "invalid", null, "The print form must be valid JSON."); }
+                context.Response.StatusCode = result.Ok ? (int)HttpStatusCode.OK : (int)HttpStatusCode.BadRequest;
+                await WriteJsonAsync(context.Response, result);
+                return;
+            }
+
             if (path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -1215,6 +1330,7 @@ internal sealed class LocalModuleHost : IDisposable
 
     public void Dispose()
     {
+        _classroom.Dispose();
         _stopping.Cancel();
         if (_listener.IsListening)
         {

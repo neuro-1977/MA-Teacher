@@ -50,6 +50,9 @@ Teachers and students use the **same installer**. The teacher or operator sets u
 - [Why the interface uses layered, approachable language](docs/APPROACHABILITY.md)
 - [Safe Code Lab security model](docs/SAFE_CODE_LAB.md)
 - [Trusted learning-source policy](docs/TRUSTED_LEARNING_SOURCES.md)
+- [Learner safety filters and safe-search boundary](docs/CHILD_SAFETY_FILTERS.md)
+- [Teacher-approved printing and privacy](docs/PRINTING_AND_PRIVACY.md)
+- [Classroom network preview and release gate](docs/CLASSROOM_NETWORK.md)
 
 ## Feedback
 
