@@ -1,0 +1,25 @@
+.draft-validator { --validator-ink:#17262c; --validator-blue:#245d73; --validator-orange:#bd5d2d; --validator-green:#21705a; --validator-red:#a43d35; margin:1rem; padding:clamp(1rem,2.4vw,1.7rem); border:1px solid rgba(36,93,115,.42); border-radius:1.1rem; color:var(--validator-ink); background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(235,238,229,.96)); box-shadow:0 16px 36px rgba(23,38,44,.13); scroll-margin-top:5rem }
+.draft-validator>header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem }
+.draft-validator>header p { margin:0 0 .22rem; color:var(--validator-orange); font-size:.7rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase }
+.draft-validator h2 { margin:0 0 .35rem; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.5rem,3vw,2.25rem) }
+.draft-validator>header>strong { flex:0 0 auto; padding:.45rem .66rem; border-radius:999px; color:white; background:var(--validator-blue); font-size:.68rem; letter-spacing:.06em }
+.draft-validator>header>strong[data-state='structurally-complete'] { background:var(--validator-green) }
+.draft-validator>header>strong[data-state='invalid-json'],.draft-validator>header>strong[data-state='structural-errors'] { background:var(--validator-red) }
+.draft-validator__boundary { margin:1rem 0; padding:.78rem; border-left:4px solid var(--validator-orange); background:rgba(189,93,45,.08); line-height:1.48 }
+.draft-validator__controls { display:flex; align-items:end; gap:.65rem; flex-wrap:wrap; margin-bottom:.72rem }
+.draft-validator label { display:grid; gap:.28rem; color:var(--validator-blue); font-size:.7rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase }
+.draft-validator select,.draft-validator textarea { min-width:0; padding:.62rem .68rem; border:1px solid rgba(36,93,115,.34); border-radius:.55rem; color:var(--validator-ink); background:rgba(255,255,255,.82); font:inherit; text-transform:none; box-sizing:border-box }
+.draft-validator__editor textarea { width:100%; resize:vertical; font-family:'Cascadia Code','Courier New',monospace; font-size:.82rem; line-height:1.5; tab-size:2 }
+.draft-validator button { padding:.62rem .76rem; border:0; border-radius:.52rem; color:white; background:var(--validator-blue); font:inherit; font-weight:850; cursor:pointer }
+.draft-validator button:disabled { cursor:not-allowed; opacity:.45 }
+.draft-validator .draft-validator__clear { color:var(--validator-ink); border:1px solid rgba(23,38,44,.22); background:rgba(255,255,255,.7) }
+.draft-validator__results { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.72rem; margin:1rem 0 }
+.draft-validator__results article { padding:.85rem; border:1px solid rgba(36,93,115,.22); border-radius:.7rem; background:rgba(255,255,255,.68) }
+.draft-validator__results h3 { margin:0 0 .5rem; font-size:1rem }
+.draft-validator__results p,.draft-validator__results ul { margin:0; line-height:1.46 }
+.draft-validator__results ul { padding-left:1.15rem }
+.draft-validator__pass { padding:.75rem; border-left:4px solid var(--validator-green); background:rgba(33,112,90,.08); line-height:1.46 }
+.draft-validator footer { display:flex; align-items:center; gap:.65rem; flex-wrap:wrap }
+@media (max-width:700px) { .draft-validator { margin:.65rem; padding:.9rem } .draft-validator>header,.draft-validator__results { display:grid; grid-template-columns:1fr } .draft-validator>header>strong { justify-self:start } .draft-validator__controls>* { width:100% } }
+@media print { .draft-validator { display:none!important } }
+@media (prefers-reduced-motion:reduce) { .draft-validator *,.draft-validator *::before,.draft-validator *::after { scroll-behavior:auto!important; transition:none!important } }

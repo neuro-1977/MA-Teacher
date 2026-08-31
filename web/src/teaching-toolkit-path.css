@@ -1,0 +1,19 @@
+.teaching-toolkit-path { --path-ink:#1d2526; --path-blue:#20566a; --path-coral:#b65338; --path-cream:#f6f0df; margin:1rem 0; padding:clamp(1rem,2vw,1.7rem); color:var(--path-ink); border:1px solid rgba(32,86,106,.38); border-radius:1rem; background:linear-gradient(120deg,rgba(255,255,255,.82),rgba(246,240,223,.9)),var(--path-cream); box-shadow:0 16px 38px rgba(29,37,38,.13) }
+.teaching-toolkit-path__header { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start }
+.teaching-toolkit-path__header h2 { margin:.12rem 0 .35rem; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.55rem,3vw,2.35rem) }
+.teaching-toolkit-path__header p { margin:0; max-width:66ch }
+.teaching-toolkit-path__header>span { flex:0 0 auto; padding:.45rem .7rem; color:white; border-radius:999px; background:var(--path-blue); font-size:.78rem; font-weight:850 }
+.teaching-toolkit-path__eyebrow { color:var(--path-coral); font-size:.74rem; font-weight:900; letter-spacing:.13em; text-transform:uppercase }
+.teaching-toolkit-path__boundary { margin:1rem 0; padding:.72rem .9rem; border-left:4px solid var(--path-coral); background:rgba(182,83,56,.09); font-weight:650 }
+.teaching-toolkit-path__steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.75rem; margin:0; padding:0; list-style:none; counter-reset:path-step }
+.teaching-toolkit-path__steps li { position:relative; display:grid; grid-template-columns:auto 1fr; gap:.7rem; padding:1rem; border:1px solid rgba(32,86,106,.22); border-radius:.8rem; background:rgba(255,255,255,.7) }
+.teaching-toolkit-path__steps li:not(:last-child)::after { content:'>'; position:absolute; z-index:1; top:50%; right:-.62rem; width:1.15rem; height:1.15rem; display:grid; place-items:center; color:white; border-radius:50%; background:var(--path-coral); font-size:.72rem; font-weight:900; transform:translateY(-50%) }
+.teaching-toolkit-path__number { color:var(--path-coral); font-family:Georgia,'Times New Roman',serif; font-size:1.25rem; font-weight:900 }
+.teaching-toolkit-path__steps h3 { margin:0 0 .45rem; font-size:1rem }
+.teaching-toolkit-path__steps p { margin:0; line-height:1.48 }
+.teaching-toolkit-path__steps blockquote { margin:.7rem 0; padding:.55rem .65rem; border-left:3px solid var(--path-blue); background:rgba(32,86,106,.07); font-family:Georgia,'Times New Roman',serif; line-height:1.42 }
+.teaching-toolkit-path__steps a { color:var(--path-blue); font-weight:850; text-underline-offset:.18rem }
+.teaching-toolkit-path footer { margin-top:1rem; padding-top:.8rem; border-top:1px solid rgba(29,37,38,.16); line-height:1.5 }
+@media (max-width:1050px) { .teaching-toolkit-path__steps { grid-template-columns:1fr 1fr } .teaching-toolkit-path__steps li::after { display:none!important } }
+@media (max-width:600px) { .teaching-toolkit-path__header { display:grid } .teaching-toolkit-path__header>span { justify-self:start } .teaching-toolkit-path__steps { grid-template-columns:1fr } }
+@media (prefers-reduced-motion:reduce) { .teaching-toolkit-path *,.teaching-toolkit-path *::before,.teaching-toolkit-path *::after { scroll-behavior:auto!important; transition:none!important } }

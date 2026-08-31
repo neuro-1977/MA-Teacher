@@ -1,0 +1,27 @@
+.session-brief { --brief-cream:#f6eddc; --brief-ink:#17272c; --brief-teal:#1b6a68; --brief-orange:#c45f30; --brief-gold:#d4a44c; margin:1rem; padding:clamp(1rem,2.5vw,1.7rem); border:1px solid rgba(212,164,76,.5); border-radius:1.1rem; color:var(--brief-ink); background:radial-gradient(circle at 92% 5%,rgba(212,164,76,.22),transparent 28%),linear-gradient(145deg,#fffaf0,var(--brief-cream)); box-shadow:0 16px 36px rgba(23,39,44,.14); scroll-margin-top:5rem }
+.session-brief>header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem }
+.session-brief>header p,.session-brief__preview article>p { margin:0 0 .25rem; color:var(--brief-orange); font-size:.7rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase }
+.session-brief h2 { margin:0 0 .3rem; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.5rem,3vw,2.3rem) }
+.session-brief>header span { line-height:1.45 }
+.session-brief>header>strong { flex:0 0 auto; padding:.45rem .65rem; border-radius:999px; color:white; background:var(--brief-teal); font-size:.7rem; letter-spacing:.05em }
+.session-brief__boundary { margin:1rem 0; padding:.8rem; border-left:4px solid var(--brief-orange); background:rgba(196,95,48,.09); line-height:1.45 }
+.session-brief__form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.8rem }
+.session-brief__form label { display:grid; align-content:start; gap:.32rem; font-size:.75rem; font-weight:850; letter-spacing:.04em; text-transform:uppercase }
+.session-brief__form input,.session-brief__form select,.session-brief__form textarea { width:100%; min-width:0; padding:.68rem .72rem; border:1px solid rgba(27,106,104,.34); border-radius:.58rem; color:var(--brief-ink); background:rgba(255,255,255,.78); font:inherit; line-height:1.4; text-transform:none; box-sizing:border-box }
+.session-brief__form textarea { resize:vertical }
+.session-brief__preview { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; margin:1rem 0 }
+.session-brief__preview article { padding:.9rem; border:1px solid rgba(27,106,104,.23); border-radius:.75rem; background:rgba(255,255,255,.62) }
+.session-brief__preview h3 { margin:0 0 .65rem; font-size:1rem; line-height:1.4 }
+.session-brief__preview ul { margin:0; padding-left:1.1rem; line-height:1.46 }
+.session-brief__preview li+li { margin-top:.32rem }
+.session-brief__preview .session-brief__caution { border-color:rgba(196,95,48,.32); background:rgba(196,95,48,.07) }
+.session-brief__missing { padding:.68rem; border:1px dashed var(--brief-orange); border-radius:.55rem; color:#7b321b; background:rgba(255,255,255,.5); font-weight:750 }
+.session-brief footer { display:flex; align-items:center; gap:.65rem; flex-wrap:wrap }
+.session-brief button { padding:.65rem .82rem; border:0; border-radius:.55rem; color:white; background:var(--brief-teal); font:inherit; font-weight:850; cursor:pointer }
+.session-brief button:disabled { cursor:not-allowed; opacity:.45 }
+.session-brief .session-brief__reset { color:var(--brief-ink); border:1px solid rgba(23,39,44,.25); background:rgba(255,255,255,.7) }
+.session-brief footer span { line-height:1.4 }
+@media (max-width:900px) { .session-brief__preview { grid-template-columns:1fr } }
+@media (max-width:700px) { .session-brief { margin:.65rem; padding:.9rem } .session-brief>header,.session-brief__form { display:grid; grid-template-columns:1fr } .session-brief>header>strong { justify-self:start } }
+@media print { .session-brief { display:none!important } }
+@media (prefers-reduced-motion:reduce) { .session-brief *,.session-brief *::before,.session-brief *::after { scroll-behavior:auto!important; transition:none!important } }

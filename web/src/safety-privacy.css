@@ -1,0 +1,102 @@
+.safety-shell {
+  margin: 1rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(177, 112, 58, 0.55);
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(140deg, rgba(67, 36, 22, 0.9), rgba(24, 28, 31, 0.96) 48%),
+    radial-gradient(circle at top right, rgba(222, 151, 70, 0.22), transparent 42%);
+  color: #f7ead7;
+  scroll-margin-top: 5rem;
+}
+
+.safety-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(247, 234, 215, 0.16);
+}
+
+.safety-hero p,
+.safety-grid article > p {
+  margin: 0 0 0.4rem;
+  color: #e7a65d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.safety-hero h2 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+}
+
+.safety-hero span,
+.safety-grid span,
+.safety-footer span {
+  color: #d9cbbb;
+  line-height: 1.55;
+}
+
+.safety-hero > strong {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(231, 166, 93, 0.55);
+  border-radius: 999px;
+  color: #f2bd7f;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+}
+
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.safety-grid article {
+  min-height: 9rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(247, 234, 215, 0.12);
+  border-radius: 0.9rem;
+  background: rgba(7, 11, 13, 0.42);
+}
+
+.safety-grid h3 {
+  margin: 0 0 0.5rem;
+  color: #fff4e4;
+  font-size: 1rem;
+}
+
+.safety-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+
+.safety-footer div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.8rem 0.9rem;
+  border-left: 3px solid #d88943;
+  background: rgba(216, 137, 67, 0.08);
+}
+
+.safety-footer b {
+  color: #f3c38d;
+}
+
+@media (max-width: 900px) {
+  .safety-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .safety-shell { margin: 0.65rem; padding: 0.9rem; }
+  .safety-hero { flex-direction: column; }
+  .safety-grid, .safety-footer { grid-template-columns: 1fr; }
+  .safety-grid article { min-height: 0; }
+}

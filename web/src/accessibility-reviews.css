@@ -1,0 +1,28 @@
+.accessibility-reviews { margin: 1rem; padding: 1rem; border: 1px solid rgba(121, 157, 192, .55); border-radius: 1rem; background: linear-gradient(145deg, #101c28, #15191f); color: #f1f5f9; scroll-margin-top: 5rem; }
+.accessibility-reviews > header { display: flex; justify-content: space-between; gap: 1rem; }
+.accessibility-reviews > header p { margin: 0 0 .3rem; color: #8fc2ea; font-size: .7rem; font-weight: 850; letter-spacing: .1em; }
+.accessibility-reviews h2, .accessibility-reviews h3 { margin: 0 0 .4rem; }
+.accessibility-reviews > header span, .accessibility-reviews p, .accessibility-review-ledger footer { color: #c9d3dd; line-height: 1.5; }
+.accessibility-reviews button { padding: .65rem .85rem; border: 1px solid #78a7cf; border-radius: .55rem; background: #284f70; color: #fff; font-weight: 800; }
+.accessibility-reviews button:disabled { opacity: .45; }
+.accessibility-review-boundary { display: grid; gap: .25rem; margin: .9rem 0; padding: .7rem; border-left: .35rem solid #dfaa58; background: rgba(223, 170, 88, .08); }
+.accessibility-reviews form { display: grid; gap: .8rem; }
+.accessibility-review-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .7rem; }
+.accessibility-reviews label { display: grid; gap: .3rem; font-weight: 750; }
+.accessibility-reviews input, .accessibility-reviews select, .accessibility-reviews textarea { box-sizing: border-box; width: 100%; padding: .6rem; border: 1px solid #607d99; border-radius: .4rem; background: #0c1924; color: #fff; font: inherit; }
+.accessibility-criterion-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+.accessibility-criterion-grid article { padding: .7rem; border: 1px solid rgba(143, 194, 234, .2); background: rgba(4, 10, 16, .45); }
+.accessibility-criterion-grid article header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.accessibility-criterion-grid code { color: #8fc2ea; font-size: .7rem; }
+.accessibility-review-confirm { grid-template-columns: auto 1fr; align-items: start; padding: .7rem; background: rgba(101, 173, 137, .12); }
+.accessibility-review-confirm input { width: auto; margin-top: .2rem; }
+.accessibility-review-ledger { display: grid; gap: .6rem; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid rgba(121, 157, 192, .4); }
+.accessibility-review-ledger article { padding: .7rem; border-left: .35rem solid #789dc0; background: rgba(4, 10, 16, .45); }
+.accessibility-review-ledger article[data-decision="changes-required"] { border-left-color: #d36d50; }
+.accessibility-review-ledger article[data-decision="observed-usable"] { border-left-color: #65ad89; }
+.accessibility-review-ledger article header, .accessibility-review-ledger article footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.accessibility-review-ledger em { color: #a8cef0; font-style: normal; font-weight: 800; }
+.accessibility-reviews output { display: block; margin-top: .8rem; padding-top: .7rem; border-top: 1px solid rgba(121, 157, 192, .4); }
+@media (max-width: 850px) { .accessibility-criterion-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .accessibility-reviews { margin: .65rem; } .accessibility-reviews > header { display: grid; } }
+@media print { .accessibility-reviews { display: none !important; } }

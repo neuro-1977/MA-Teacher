@@ -1,0 +1,26 @@
+.data-stewardship { margin: 1rem 0; border: 1px solid #416b64; background: linear-gradient(145deg, #edf7f3, #dcece6); color: #182a27; }
+.data-stewardship > header { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem; border-bottom: 1px solid #71948d; }
+.data-stewardship > header p { margin: 0 0 .25rem; color: #1f6659; font-weight: 800; letter-spacing: .11em; }
+.data-stewardship h2, .data-stewardship h3 { margin: 0 0 .4rem; }
+.data-stewardship button { align-self: start; padding: .65rem .9rem; border: 1px solid #174c43; background: #1f6659; color: #fff; font-weight: 800; }
+.data-stewardship button:disabled { opacity: .45; }
+.data-stewardship-warning { display: grid; gap: .25rem; margin: 1rem; padding: .75rem; border-left: .35rem solid #b64e2a; background: #fffaf0; }
+.data-inventory { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .65rem; padding: 1rem; }
+.data-inventory > h3 { grid-column: 1 / -1; }
+.data-inventory article, .current-retention-policy, .retention-policy-ledger article { padding: .75rem; border: 1px solid #71948d; background: #fafffd; }
+.data-inventory article header, .data-inventory article footer, .retention-policy-ledger article header, .retention-policy-ledger article footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .45rem; }
+.data-inventory article footer { display: grid; font-size: .78rem; }
+.current-retention-policy { display: grid; gap: .5rem; margin: 0 1rem 1rem; }
+.current-retention-policy div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.current-retention-policy b { padding: .3rem .5rem; background: #d7eee7; }
+.current-retention-policy code { overflow-wrap: anywhere; }
+.data-stewardship form { display: grid; gap: .8rem; padding: 1rem; border-top: 1px solid #71948d; }
+.data-stewardship-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .7rem; }
+.data-stewardship label { display: grid; gap: .3rem; font-weight: 700; }
+.data-stewardship input, .data-stewardship textarea { box-sizing: border-box; width: 100%; padding: .65rem; border: 1px solid #64857e; background: #fff; color: #182a27; font: inherit; }
+.data-stewardship-confirm { grid-template-columns: auto 1fr; align-items: start; padding: .75rem; background: #cde5dd; }
+.data-stewardship-confirm input { width: auto; margin-top: .2rem; }
+.retention-policy-ledger { display: grid; gap: .65rem; padding: 1rem; border-top: 1px solid #71948d; }
+.data-stewardship output { display: block; padding: .8rem 1rem; border-top: 1px solid #71948d; font-weight: 700; }
+@media (max-width: 44rem) { .data-stewardship > header { display: grid; } }
+@media (prefers-reduced-motion: reduce) { .data-stewardship * { scroll-behavior: auto !important; } }

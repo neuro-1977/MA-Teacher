@@ -1,0 +1,158 @@
+.workspace-index-shell {
+  margin: 1rem;
+  padding: 1.1rem;
+  border: 1px solid rgba(86, 165, 197, 0.42);
+  border-radius: 1.1rem;
+  background: linear-gradient(145deg, rgba(10, 34, 46, 0.96), rgba(16, 22, 27, 0.97));
+  color: #edf8fc;
+  scroll-margin-top: 5rem;
+}
+
+.workspace-index-shell > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.workspace-index-shell header p,
+.workspace-index-group-heading p {
+  margin: 0 0 0.35rem;
+  color: #6bc2e4;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+.workspace-index-shell h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+}
+
+.workspace-index-shell header span,
+.workspace-index-group-heading > span,
+.workspace-index-links a span {
+  color: #b9cbd2;
+  line-height: 1.5;
+}
+
+.workspace-index-search {
+  display: grid;
+  grid-template-columns: minmax(12rem, 18rem) minmax(10rem, 14rem) auto;
+  align-items: end;
+  gap: 0.4rem 0.65rem;
+}
+
+.workspace-index-search label {
+  display: grid;
+  gap: 0.3rem;
+  color: #9cdcf5;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.workspace-index-search input,
+.workspace-index-search select {
+  min-height: 2.4rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(107, 194, 228, 0.45);
+  border-radius: 0.6rem;
+  color: #f2fbff;
+  background: #102c37;
+  font: inherit;
+}
+
+.workspace-index-search strong {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(107, 194, 228, 0.45);
+  border-radius: 999px;
+  color: #9cdcf5;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+}
+
+.workspace-index-result {
+  margin: 0.75rem 0 0;
+  color: #9fb5be;
+  font-size: 0.76rem;
+}
+
+.workspace-index-empty {
+  margin-top: 0.7rem;
+  padding: 0.8rem;
+  border: 1px dashed rgba(107, 194, 228, 0.32);
+  border-radius: 0.7rem;
+  color: #adc0c7;
+  background: rgba(107, 194, 228, 0.04);
+}
+
+.workspace-index-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.workspace-index-groups > article {
+  padding: 0.85rem;
+  border: 1px solid rgba(185, 203, 210, 0.14);
+  border-radius: 0.85rem;
+  background: rgba(3, 10, 13, 0.46);
+}
+
+.workspace-index-group-heading {
+  display: grid;
+  grid-template-columns: minmax(8rem, auto) 1fr;
+  align-items: end;
+  gap: 0.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.workspace-index-group-heading h3 { margin: 0; font-size: 1.08rem; }
+
+.workspace-index-links {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.workspace-index-links a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem;
+  border: 1px solid rgba(107, 194, 228, 0.14);
+  border-left: 4px solid #6f7e84;
+  border-radius: 0.62rem;
+  color: #f1f8fa;
+  background: rgba(107, 194, 228, 0.04);
+  text-decoration: none;
+}
+
+.workspace-index-links a > div { display: grid; gap: 0.15rem; }
+.workspace-index-links a b { font-size: 0.86rem; }
+.workspace-index-links a span { font-size: 0.75rem; }
+.workspace-index-links a em { color: #9aa9ae; font-size: 0.62rem; font-style: normal; font-weight: 850; letter-spacing: 0.06em; text-align: right; }
+.workspace-index-links a.effect-database-write { border-left-color: #d48145; }
+.workspace-index-links a.effect-backup-write { border-left-color: #d9a548; }
+.workspace-index-links a.effect-clipboard-optional { border-left-color: #9b83d0; }
+.workspace-index-links a.effect-read-only { border-left-color: #5aac93; }
+.workspace-index-links a:hover { border-color: rgba(107, 194, 228, 0.5); background: rgba(107, 194, 228, 0.09); }
+
+@media (max-width: 900px) {
+  .workspace-index-groups { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .workspace-index-shell { margin: 0.65rem; padding: 0.9rem; }
+  .workspace-index-shell > header { flex-direction: column; }
+  .workspace-index-search { width: 100%; grid-template-columns: 1fr; }
+  .workspace-index-search input, .workspace-index-search select { width: 100%; }
+  .workspace-index-group-heading { grid-template-columns: 1fr; gap: 0.25rem; }
+  .workspace-index-links a { grid-template-columns: 1fr; }
+  .workspace-index-links a em { text-align: left; }
+}
+
+@media print {
+  .workspace-index-shell { display: none !important; }
+}

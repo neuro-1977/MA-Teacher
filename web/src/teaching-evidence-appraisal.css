@@ -1,0 +1,104 @@
+.evidence-appraisal-panel {
+  margin: 1rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(53, 79, 123, 0.34);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(80, 119, 181, 0.13), transparent 32%),
+    var(--panel, #fffaf0);
+}
+
+.evidence-appraisal-panel header h2,
+.evidence-appraisal-panel header p {
+  margin: 0;
+}
+
+.evidence-appraisal-panel header h2 {
+  margin: 0.25rem 0;
+}
+
+.evidence-appraisal-kicker {
+  color: #354f7b;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.evidence-appraisal-claims {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0;
+}
+
+.evidence-appraisal-claims button {
+  min-height: 2.4rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(53, 79, 123, 0.35);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.evidence-appraisal-claims button.is-active {
+  border-color: #354f7b;
+  background: #354f7b;
+  color: #fffdf8;
+}
+
+.evidence-appraisal-selection,
+.evidence-appraisal-boundary {
+  margin: 1rem 0;
+  padding: 0.8rem 0.9rem;
+  border-left: 0.3rem solid #354f7b;
+  background: rgba(80, 119, 181, 0.09);
+}
+
+.evidence-appraisal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr));
+  gap: 0.8rem;
+}
+
+.evidence-appraisal-grid article {
+  padding: 1rem;
+  border: 1px solid rgba(53, 79, 123, 0.18);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.evidence-appraisal-grid h3,
+.evidence-appraisal-grid h4,
+.evidence-appraisal-grid ul,
+.evidence-appraisal-grid p {
+  margin-top: 0;
+}
+
+.evidence-appraisal-grid h4 {
+  margin-bottom: 0.3rem;
+  font-size: 0.86rem;
+}
+
+.evidence-appraisal-grid ul {
+  padding-left: 1.2rem;
+}
+
+.evidence-appraisal-grid li + li {
+  margin-top: 0.3rem;
+}
+
+.evidence-appraisal-grid p {
+  margin-bottom: 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(53, 79, 123, 0.16);
+}
+
+@media print {
+  .evidence-appraisal-claims {
+    display: none;
+  }
+}

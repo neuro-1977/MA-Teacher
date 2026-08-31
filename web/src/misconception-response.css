@@ -1,0 +1,134 @@
+.misconception-response-panel {
+  margin: 1rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(142, 76, 43, 0.3);
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(145deg, rgba(211, 106, 50, 0.1), transparent 45%),
+    var(--panel, #fffaf0);
+}
+
+.misconception-response-panel header h2,
+.misconception-response-panel header p {
+  margin: 0;
+}
+
+.misconception-response-panel header h2 {
+  margin: 0.25rem 0;
+}
+
+.misconception-response-kicker {
+  color: #99431f;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.misconception-sequence {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.55rem;
+  margin: 1rem 0;
+  padding: 0;
+  counter-reset: misconception-step;
+  list-style: none;
+}
+
+.misconception-sequence li {
+  position: relative;
+  padding: 0.8rem 0.8rem 0.8rem 2.65rem;
+  border-radius: 0.75rem;
+  background: rgba(211, 106, 50, 0.08);
+  counter-increment: misconception-step;
+}
+
+.misconception-sequence li::before {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.7rem;
+  display: grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: #99431f;
+  color: #fffaf0;
+  content: counter(misconception-step);
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.misconception-selector {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 32rem;
+  margin-bottom: 1rem;
+}
+
+.misconception-selector label {
+  font-weight: 800;
+}
+
+.misconception-selector select {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(73, 45, 31, 0.3);
+  border-radius: 0.7rem;
+  background: #fffdf8;
+  color: inherit;
+  font: inherit;
+}
+
+.misconception-hypothesis {
+  padding: 1rem;
+  border: 1px solid rgba(142, 76, 43, 0.2);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.misconception-hypothesis h3,
+.misconception-hypothesis h4,
+.misconception-hypothesis p,
+.misconception-hypothesis ul {
+  margin-top: 0;
+}
+
+.misconception-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.misconception-columns section {
+  padding-top: 0.75rem;
+  border-top: 0.2rem solid rgba(153, 67, 31, 0.35);
+}
+
+.misconception-columns ul {
+  padding-left: 1.2rem;
+}
+
+.misconception-columns li + li {
+  margin-top: 0.35rem;
+}
+
+.misconception-boundary {
+  margin: 1rem 0 0;
+  padding: 0.8rem 0.9rem;
+  border-left: 0.3rem solid #99431f;
+  background: rgba(211, 106, 50, 0.09);
+}
+
+@media (max-width: 850px) {
+  .misconception-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .misconception-selector {
+    display: none;
+  }
+}

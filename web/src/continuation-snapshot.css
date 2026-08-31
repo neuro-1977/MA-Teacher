@@ -1,0 +1,115 @@
+.continuation-shell {
+  margin: 1rem;
+  padding: 1.1rem;
+  border: 1px solid rgba(99, 184, 171, 0.42);
+  border-radius: 1.1rem;
+  background: linear-gradient(145deg, rgba(8, 34, 35, 0.94), rgba(14, 21, 27, 0.96));
+  color: #e8f6ef;
+  scroll-margin-top: 5rem;
+}
+
+.continuation-shell header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.continuation-shell header p {
+  margin: 0 0 0.35rem;
+  color: #6ed2bf;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.continuation-shell h2 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+}
+
+.continuation-shell header span,
+.continuation-message {
+  color: #b9cdc7;
+  line-height: 1.5;
+}
+
+.continuation-shell header strong {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(110, 210, 191, 0.45);
+  border-radius: 999px;
+  color: #8de3d2;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.continuation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.95rem 0 0.7rem;
+}
+
+.continuation-actions button {
+  min-height: 2.35rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(110, 210, 191, 0.45);
+  border-radius: 0.62rem;
+  color: #eafff9;
+  background: #155247;
+  font: inherit;
+  font-size: 0.79rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.continuation-actions button:nth-child(n + 2) {
+  background: transparent;
+}
+
+.continuation-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.continuation-message {
+  margin: 0.4rem 0 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border-left: 3px solid #4da995;
+  background: rgba(77, 169, 149, 0.08);
+}
+
+.continuation-message.is-error {
+  border-left-color: #e07652;
+  color: #f0b6a2;
+  background: rgba(224, 118, 82, 0.08);
+}
+
+.continuation-shell pre,
+.continuation-empty {
+  max-height: 25rem;
+  margin: 0;
+  padding: 0.85rem;
+  overflow: auto;
+  border: 1px solid rgba(185, 205, 199, 0.16);
+  border-radius: 0.72rem;
+  background: rgba(2, 10, 12, 0.58);
+  color: #dceae5;
+  font: 0.76rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.continuation-empty {
+  color: #8fa9a2;
+  font-family: inherit;
+}
+
+@media (max-width: 620px) {
+  .continuation-shell { margin: 0.65rem; padding: 0.9rem; }
+  .continuation-shell header { flex-direction: column; }
+}
+
+@media print {
+  .continuation-shell { display: none !important; }
+}

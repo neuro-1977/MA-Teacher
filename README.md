@@ -1,49 +1,67 @@
 # MA-Teacher
 
-Private, installable Windows foundation for an all-age learning companion owned
-by CaptainNeuro. The current release is a truthful shell, not a claim that the
-curriculum, teaching, assessment, or learner-data systems already exist.
+<p align="center">
+  <img src="icon-large.png" alt="MA-Teacher potato-shaped tutor wearing a graduation cap" width="280">
+</p>
 
-## Current release: 0.1.0
+<p align="center"><strong>Built by Serenity, with engineering assistance from OpenAI Codex.</strong></p>
 
-- self-contained x64 WPF desktop application;
-- React/Vite interface embedded into the application package;
-- local HTTP identity and static-content host on `127.0.0.1:5201`;
-- WebView2 state kept beneath the selected MA-Teacher install folder;
-- dedicated MA-Teacher artwork and executable/installer metadata;
-- one-folder, selectable-location Inno Setup installation;
-- no Windows service, autostart task, cloud account, or background agent.
+[![Windows release](https://github.com/neuro-1977/MA-Teacher/actions/workflows/windows-release.yml/badge.svg)](https://github.com/neuro-1977/MA-Teacher/actions/workflows/windows-release.yml)
+[![Latest installer](https://img.shields.io/badge/download-Windows%20installer-1d6f66)](https://github.com/neuro-1977/MA-Teacher/releases/latest)
 
-## Intended learning breadth
+MA-Teacher is a local-first Windows teaching workspace for planning evidence-linked lessons, recording supervised learning, accepting student work, and keeping human feedback and progress evidence together.
 
-MA-Teacher is intended to support learners and teachers across age groups and
-across science, English, maths, history, languages, and information technology.
-This breadth is a product direction, not a claim of current lesson coverage.
+Version `0.1.0` is a public preview. It is usable for feedback, but it is not a finished curriculum, learning-management system, safeguarding service, or automatic AI tutor.
 
-Future curriculum and lesson content must be evidence-backed. The current
-English National Curriculum is the first governing curriculum lane. Official
-government curriculum publications outrank summaries; exam-board and awarding-
-body material is used only within its actual stage and qualification scope.
+## What works
 
-## Deliberately absent from 0.1.0
+- Create local learner and study-plan records.
+- Inspect registered curriculum sources and evidence status.
+- Prepare, review, approve, open, and print evidence-linked lessons.
+- Create practice checks.
+- Submit typed work or one PDF, office document, text file, or image up to 10 MB.
+- Review work manually with `met`, `partially met`, `not yet`, or `invalid`, plus written feedback.
+- Record teaching sessions and progress evidence without inventing scores.
+- Create and verify local database backups.
+- Keep the application, database, WebView data, and assets under the chosen install folder.
 
-- learner or teacher accounts and personal records;
-- imported curriculum or lesson-plan corpus;
-- assessment, grading, progress inference, or automated tutoring;
-- safeguarding decisions or unsupervised learner-facing agents;
-- cloud sync, public deployment, or Mostly Armless runtime dependency.
+MA-Teacher does **not** automatically grade work, recognise handwriting, diagnose learning needs, guarantee curriculum accuracy, or send learner records to a cloud service.
 
-## Build the installer
+## Install on Windows
 
-Prerequisites: .NET 9 SDK, Node.js/npm, and Inno Setup 6.
+1. Open the [latest release](https://github.com/neuro-1977/MA-Teacher/releases/latest).
+2. Download `MA-Teacher-Setup-latest.exe` and `SHA256SUMS.txt`.
+3. Compare the installer SHA-256 with the checksum file.
+4. Run the installer and choose a location you can write to.
+5. Start MA-Teacher from the Start menu or desktop shortcut.
 
-```powershell
-.\Installer\build-installer.ps1
-```
+The installer is unsigned, so Windows SmartScreen may show an unknown-publisher warning. Do not install a file whose checksum does not match the release.
 
-The build compiles the web bundle, publishes the self-contained Windows shell,
-compiles the Inno installer, verifies its payload, and copies the final artifact
-to `D:\MA-Updates\MA-Teacher-Setup-latest.exe`.
+Teachers and students use the **same installer**. The teacher or operator sets up learners, plans, lessons, checks, and reviews. Students use the supervised lesson and submission surfaces on that installation.
 
-See `docs/CONCEPT.md` for product boundaries and `docs/INSTALLER.md` for the
-packaging, installation, rollback, and proof contract.
+- [Installation and updates](docs/INSTALLER.md)
+- [Teacher guide](docs/TEACHER_GUIDE.md)
+- [Student guide](docs/STUDENT_GUIDE.md)
+- [Privacy and safeguarding boundaries](docs/PRIVACY_AND_SAFETY.md)
+
+## Feedback
+
+Use [GitHub Issues](https://github.com/neuro-1977/MA-Teacher/issues) for reproducible bugs and workflow feedback. Never post real learner names, submitted work, school records, credentials, or a copied MA-Teacher database. Use synthetic examples.
+
+Security and privacy reports belong in a [private security advisory](https://github.com/neuro-1977/MA-Teacher/security/advisories/new).
+
+## Build and verify
+
+End users need only 64-bit Windows 10 or Windows 11 and the MA-Teacher installer. Setup includes the .NET runtime and installs WebView2 when required.
+
+To build from source, developers need the .NET 9 SDK, Node.js 22, and Inno Setup 6.
+
+    ./scripts/verify-public-release.ps1
+
+That command scans the public boundary, type-checks and builds the UI, builds the desktop host and installer, self-tests the published and installed payloads, silently uninstalls, and emits installers plus checksums under `artifacts/`.
+
+See [development and CI](docs/DEVELOPMENT.md) and [architecture](docs/ARCHITECTURE.md).
+
+## Licence
+
+No open-source licence has been granted yet. The source is publicly visible for evaluation and feedback; copyright remains with CaptainNeuro. Third-party components retain their own licences in [THIRD_PARTY_NOTICES.md](docs/THIRD_PARTY_NOTICES.md).

@@ -1,0 +1,127 @@
+.fatal-ui-failure {
+  width: min(46rem, calc(100% - 2rem));
+  margin: clamp(2rem, 10vh, 7rem) auto;
+  padding: clamp(1.2rem, 4vw, 2.4rem);
+  border: 1px solid rgba(224, 128, 70, 0.7);
+  border-radius: 1.2rem;
+  background: linear-gradient(145deg, #341b18, #101b20 62%);
+  color: #fff4e8;
+  box-shadow: 0 1.2rem 4rem rgba(0, 0, 0, 0.38);
+}
+
+.fatal-ui-failure > p,
+.runtime-failure-banner p {
+  margin: 0 0 0.45rem;
+  color: #f1a25e;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.fatal-ui-failure h1 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.65rem, 4vw, 2.7rem);
+}
+
+.fatal-ui-failure > span,
+.failure-boundary-note span,
+.runtime-failure-banner span {
+  color: #d8c9bb;
+  line-height: 1.55;
+}
+
+.failure-boundary-note {
+  display: grid;
+  gap: 0.3rem;
+  margin: 1.2rem 0;
+  padding: 0.9rem;
+  border-left: 4px solid #e08046;
+  background: rgba(224, 128, 70, 0.09);
+}
+
+.fatal-ui-failure button,
+.runtime-failure-banner button {
+  min-height: 2.5rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #ef9e60;
+  border-radius: 0.65rem;
+  color: #fff;
+  background: #b55525;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.surface-ui-failure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(224, 128, 70, 0.65);
+  border-left: 5px solid #e08046;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, rgba(55, 28, 24, 0.96), rgba(19, 26, 30, 0.96));
+  color: #fff1e7;
+}
+
+.surface-ui-failure div {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.surface-ui-failure p {
+  margin: 0;
+  color: #f1a25e;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.surface-ui-failure h2 { margin: 0; font-size: 1.15rem; }
+.surface-ui-failure span { color: #e1cfc2; overflow-wrap: anywhere; }
+.surface-ui-failure small { color: #bda99d; line-height: 1.4; }
+.surface-ui-failure button { flex: 0 0 auto; min-height: 2.45rem; padding: 0.55rem 0.8rem; border: 1px solid #ef9e60; border-radius: 0.62rem; color: #fff; background: #9f4320; font: inherit; font-weight: 800; cursor: pointer; }
+
+.runtime-failure-banner {
+  position: sticky;
+  z-index: 9000;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #d97843;
+  background: #2d1715;
+  color: #fff1e7;
+}
+
+.runtime-failure-banner div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.runtime-failure-banner b {
+  overflow-wrap: anywhere;
+}
+
+.runtime-failure-banner button {
+  flex: 0 0 auto;
+  background: transparent;
+}
+
+@media (max-width: 620px) {
+  .runtime-failure-banner { align-items: stretch; flex-direction: column; }
+  .surface-ui-failure { align-items: stretch; flex-direction: column; }
+}
+
+@media print {
+  .runtime-failure-banner,
+  .surface-ui-failure,
+  .fatal-ui-failure button {
+    display: none !important;
+  }
+}

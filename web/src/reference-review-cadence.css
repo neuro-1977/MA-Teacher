@@ -1,0 +1,9 @@
+.reference-review-schedule{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin:0 0 1rem}
+.reference-review-schedule article{display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem;padding:.7rem;border:1px solid #365d69;background:#08181e}
+.reference-review-schedule article>div{display:grid}
+.reference-review-schedule article em{color:#edcc7e}
+.reference-review-schedule article span,.reference-review-schedule article b{font-size:.76rem}
+.reference-review-schedule article.overdue{border-color:#b85f4c}
+.reference-review-schedule article.due-today{border-color:#c99c3d}
+.reference-review-schedule article.stale{border-color:#ca6d57;background:rgba(91,31,26,.28)}
+@media(max-width:900px){.reference-review-schedule{grid-template-columns:1fr}}

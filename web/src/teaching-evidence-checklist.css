@@ -1,0 +1,23 @@
+.teaching-evidence-checklist { --check-ink:#1e2421; --check-green:#356454; --check-red:#a44737; --check-paper:#f0eee3; margin:1rem 0; padding:clamp(1rem,2vw,1.6rem); color:var(--check-ink); border:1px solid rgba(53,100,84,.42); border-radius:1rem; background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(240,238,227,.94)),var(--check-paper); box-shadow:0 14px 34px rgba(30,36,33,.13) }
+.teaching-evidence-checklist__header { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem }
+.teaching-evidence-checklist__header h2 { margin:.15rem 0 .4rem; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.45rem,3vw,2.25rem) }
+.teaching-evidence-checklist__header p { margin:0; max-width:70ch }
+.teaching-evidence-checklist__header>span { flex:0 0 auto; padding:.45rem .7rem; color:white; border-radius:999px; background:var(--check-green); font-weight:850 }
+.teaching-evidence-checklist__eyebrow { color:var(--check-red); font-size:.74rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase }
+.teaching-evidence-checklist__boundary { margin:1rem 0; padding:.72rem .88rem; border-left:4px solid var(--check-red); background:rgba(164,71,55,.09); font-weight:650 }
+.teaching-evidence-checklist__items { display:grid; grid-template-columns:1fr 1fr; gap:.65rem }
+.teaching-evidence-checklist details { border:1px solid rgba(53,100,84,.24); border-radius:.7rem; background:rgba(255,255,255,.72); overflow:hidden }
+.teaching-evidence-checklist summary { display:flex; gap:.7rem; align-items:center; padding:.8rem .9rem; cursor:pointer; list-style:none }
+.teaching-evidence-checklist summary::-webkit-details-marker { display:none }
+.teaching-evidence-checklist summary::after { content:'+'; margin-left:auto; color:var(--check-green); font-size:1.25rem; font-weight:900 }
+.teaching-evidence-checklist details[open] summary::after { content:'-' }
+.teaching-evidence-checklist summary span { color:var(--check-red); font-family:Georgia,'Times New Roman',serif; font-weight:900 }
+.teaching-evidence-checklist summary:focus-visible { outline:3px solid var(--check-red); outline-offset:-3px }
+.teaching-evidence-checklist dl { display:grid; gap:.65rem; margin:0; padding:0 .9rem .9rem }
+.teaching-evidence-checklist dl div { display:grid; gap:.18rem; padding-top:.65rem; border-top:1px solid rgba(30,36,33,.12) }
+.teaching-evidence-checklist dt { color:var(--check-green); font-size:.7rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase }
+.teaching-evidence-checklist dd { margin:0; line-height:1.48 }
+.teaching-evidence-checklist__stop { padding:.65rem; border:0!important; border-radius:.5rem; background:rgba(164,71,55,.09) }
+@media (max-width:760px) { .teaching-evidence-checklist__items { grid-template-columns:1fr } }
+@media (max-width:600px) { .teaching-evidence-checklist__header { display:grid } .teaching-evidence-checklist__header>span { justify-self:start } }
+@media (prefers-reduced-motion:reduce) { .teaching-evidence-checklist *,.teaching-evidence-checklist *::before,.teaching-evidence-checklist *::after { scroll-behavior:auto!important; transition:none!important } }

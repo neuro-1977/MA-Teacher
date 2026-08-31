@@ -1,0 +1,106 @@
+.view-mode-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--accent, #d36a32) 46%, transparent);
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent, #d36a32) 12%, transparent), transparent 58%),
+    var(--panel, #fffaf0);
+  box-shadow: 0 0.7rem 1.8rem rgba(63, 35, 20, 0.09);
+}
+
+.view-mode-control h2,
+.view-mode-control p {
+  margin: 0;
+}
+
+.view-mode-control h2 {
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+}
+
+.view-mode-kicker {
+  color: var(--accent, #a84d22);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.view-mode-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.view-mode-actions button {
+  min-height: 2.65rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--ink, #33251f) 28%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.view-mode-actions button:hover,
+.view-mode-actions button:focus-visible {
+  border-color: var(--accent, #a84d22);
+}
+
+.view-mode-actions button.is-active {
+  border-color: var(--accent, #a84d22);
+  background: var(--accent, #a84d22);
+  color: #fffaf0;
+}
+
+.view-mode-warning {
+  grid-column: 1 / -1;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--accent, #d36a32) 25%, transparent);
+  color: color-mix(in srgb, var(--ink, #33251f) 82%, #7a2f18);
+  font-weight: 650;
+}
+
+html[data-ma-teacher-view='lesson'] #root > :not(.view-mode-control):not(.runtime-failure-banner):not(.skip-links):not(.print-lesson-control):not(#workspace-lesson-reader):not(#workspace-learning-checks):not(.surface-ui-failure) {
+  display: none !important;
+}
+
+html[data-ma-teacher-view='lesson'] .skip-links a[href='#workspace-start'],
+html[data-ma-teacher-view='lesson'] .skip-links a[href='#workspace-session-brief'],
+html[data-ma-teacher-view='lesson'] .skip-links a[href='#workspace-learning'] {
+  display: none;
+}
+
+html[data-ma-teacher-view='planning'] #root > :not(.view-mode-control):not(.runtime-failure-banner):not(.skip-links):not(#workspace-session-brief):not(#workspace-planning-packet):not(#workspace-patterns):not(#workspace-teaching-toolkit-path):not(#workspace-teaching-evidence-checklist):not(#workspace-vocabulary-planning):not(#workspace-questioning-planning):not(#workspace-feedback-planning):not(#workspace-subjects):not(#workspace-stages):not(#workspace-inclusive-planning):not(#workspace-assessment-design):not(#workspace-misconception-response):not(#workspace-lesson-review):not(#workspace-rights):not(#workspace-worked-examples):not(.surface-ui-failure) {
+  display: none !important;
+}
+
+html[data-ma-teacher-view='planning'] .skip-links a[href='#workspace-start'],
+html[data-ma-teacher-view='planning'] .skip-links a[href='#workspace-learning'],
+html[data-ma-teacher-view='planning'] .skip-links a[href='#workspace-lesson-reader'],
+html[data-ma-teacher-view='planning'] .skip-links a[href='#workspace-learning-checks'] {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .view-mode-control {
+    grid-template-columns: 1fr;
+  }
+
+  .view-mode-actions button {
+    flex: 1 1 10rem;
+  }
+}
+
+@media print {
+  .view-mode-control {
+    display: none !important;
+  }
+}

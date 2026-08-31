@@ -1,0 +1,101 @@
+.lesson-review-shell {
+  margin: 1rem;
+  padding: 1.1rem;
+  border: 1px solid rgba(213, 120, 73, 0.48);
+  border-radius: 1.1rem;
+  background: linear-gradient(145deg, rgba(48, 26, 20, 0.97), rgba(18, 23, 27, 0.97));
+  color: #fbf1e9;
+  scroll-margin-top: 5rem;
+}
+
+.lesson-review-shell > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lesson-review-shell header p,
+.lesson-review-category-heading p {
+  margin: 0 0 0.35rem;
+  color: #e88d5d;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.lesson-review-shell h2 { margin: 0 0 0.4rem; font-size: clamp(1.3rem, 2vw, 1.9rem); }
+.lesson-review-shell header span,
+.lesson-review-count,
+.lesson-review-category-heading > span,
+.lesson-review-criteria p span { color: #d5c5ba; line-height: 1.5; }
+
+.lesson-review-shell label {
+  display: grid;
+  gap: 0.35rem;
+  color: #edb292;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.lesson-review-shell select {
+  min-width: 14rem;
+  min-height: 2.4rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(232, 141, 93, 0.5);
+  border-radius: 0.6rem;
+  color: #fff7f2;
+  background: #3c241d;
+  font: inherit;
+}
+
+.lesson-review-count { margin: 0.9rem 0 0.65rem; }
+.lesson-review-categories { display: grid; gap: 0.8rem; }
+
+.lesson-review-categories > article {
+  padding: 0.9rem;
+  border: 1px solid rgba(213, 197, 186, 0.14);
+  border-radius: 0.85rem;
+  background: rgba(5, 9, 12, 0.48);
+}
+
+.lesson-review-category-heading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.45fr) 1fr;
+  align-items: end;
+  gap: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.lesson-review-category-heading h3 { margin: 0; font-size: 1.14rem; }
+.lesson-review-criteria { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+
+.lesson-review-criteria > section {
+  padding: 0.7rem;
+  border: 1px solid rgba(232, 141, 93, 0.13);
+  border-radius: 0.62rem;
+  background: rgba(232, 141, 93, 0.04);
+}
+
+.lesson-review-criteria section > div { display: grid; gap: 0.25rem; }
+.lesson-review-criteria code { color: #a89084; font-size: 0.65rem; }
+.lesson-review-criteria h4 { margin: 0; color: #f3d7c8; line-height: 1.35; }
+.lesson-review-criteria p { display: grid; gap: 0.2rem; margin: 0.65rem 0 0; }
+.lesson-review-criteria p b { color: #eeb493; font-size: 0.76rem; }
+.lesson-review-criteria .lesson-review-stop { padding-top: 0.55rem; border-top: 1px solid rgba(220, 104, 78, 0.2); }
+.lesson-review-criteria .lesson-review-stop b { color: #ef8f7a; }
+
+@media (max-width: 1050px) {
+  .lesson-review-criteria { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .lesson-review-shell { margin: 0.65rem; padding: 0.9rem; }
+  .lesson-review-shell > header { flex-direction: column; }
+  .lesson-review-shell label, .lesson-review-shell select { width: 100%; }
+  .lesson-review-category-heading { grid-template-columns: 1fr; gap: 0.25rem; }
+}
+
+@media print {
+  .lesson-review-shell { display: none !important; }
+}

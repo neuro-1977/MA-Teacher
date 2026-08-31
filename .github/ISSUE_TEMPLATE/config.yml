@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or privacy report
+    url: https://github.com/neuro-1977/MA-Teacher/security/advisories/new
+    about: Report vulnerabilities privately. Never post learner data in a public issue.

@@ -1,0 +1,22 @@
+.vocabulary-planning { margin: 1rem; padding: 1rem; border: 1px solid rgba(101, 173, 137, .5); border-radius: 1rem; background: linear-gradient(145deg, #10231b, #151a17); color: #f2f8f4; scroll-margin-top: 5rem; }
+.vocabulary-planning > header p, .vocabulary-planning-grid article header p { margin: 0 0 .3rem; color: #79c99c; font-size: .68rem; font-weight: 850; letter-spacing: .1em; }
+.vocabulary-planning h2, .vocabulary-planning h3, .vocabulary-planning h4 { margin: 0 0 .4rem; }
+.vocabulary-planning > header span, .vocabulary-planning p, .vocabulary-planning footer span { color: #c8d8cd; line-height: 1.5; }
+.vocabulary-planning-boundary { display: grid; gap: .25rem; margin: .85rem 0; padding: .7rem; border-left: .35rem solid #dfaa58; background: rgba(223, 170, 88, .08); }
+.vocabulary-planning-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
+.vocabulary-planning label { display: grid; gap: .3rem; color: #a9d8bb; font-weight: 750; }
+.vocabulary-planning select, .vocabulary-planning input { box-sizing: border-box; width: 100%; padding: .6rem; border: 1px solid #507963; border-radius: .4rem; background: #0c1c14; color: #fff; font: inherit; }
+.vocabulary-planning-count { margin: .8rem 0 .55rem; }
+.vocabulary-planning-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.vocabulary-planning-grid > article { padding: .8rem; border: 1px solid rgba(121, 201, 156, .18); border-radius: .75rem; background: rgba(3, 10, 6, .48); }
+.vocabulary-planning-grid article header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.vocabulary-planning-grid code { color: #7f9989; font-size: .68rem; }
+.vocabulary-planning-grid section, .vocabulary-planning-grid footer { margin-top: .55rem; padding: .6rem; border: 1px solid rgba(121, 201, 156, .12); background: rgba(121, 201, 156, .04); }
+.vocabulary-planning-grid .vocabulary-model { border-left: .3rem solid #789dc0; }
+.vocabulary-planning-grid .vocabulary-nonexample { border-left: .3rem solid #d36d50; }
+.vocabulary-planning-grid footer { display: grid; gap: .6rem; border-left: .3rem solid #dfaa58; }
+.vocabulary-planning-grid footer div { display: grid; gap: .2rem; }
+.vocabulary-planning-grid footer b { color: #e8c985; }
+@media (max-width: 900px) { .vocabulary-planning-grid { grid-template-columns: 1fr; } }
+@media (max-width: 650px) { .vocabulary-planning { margin: .65rem; } .vocabulary-planning-filters { grid-template-columns: 1fr; } }
+@media print { .vocabulary-planning { display: none !important; } }

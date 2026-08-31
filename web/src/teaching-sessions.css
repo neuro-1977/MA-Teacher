@@ -1,0 +1,24 @@
+.teaching-sessions { margin: 1rem 0; border: 1px solid #8a6d3b; background: linear-gradient(145deg, #fff9e8, #f2ead8); color: #241d15; }
+.teaching-sessions > header { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem; border-bottom: 1px solid #b99b63; }
+.teaching-sessions > header p { margin: 0 0 .25rem; color: #8c3f22; font-weight: 800; letter-spacing: .12em; }
+.teaching-sessions h2, .teaching-sessions h3 { margin: 0 0 .35rem; }
+.teaching-session-boundary { display: grid; gap: .25rem; margin: 1rem; padding: .75rem; border-left: .35rem solid #b64e2a; background: #fffdf5; }
+.teaching-sessions form { display: grid; gap: .85rem; padding: 1rem; }
+.teaching-session-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+.teaching-sessions label { display: grid; gap: .3rem; font-weight: 700; }
+.teaching-sessions input, .teaching-sessions select, .teaching-sessions textarea { box-sizing: border-box; width: 100%; padding: .65rem; border: 1px solid #907a57; background: #fffef9; color: #241d15; font: inherit; }
+.teaching-sessions button { align-self: start; padding: .65rem .9rem; border: 1px solid #6f3a24; background: #8c3f22; color: #fffdf5; font-weight: 800; }
+.teaching-sessions button:disabled { opacity: .45; }
+.teaching-session-selected { display: grid; gap: .5rem; padding: .75rem; border: 1px solid #b99b63; background: #fffdf5; }
+.teaching-session-selected div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.teaching-session-selected code, .teaching-session-ledger code { overflow-wrap: anywhere; font-size: .76rem; }
+.teaching-session-confirm { grid-template-columns: auto 1fr; align-items: start; padding: .75rem; background: #f8dfab; }
+.teaching-session-confirm input { width: auto; margin-top: .2rem; }
+.teaching-session-ledger { display: grid; gap: .7rem; padding: 1rem; border-top: 1px solid #b99b63; }
+.teaching-session-ledger article { padding: .8rem; border: 1px solid #b99b63; background: #fffdf5; }
+.teaching-session-ledger article header, .teaching-session-ledger article footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.teaching-session-ledger em { color: #8c3f22; font-style: normal; font-weight: 800; }
+.teaching-session-ledger details { margin-top: .65rem; }
+.teaching-sessions output { display: block; padding: .8rem 1rem; border-top: 1px solid #b99b63; font-weight: 700; }
+@media (max-width: 44rem) { .teaching-sessions > header { display: grid; } }
+@media (prefers-reduced-motion: reduce) { .teaching-sessions * { scroll-behavior: auto !important; } }

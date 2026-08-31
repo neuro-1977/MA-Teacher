@@ -1,11 +1,1 @@
-{
-  "id": "uk.mostlyarmless.teacher",
-  "name": "MA-Teacher",
-  "version": "0.1.0",
-  "icon": "icon-large.png",
-  "launchPath": "MA-Teacher.exe",
-  "webPort": 5201,
-  "category": "education",
-  "ma_signed": true,
-  "signature": ""
-}
+{"id":"io.github.neuro1977.ma-teacher","name":"MA-Teacher","version":"0.1.0","icon":"icon-large.png","launchPath":"MA-Teacher.exe","webPort":5201,"category":"education"}

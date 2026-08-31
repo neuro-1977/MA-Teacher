@@ -1,0 +1,108 @@
+.inclusive-planning-panel {
+  margin: 1rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(37, 105, 111, 0.32);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(70, 151, 153, 0.14), transparent 30%),
+    var(--panel, #fffaf0);
+}
+
+.inclusive-planning-panel header h2,
+.inclusive-planning-panel header p {
+  margin: 0;
+}
+
+.inclusive-planning-panel header h2 {
+  margin: 0.25rem 0;
+}
+
+.inclusive-planning-kicker,
+.inclusive-planning-category {
+  color: #25696f;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.inclusive-planning-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0;
+}
+
+.inclusive-planning-filters button {
+  min-height: 2.35rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(37, 105, 111, 0.35);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inclusive-planning-filters button.is-active {
+  border-color: #25696f;
+  background: #25696f;
+  color: #fffdf8;
+}
+
+.inclusive-planning-boundary {
+  margin-bottom: 1rem;
+  padding: 0.8rem 0.9rem;
+  border-left: 0.3rem solid #25696f;
+  background: rgba(70, 151, 153, 0.1);
+}
+
+.inclusive-planning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr));
+  gap: 0.8rem;
+}
+
+.inclusive-planning-card {
+  padding: 1rem;
+  border: 1px solid rgba(37, 105, 111, 0.2);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.inclusive-planning-card h3,
+.inclusive-planning-card h4,
+.inclusive-planning-card p,
+.inclusive-planning-card ul {
+  margin-top: 0;
+}
+
+.inclusive-planning-card h3 {
+  margin-bottom: 0.8rem;
+}
+
+.inclusive-planning-card h4 {
+  margin-bottom: 0.3rem;
+  font-size: 0.86rem;
+}
+
+.inclusive-planning-card ul {
+  padding-left: 1.2rem;
+}
+
+.inclusive-planning-card li + li {
+  margin-top: 0.3rem;
+}
+
+.inclusive-planning-never {
+  margin-bottom: 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(37, 105, 111, 0.2);
+}
+
+@media print {
+  .inclusive-planning-filters {
+    display: none;
+  }
+}

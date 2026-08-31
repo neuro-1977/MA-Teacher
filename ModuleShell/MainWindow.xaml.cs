@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using Microsoft.Web.WebView2.Core;
 
-namespace MostlyArmless.ModuleShell;
+namespace MATeacher.ModuleShell;
 
 public partial class MainWindow : Window
 {
@@ -21,13 +21,14 @@ public partial class MainWindow : Window
         var entryPoint = Path.Combine(uiRoot, "index.html");
         if (!File.Exists(entryPoint))
         {
-            Browser.NavigateToString("<main style='font-family:Segoe UI;background:#070d10;color:#d8ffe9;padding:32px'><h1>Mostly Armless module</h1><p>The local display bundle is missing. Build the module web bundle before launch.</p></main>");
+            Browser.NavigateToString("<main style='font-family:Segoe UI;background:#070d10;color:#d8ffe9;padding:32px'><h1>MA-Teacher</h1><p>The local display bundle is missing. Build the module web bundle before launch.</p></main>");
             return;
         }
 
-        _host = new LocalModuleHost(uiRoot);
+        var dataRoot = Path.Combine(AppContext.BaseDirectory, "data");
+        _host = new LocalModuleHost(uiRoot, dataRoot);
         var started = await _host.StartAsync();
-        var webViewData = Path.Combine(AppContext.BaseDirectory, "data", "webview");
+        var webViewData = Path.Combine(dataRoot, "webview");
         Directory.CreateDirectory(webViewData);
         var environment = await CoreWebView2Environment.CreateAsync(null, webViewData);
         await Browser.EnsureCoreWebView2Async(environment);

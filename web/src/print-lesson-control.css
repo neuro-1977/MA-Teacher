@@ -1,0 +1,58 @@
+.print-lesson-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0.7rem 1rem 0;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(111, 160, 177, 0.35);
+  border-radius: 0.85rem;
+  background: rgba(8, 21, 27, 0.78);
+}
+
+.print-lesson-control p {
+  margin: 0 0 0.2rem;
+  color: #71c5d8;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.print-lesson-control span {
+  color: #aebec4;
+  font-size: 0.82rem;
+}
+
+.print-lesson-control a,
+.print-lesson-control button {
+  min-height: 2.35rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(113, 197, 216, 0.45);
+  border-radius: 0.65rem;
+  color: #dff8ff;
+  background: rgba(15, 47, 58, 0.78);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.print-lesson-control button {
+  background: #c96f2d;
+  border-color: #e49355;
+  color: #fff9f1;
+}
+
+.print-lesson-control a:focus-visible,
+.print-lesson-control button:focus-visible {
+  outline: 3px solid #f5c177;
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .print-lesson-control { grid-template-columns: 1fr 1fr; }
+  .print-lesson-control > div { grid-column: 1 / -1; }
+  .print-lesson-control a,
+  .print-lesson-control button { text-align: center; }
+}

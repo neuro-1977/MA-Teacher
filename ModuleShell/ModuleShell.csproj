@@ -6,23 +6,27 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>MA-Teacher</AssemblyName>
-    <RootNamespace>MostlyArmless.ModuleShell</RootNamespace>
+    <RootNamespace>MATeacher.ModuleShell</RootNamespace>
     <ApplicationIcon>..\assets\MA-Teacher.ico</ApplicationIcon>
     <Version>0.1.0.0</Version>
     <FileVersion>0.1.0.0</FileVersion>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <Authors>CaptainNeuro</Authors>
     <Company>CaptainNeuro</Company>
     <Product>MA-Teacher</Product>
     <Copyright>CaptainNeuro</Copyright>
-    <MaModuleFolder>$([System.IO.Directory]::GetParent('$(MSBuildProjectDirectory)').Name)</MaModuleFolder>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.19" />
+    <PackageReference Include="PdfPig" Version="0.1.16" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
-    <AssemblyMetadata Include="MostlyArmless.ModuleFolder" Value="$(MaModuleFolder)" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\web\dist\**\*" Link="ui\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="..\assets\MA-Teacher.ico" Link="MA-Teacher.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\docs\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

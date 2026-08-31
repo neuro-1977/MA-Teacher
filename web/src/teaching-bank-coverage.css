@@ -1,0 +1,30 @@
+.bank-coverage { --coverage-ink:#18282f; --coverage-blue:#24647a; --coverage-green:#24715d; --coverage-amber:#b97722; --coverage-red:#a54538; margin:1rem; padding:clamp(1rem,2.4vw,1.7rem); border:1px solid rgba(36,100,122,.42); border-radius:1.1rem; color:var(--coverage-ink); background:linear-gradient(150deg,rgba(255,255,255,.92),rgba(229,238,238,.96)); box-shadow:0 16px 36px rgba(24,40,47,.13); scroll-margin-top:5rem }
+.bank-coverage>header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem }
+.bank-coverage>header p,.bank-coverage__heading p { margin:0 0 .22rem; color:var(--coverage-amber); font-size:.7rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase }
+.bank-coverage h2 { margin:0 0 .35rem; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.5rem,3vw,2.25rem) }
+.bank-coverage>header>strong { flex:0 0 auto; padding:.45rem .65rem; border-radius:999px; color:white; background:var(--coverage-blue); font-size:.7rem; letter-spacing:.06em }
+.bank-coverage__boundary { margin:1rem 0; padding:.78rem; border-left:4px solid var(--coverage-red); background:rgba(165,69,56,.08); line-height:1.48 }
+.bank-coverage__summary { display:flex; align-items:end; gap:.65rem; flex-wrap:wrap; margin-bottom:1rem }
+.bank-coverage__summary>span { padding:.55rem .68rem; border:1px solid rgba(36,100,122,.22); border-radius:.58rem; background:rgba(255,255,255,.68) }
+.bank-coverage__summary>span b { color:var(--coverage-blue); font-size:1.05rem }
+.bank-coverage__summary label { display:grid; gap:.25rem; margin-left:auto; color:var(--coverage-blue); font-size:.7rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase }
+.bank-coverage select { min-width:10rem; padding:.56rem .62rem; border:1px solid rgba(36,100,122,.34); border-radius:.55rem; color:var(--coverage-ink); background:white; font:inherit; text-transform:none }
+.bank-coverage__grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr)); gap:.72rem }
+.bank-coverage__grid article { padding:.82rem; border:1px solid rgba(36,113,93,.28); border-radius:.72rem; background:rgba(255,255,255,.7) }
+.bank-coverage__grid article[data-state='Partial source coverage'] { border-color:rgba(185,119,34,.4); background:rgba(185,119,34,.06) }
+.bank-coverage__grid article[data-state='No source entries'] { border-color:rgba(165,69,56,.42); background:rgba(165,69,56,.06) }
+.bank-coverage__heading { display:flex; align-items:flex-start; justify-content:space-between; gap:.6rem }
+.bank-coverage__heading h3 { margin:0; font-size:1.05rem }
+.bank-coverage__heading>strong { display:grid; place-items:center; min-width:2.3rem; min-height:2.3rem; border-radius:50%; color:white; background:var(--coverage-green) }
+.bank-coverage__grid article[data-state='Partial source coverage'] .bank-coverage__heading>strong { background:var(--coverage-amber) }
+.bank-coverage__grid article[data-state='No source entries'] .bank-coverage__heading>strong { background:var(--coverage-red) }
+.bank-coverage__support { display:inline-block; margin:.5rem 0; font-size:.7rem; font-weight:800 }
+.bank-coverage dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.35rem; margin:.35rem 0 .65rem }
+.bank-coverage dl div { display:flex; justify-content:space-between; gap:.35rem; padding:.4rem; border-radius:.4rem; background:rgba(36,100,122,.07) }
+.bank-coverage dt { font-size:.68rem; font-weight:800 }
+.bank-coverage dd { margin:0; font-weight:900 }
+.bank-coverage article footer { padding-top:.55rem; border-top:1px solid rgba(24,40,47,.13); font-size:.72rem; font-weight:850; text-transform:uppercase }
+.bank-coverage__empty { padding:1rem; border:1px dashed var(--coverage-blue); border-radius:.6rem; text-align:center }
+@media (max-width:650px) { .bank-coverage { margin:.65rem; padding:.9rem } .bank-coverage>header { display:grid } .bank-coverage>header>strong { justify-self:start } .bank-coverage__summary label { width:100%; margin-left:0 } .bank-coverage select { width:100% } }
+@media print { .bank-coverage { display:none!important } }
+@media (prefers-reduced-motion:reduce) { .bank-coverage *,.bank-coverage *::before,.bank-coverage *::after { scroll-behavior:auto!important; transition:none!important } }

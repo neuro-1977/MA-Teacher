@@ -1,0 +1,34 @@
+name: Bug report
+description: Report a repeatable MA-Teacher problem
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Never attach learner work, names, school records, passwords, or a database. Use synthetic examples."
+  - type: input
+    id: version
+    attributes: {label: MA-Teacher version, placeholder: "0.2.0"}
+    validations: {required: true}
+  - type: dropdown
+    id: role
+    attributes:
+      label: Which workflow?
+      options: ["Teacher/operator", "Student/learner", "Installation/update", "Development/build"]
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes: {label: Steps to reproduce, description: Use a disposable or synthetic example.}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected result}
+    validations: {required: true}
+  - type: textarea
+    id: actual
+    attributes: {label: Actual result}
+    validations: {required: true}
+  - type: textarea
+    id: environment
+    attributes: {label: Windows and installation details}
+    validations: {required: true}

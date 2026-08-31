@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest a teaching, learning, accessibility, or workflow improvement
+title: "[Feedback] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not post learner names, work, school records, or other personal data."
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Who needs this?
+      options: ["Teacher/operator", "Student/learner", "Both", "Contributor/developer"]
+    validations: {required: true}
+  - type: textarea
+    id: problem
+    attributes: {label: What problem should MA-Teacher solve?}
+    validations: {required: true}
+  - type: textarea
+    id: workflow
+    attributes: {label: What would a good workflow look like?}
+    validations: {required: true}
