@@ -22,6 +22,8 @@ Supported files are PDF, TXT, RTF, DOC, DOCX, ODT, PNG, JPEG, and WEBP up to 10 
 
 The labels `met`, `partially met`, `not yet`, and `invalid` describe this attempt against its criteria. They are not a permanent judgement about you. MA-Teacher does not automatically mark your work.
 
+After a teacher reviews an attempt, choose `Try this again` to return to the same practice check. Use the feedback to make a new attempt. The old attempt and feedback stay saved, so your teacher can see what changed instead of losing your earlier work.
+
 Never upload passwords, recovery codes, private identity documents, or unnecessary personal information. Do not post your work or database in a public issue.
 
 ## Help us make it better

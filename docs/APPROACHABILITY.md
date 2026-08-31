@@ -25,6 +25,8 @@ Every visible panel must help someone complete a real task, understand a boundar
 
 Tooltips explain unfamiliar labels at the point of use and work with keyboard focus. Progress visuals count saved activity only. Trail markers may celebrate trying, receiving feedback, returning, or exploring subjects, but they must never imply ability, grade, rank, compliance, or mastery.
 
+Reviewed feedback should lead to a small learner-owned action. `Try this again` returns to the same practice check and creates a new attempt; it does not overwrite the earlier evidence, turn the outcome into a score, or imply that repetition proves mastery. This keeps improvement visible while the teacher remains responsible for interpretation.
+
 ## Feedback-led development
 
 Students and teachers are invited to explain what was easy, hard, broken, or missing. Public feedback must use made-up examples and contain no learner records or private information. Reports are development input, not automatic truth: the team reproduces the issue, records evidence, and then decides what to change.

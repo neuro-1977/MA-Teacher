@@ -2,6 +2,7 @@
 
 ## 0.1.0 public preview
 
+- Added a feedback-to-retry loop that returns learners to the matching practice check while preserving every earlier attempt and human review, and aligned the answer length with the server's 10,000-character boundary.
 - Added a learner classroom trail that shows lesson, practice, submitted-work, and human-feedback activity from real records, plus one clear next action without grades, ranks, streaks, or mastery claims.
 - Added a learner-friendly Safe Code Lab that runs bounded JavaScript in a disposable Web Worker with network, storage and host access blocked.
 - Enforced an official learning-source allowlist before curriculum downloads and at every redirect destination; news, social, search and arbitrary hosts fail closed.
