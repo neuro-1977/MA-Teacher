@@ -2,6 +2,8 @@
 
 ## 0.1.0 public preview
 
+- Added a learner-friendly Safe Code Lab that runs bounded JavaScript in a disposable Web Worker with network, storage and host access blocked.
+
 - Added task-led navigation instead of an endless panel wall.
 - Added local learner, plan, curriculum, lesson, review, session, and progress records.
 - Added typed and file work submission with SQLite BLOB storage and SHA-256 verification.

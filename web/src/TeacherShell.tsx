@@ -34,6 +34,7 @@ import { ResourceRightsPanel } from './ResourceRightsPanel';
 import { SafetyPrivacyPanel } from './SafetyPrivacyPanel';
 import { StageLensesPanel } from './StageLensesPanel';
 import { SubjectLensesPanel } from './SubjectLensesPanel';
+import SafeCodeLabPanel from "./SafeCodeLabPanel";
 import { SurfaceErrorBoundary } from './AppErrorBoundary';
 import { TeachingBankCoveragePanel } from './TeachingBankCoveragePanel';
 import { TeachingDataAuthoringQueuePanel } from './TeachingDataAuthoringQueuePanel';
@@ -193,7 +194,12 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
   'workspace-bank-coverage': () => <TeachingBankCoveragePanel />,
   'workspace-authoring-queue': () => <TeachingDataAuthoringQueuePanel />,
   'workspace-draft-validator': () => <TeachingDataDraftValidatorPanel />,
-  'workspace-subjects': () => <SubjectLensesPanel />,
+  'workspace-subjects': () => (
+    <>
+      <SubjectLensesPanel />
+      <SafeCodeLabPanel />
+    </>
+  ),
   'workspace-stages': () => <StageLensesPanel />,
   'workspace-inclusive-planning': () => <InclusivePlanningPanel />,
   'workspace-assessment-design': () => <AssessmentPatternsPanel />,
