@@ -29,6 +29,8 @@ Supported files are PDF, TXT, RTF, DOC, DOCX, ODT, PNG, JPEG, and WEBP up to 10 
 
 Choose `met`, `partially met`, `not yet`, or `invalid`, then provide written feedback. MA-Teacher does not OCR, annotate, or automatically grade.
 
+The contextual-vocabulary, descriptive-feedback, evidence-questioning, and worked-example planning banks cover all fourteen current subject guides. Vocabulary cards teach a learner meaning, disciplinary distinction, model, non-example and retrieval cue. Feedback cards start from named observable evidence and suggest one learner-owned action. Questioning cards name what evidence to notice and what conclusion to avoid. Worked examples demonstrate the complete model, check, synthetic attempt, bounded human review and next-evidence loop. Every card states its boundary. These are reusable planning prompts, not proof that evidence was observed, curriculum judgements, or permission to diagnose a learner. Adapt the language and response mode to the learner and lesson.
+
 ## Safeguarding and backups
 
 Do not store passwords, medical records, legal documents, government identifiers, or unnecessary personal data. A responsible adult remains accountable for safeguarding decisions. Back up before updates or important teaching periods; a matching hash proves file identity, not successful restore.

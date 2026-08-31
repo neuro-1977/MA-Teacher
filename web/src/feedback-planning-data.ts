@@ -1,5 +1,5 @@
 export type FeedbackStage = 'early-learning' | 'ks1' | 'ks2' | 'ks3' | 'ks4' | 'post16-adult';
-export type FeedbackSubject = 'English' | 'Mathematics' | 'Science' | 'History and histories' | 'Languages' | 'Computing and IT';
+export type FeedbackSubject = 'English' | 'Mathematics' | 'Science' | 'History and histories' | 'Languages' | 'Computing and IT' | 'Geography and environment' | 'Art and design' | 'Music and performance' | 'Physical education' | 'Citizenship and media literacy' | 'Health and wellbeing' | 'Money and life skills' | 'Religion, belief and philosophy';
 export type FeedbackMoment = 'During learning' | 'After an attempt' | 'During revision';
 
 export interface FeedbackPlanningEntry {
@@ -137,5 +137,61 @@ export const feedbackPlanningEntries: FeedbackPlanningEntry[] = [
     feedbackStem: 'The first step did what you planned. This is the first place where the movement changed.',
     learnerAction: 'Replay only that step, then swap, remove or replace one instruction and observe what happens.',
     caution: 'Do not label the whole sequence wrong or treat device control, reading, speed or fine motor skill as the learning goal.',
+  },
+  {
+    id: 'geography-pattern-evidence-link', subject: 'Geography and environment', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'After an attempt',
+    observedEvidence: 'A place, feature or spatial pattern is identified, but the proposed explanation is not yet connected to the map, observation or data used.',
+    feedbackStem: 'You have shown where the pattern appears. The next step is linking one piece of place evidence to one possible reason for it.',
+    learnerAction: 'Point to or annotate one location, observation or data value, then explain what it supports and compare another place or scale.',
+    caution: 'Adapt the response mode to the learner; one place or correlation must not be presented as a universal cause.',
+  },
+  {
+    id: 'art-choice-process-link', subject: 'Art and design', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'During revision',
+    observedEvidence: 'A purposeful visual or material choice is present in the work, but its relationship to the intended idea, audience or effect is not yet explained.',
+    feedbackStem: 'This choice is visible in the work. Help the viewer understand what you wanted it to communicate or change.',
+    learnerAction: 'Compare one trial with the current work, then name or demonstrate one choice you kept, changed or would test next.',
+    caution: 'Do not turn personal taste, neatness, expensive materials, drawing fluency or one cultural style into a quality score.',
+  },
+  {
+    id: 'music-rehearsal-first-change', subject: 'Music and performance', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'During learning',
+    observedEvidence: 'A phrase, rhythm, movement or ensemble part begins as intended, then timing, pitch, sequence or coordination changes at an observable point.',
+    feedbackStem: 'The opening matches your plan. This short part is the first place where the sound or movement changes.',
+    learnerAction: 'Listen to, mark, rehearse or perform only that short part, then join it back to the section before it.',
+    caution: 'Do not confuse confidence, volume, solo performance, notation reading or one performance tradition with musical understanding.',
+  },
+  {
+    id: 'pe-focused-movement-change', subject: 'Physical education', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'During learning',
+    observedEvidence: 'The intended movement or decision is attempted safely, and one observable phase affects balance, control, space, timing or accuracy.',
+    feedbackStem: 'The whole action is underway. We will change one small part so you can notice what it does.',
+    learnerAction: 'Choose one safe cue, repeat at a suitable pace, then describe or show what changed before adding another cue.',
+    caution: 'Do not judge body shape, fitness, speed, confidence or competition result as the learning outcome; stop for pain or safety concerns.',
+  },
+  {
+    id: 'citizenship-claim-source-check', subject: 'Citizenship and media literacy', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'After an attempt',
+    observedEvidence: 'A claim or viewpoint is repeated accurately, but its author, evidence, date, purpose or missing context has not yet been considered.',
+    feedbackStem: 'You have captured what the source says. We still need to check what makes it useful for this exact claim.',
+    learnerAction: 'Identify one source feature and one piece of supporting evidence, then name one question or missing context before deciding what follows.',
+    caution: 'Do not demand personal political beliefs, reward agreement, use unsafe live searches or create false balance between unequal evidence.',
+  },
+  {
+    id: 'wellbeing-scenario-safety-step', subject: 'Health and wellbeing', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'After an attempt',
+    observedEvidence: 'A safe action is suggested for a fictional scenario, but the point for stopping, seeking help or involving a trusted adult is not yet explicit.',
+    feedbackStem: 'This is one sensible action for the scenario. Add how someone would know they need more help and who should help them.',
+    learnerAction: 'Name or choose one warning sign, one safe next action and one suitable trusted adult, service or emergency route.',
+    caution: 'Keep examples fictional and age-appropriate; this is education, not diagnosis, counselling, emergency response or a request for private disclosure.',
+  },
+  {
+    id: 'money-total-cost-comparison', subject: 'Money and life skills', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'During revision',
+    observedEvidence: 'An option is chosen using one visible price or feature, but totals, units, dates, repeat costs or stated constraints are not compared consistently.',
+    feedbackStem: 'Your choice uses one relevant number. To compare fairly, both options need the same units and the full stated cost.',
+    learnerAction: 'Build a small side-by-side comparison with fictional values, show the total for the same period, then explain the trade-off.',
+    caution: 'Use invented account data and age-appropriate examples; this is not personal financial advice and cheapest is not automatically best.',
+  },
+  {
+    id: 'belief-account-scope', subject: 'Religion, belief and philosophy', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', moment: 'During revision',
+    observedEvidence: 'A belief, practice or reason is described from one account, but the wording presents it as uniform across every person, place or tradition.',
+    feedbackStem: 'This account supports what you wrote for this context. The wording currently makes the claim wider than that evidence.',
+    learnerAction: 'Name the source or context, qualify the claim, then compare another accurate account only when suitable evidence is available.',
+    caution: 'Do not demand or grade personal belief, imply a tradition is uniform, or treat respectful disagreement as permission to ignore evidence.',
   },
 ];

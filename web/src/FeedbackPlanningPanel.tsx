@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { feedbackPlanningEntries, feedbackStageLabels, type FeedbackMoment, type FeedbackStage, type FeedbackSubject } from './feedback-planning-data';
 import './feedback-planning.css';
 
-const subjects: Array<'All subjects' | FeedbackSubject> = ['All subjects', 'English', 'Mathematics', 'Science', 'History and histories', 'Languages', 'Computing and IT'];
+const subjects: Array<'All subjects' | FeedbackSubject> = ['All subjects', ...Array.from(new Set(feedbackPlanningEntries.map((entry) => entry.subject)))];
 const moments: Array<'All moments' | FeedbackMoment> = ['All moments', 'During learning', 'After an attempt', 'During revision'];
 
 export function FeedbackPlanningPanel() {

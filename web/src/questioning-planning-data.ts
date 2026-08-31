@@ -1,5 +1,5 @@
 export type QuestioningStage = 'early-learning' | 'ks1' | 'ks2' | 'ks3' | 'ks4' | 'post16-adult';
-export type QuestioningSubject = 'English' | 'Mathematics' | 'Science' | 'History and histories' | 'Languages' | 'Computing and IT';
+export type QuestioningSubject = 'English' | 'Mathematics' | 'Science' | 'History and histories' | 'Languages' | 'Computing and IT' | 'Geography and environment' | 'Art and design' | 'Music and performance' | 'Physical education' | 'Citizenship and media literacy' | 'Health and wellbeing' | 'Money and life skills' | 'Religion, belief and philosophy';
 export type QuestioningPurpose = 'Activate prior knowledge' | 'Elicit reasoning' | 'Surface a misconception' | 'Support transfer' | 'Prompt reflection';
 
 export interface QuestioningPlanningEntry {
@@ -144,5 +144,61 @@ export const questioningPlanningEntries: QuestioningPlanningEntry[] = [
     followUp: 'What one instruction would you change if it went somewhere else?',
     evidenceToNotice: 'An ordered instruction, predicted state or position, and a local repair after observed movement.',
     caution: 'Keep the activity physical and collaborative where useful; do not equate device familiarity or fine motor control with computational thinking.',
+  },
+  {
+    id: 'geography-pattern-scale', subject: 'Geography and environment', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Elicit reasoning',
+    prompt: 'What pattern can you notice here, and does it still look the same when we change the place or scale?',
+    followUp: 'Which map feature, observation or data value supports that answer, and what else could explain it?',
+    evidenceToNotice: 'A located pattern, an explicit evidence link and awareness that scale or another factor may change the explanation.',
+    caution: 'Adapt the representation and response mode; one map, place or correlation cannot establish a universal cause.',
+  },
+  {
+    id: 'art-choice-intention', subject: 'Art and design', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Prompt reflection',
+    prompt: 'Which choice in this work helps communicate your idea or solve your design problem?',
+    followUp: 'What happened in a trial, and what might you keep, change or test next?',
+    evidenceToNotice: 'A connection between intention, material or visual choice, observed effect and a purposeful next experiment.',
+    caution: 'Do not turn taste, neatness, drawing fluency, expensive materials or resemblance to one model into the expected answer.',
+  },
+  {
+    id: 'music-listen-rehearse-change', subject: 'Music and performance', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Prompt reflection',
+    prompt: 'Which part matched what you intended, and where did the sound, timing, movement or ensemble relationship first change?',
+    followUp: 'What short part could you listen to or rehearse before joining the whole section again?',
+    evidenceToNotice: 'Focused listening, localisation of one feature and a bounded rehearsal choice rather than a global performance judgement.',
+    caution: 'Confidence, volume, notation reading and solo performance are not substitutes for the intended musical evidence.',
+  },
+  {
+    id: 'pe-movement-decision-effect', subject: 'Physical education', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Elicit reasoning',
+    prompt: 'What movement or decision helped here, and what changed in your control, space, timing or accuracy?',
+    followUp: 'Which one safe cue could you try next, and what would you watch or feel to compare the result?',
+    evidenceToNotice: 'A link between one observable action, its effect and a safe, focused comparison on another attempt.',
+    caution: 'Do not infer learning from body shape, speed, fitness, confidence or competition result; stop for pain or safety concerns.',
+  },
+  {
+    id: 'citizenship-claim-evidence-context', subject: 'Citizenship and media literacy', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Surface a misconception',
+    prompt: 'Who made this claim, what evidence is offered, and what useful context might still be missing?',
+    followUp: 'What evidence would make the claim stronger, weaker or more limited without asking anyone to reveal a personal belief?',
+    evidenceToNotice: 'Separation of claim, source, evidence, purpose and uncertainty, with a safe route to revise the conclusion.',
+    caution: 'Use teacher-selected safe sources; do not demand personal politics, reward agreement, enable unsafe live search or manufacture false balance.',
+  },
+  {
+    id: 'wellbeing-scenario-help-boundary', subject: 'Health and wellbeing', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Support transfer',
+    prompt: 'In this fictional situation, what is one safe action and how would the person know when to ask for more help?',
+    followUp: 'Which trusted adult, service or emergency route fits, and what information should stay private?',
+    evidenceToNotice: 'An age-appropriate safe action, a clear escalation point, a suitable human support route and a privacy boundary.',
+    caution: 'Keep the scenario fictional; this is not diagnosis, counselling, emergency handling or an invitation to disclose personal experience.',
+  },
+  {
+    id: 'money-option-fair-comparison', subject: 'Money and life skills', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Elicit reasoning',
+    prompt: 'How can we compare these fictional options using the same units, time period and stated limits?',
+    followUp: 'Which cost, benefit, condition or risk could change the decision, and what information is still missing?',
+    evidenceToNotice: 'Comparable quantities, checked totals, explicit constraints and a reasoned trade-off rather than price alone.',
+    caution: 'Use invented data only; this is not personal financial advice and the lowest visible price is not automatically the best choice.',
+  },
+  {
+    id: 'belief-account-context-comparison', subject: 'Religion, belief and philosophy', stages: ['early-learning', 'ks1', 'ks2', 'ks3', 'ks4', 'post16-adult'], stageLabel: 'All-stage planning lens', purpose: 'Elicit reasoning',
+    prompt: 'What does this account say, whose context does it represent, and what reason or evidence supports your explanation?',
+    followUp: 'How might another accurate account add a difference or qualification without making either person reveal a personal belief?',
+    evidenceToNotice: 'Accurate description, source context, a supported reason and recognition of diversity within and between traditions or worldviews.',
+    caution: 'Do not demand or grade personal belief, imply uniformity, or treat respectful disagreement as permission to ignore evidence.',
   },
 ];

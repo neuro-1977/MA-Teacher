@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { questioningPlanningEntries, questioningStageLabels, type QuestioningPurpose, type QuestioningStage, type QuestioningSubject } from './questioning-planning-data';
 import './questioning-planning.css';
 
-const subjects: Array<'All subjects' | QuestioningSubject> = ['All subjects', 'English', 'Mathematics', 'Science', 'History and histories', 'Languages', 'Computing and IT'];
+const subjects: Array<'All subjects' | QuestioningSubject> = ['All subjects', ...Array.from(new Set(questioningPlanningEntries.map((entry) => entry.subject)))];
 const purposes: Array<'All purposes' | QuestioningPurpose> = ['All purposes', 'Activate prior knowledge', 'Elicit reasoning', 'Surface a misconception', 'Support transfer', 'Prompt reflection'];
 
 export function QuestioningPlanningPanel() {
