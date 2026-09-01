@@ -3,7 +3,7 @@ import { InfoTip } from './InfoTip';
 import { PrintLessonControl } from './PrintLessonControl';
 import { SurfaceErrorBoundary } from './AppErrorBoundary';
 import { workspaceEffectLabels, workspaceGroups, type WorkspaceEffect } from './workspace-surfaces';
-import tutorIcon from '../../icon-large.png';
+import tutorIcon from './assets/ma-teacher-logo.png';
 import './teacher-shell.css';
 
 const App = lazy(() => import('./App').then((module) => ({ default: module.App })));

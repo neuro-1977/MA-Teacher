@@ -1,5 +1,11 @@
 # Changelog
 
+## Classroom web asset budget
+
+- Preserved the full 1254 px MA-Teacher artwork as the installer and documentation master while giving all three web shells a dedicated 256 px runtime logo.
+- Removed roughly 2 MB from the classroom's required image payload without changing the product identity or learner-facing design.
+- Added a CI contract that rejects oversized, incorrectly dimensioned, or accidentally restored master-logo imports before the fixed `0.1.0` installer can be published.
+
 ## 0.1.0 - Reliable human marking workspace
 
 - The teacher marking workspace now rejects empty or malformed local responses with bounded explanations instead of exposing raw JSON failures.

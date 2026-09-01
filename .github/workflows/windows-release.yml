@@ -30,6 +30,9 @@ jobs:
       - name: Install Inno Setup
         shell: pwsh
         run: choco install innosetup --no-progress -y
+      - name: Verify classroom web asset budget
+        shell: pwsh
+        run: node web/scripts/verify-web-assets.mjs
       - name: Verify source, runtime, install and uninstall
         shell: pwsh
         run: ./scripts/verify-public-release.ps1

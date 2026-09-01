@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import logoUrl from '../../icon-large.png'
+import logoUrl from './assets/ma-teacher-logo.png'
 import './ClassroomStudentShell.css'
 
 type LessonSection = { sequence: number; kind: string; content: string }

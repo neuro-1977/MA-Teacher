@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import tutorIcon from '../../icon-large.png';
+import tutorIcon from './assets/ma-teacher-logo.png';
 
 type CurriculumStage = { id: string; ages: string; years: string };
 type CurriculumSource = {
