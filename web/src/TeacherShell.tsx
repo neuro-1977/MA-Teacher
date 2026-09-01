@@ -108,6 +108,7 @@ const groups: WorkspaceGroup[] = [
       { id: 'workspace-references', label: 'Teaching references', description: 'Browse the bounded teaching reference library.' },
       { id: 'workspace-evidence-appraisal', label: 'Appraise evidence', description: 'Ask whether a claim is supported for this use.' },
       { id: 'workspace-subjects', label: 'Subject guidance', description: 'See what evidence and thinking look like by subject.' },
+      { id: 'workspace-safe-code-lab', label: 'Safe Code Lab', description: 'Run small supervised JavaScript ideas inside the local safety sandbox.' },
       { id: 'workspace-stages', label: 'Age and stage guidance', description: 'Use age-respectful guidance without false equivalence.' },
       { id: 'workspace-jurisdiction-stage-guidance', label: 'Jurisdiction stages', description: 'Compare native stage structures carefully.' },
       { id: 'workspace-rights', label: 'Resource rights', description: 'Check provenance, reuse and attribution boundaries.' },
@@ -200,12 +201,8 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
   'workspace-bank-coverage': () => <TeachingBankCoveragePanel />,
   'workspace-authoring-queue': () => <TeachingDataAuthoringQueuePanel />,
   'workspace-draft-validator': () => <TeachingDataDraftValidatorPanel />,
-  'workspace-subjects': () => (
-    <>
-      <SubjectLensesPanel />
-      <SafeCodeLabPanel />
-    </>
-  ),
+  'workspace-subjects': () => <SubjectLensesPanel />,
+  'workspace-safe-code-lab': () => <SafeCodeLabPanel />,
   'workspace-stages': () => <StageLensesPanel />,
   'workspace-inclusive-planning': () => <InclusivePlanningPanel />,
   'workspace-assessment-design': () => <AssessmentPatternsPanel />,

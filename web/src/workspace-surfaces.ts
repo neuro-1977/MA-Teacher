@@ -1,4 +1,4 @@
-export type WorkspaceEffect = 'read-only' | 'database-write' | 'backup-write' | 'clipboard-optional';
+export type WorkspaceEffect = 'read-only' | 'database-write' | 'backup-write' | 'clipboard-optional' | 'sandbox-local';
 
 export type WorkspaceSurface = {
   id: string;
@@ -84,6 +84,7 @@ export const workspaceGroups: WorkspaceGroup[] = [
       { id: 'workspace-authoring-queue', label: 'Teaching-data authoring queue', description: 'Turns exact missing bank matches into unfilled, schema-specific contribution templates without generating or prioritizing content.', effect: 'clipboard-optional' },
       { id: 'workspace-draft-validator', label: 'Teaching-data draft validator', description: 'Checks one browser-memory JSON draft for source shape, identifiers, exact subject/stage values, duplicate IDs and unknown fields without applying it.', effect: 'clipboard-optional' },
       { id: 'workspace-subjects', label: 'Subject lenses', description: 'Filters disciplinary habits, evidence forms, planning questions, and cautions.', effect: 'read-only' },
+      { id: 'workspace-safe-code-lab', label: 'Safe Code Lab', description: 'Runs bounded JavaScript inside a browser sandbox without network, file, device, credential, or school-control access.', effect: 'sandbox-local' },
       { id: 'workspace-stages', label: 'Stage lenses', description: 'Filters age-respectful planning guidance with explicit configured-partial or reference-only status.', effect: 'read-only' },
       { id: 'workspace-inclusive-planning', label: 'Inclusive planning', description: 'Filters non-diagnostic access-planning prompts that preserve objectives and human authority.', effect: 'read-only' },
       { id: 'workspace-assessment-design', label: 'Assessment design', description: 'Filters manual prompt, criteria, and feedback scaffolds.', effect: 'read-only' },
@@ -100,4 +101,5 @@ export const workspaceEffectLabels: Record<WorkspaceEffect, string> = {
   'database-write': 'WRITES DATABASE',
   'backup-write': 'CREATES BACKUP',
   'clipboard-optional': 'READ ONLY · OPTIONAL COPY',
+  'sandbox-local': 'LOCAL SAFETY SANDBOX',
 };

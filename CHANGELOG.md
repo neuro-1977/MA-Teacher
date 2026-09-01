@@ -2,6 +2,9 @@
 
 ## 2026-09-01 - Calm, evidence-based learner progress
 
+- Rebuilt Explore subjects as a single-subject learner journey instead of a long teacher catalogue: fourteen compact choices, one stage-aware practice idea, one way to show learning, and teacher notes kept closed until requested.
+- Separated Safe Code Lab from Subject guidance and registered it as its own local-sandbox workspace so each page has one clear job.
+- Added a permanent fourteen-domain subject-explorer contract to the production build.
 - Refreshed the Windows release workflow to the official Node 24 action-runtime generations.
 - Added a clear next-step card derived only from saved work and human-review evidence.
 - Added friendly empty-state guidance and explicit `Reached` / `Not yet` marker text so progress is not communicated by colour or symbols alone.
