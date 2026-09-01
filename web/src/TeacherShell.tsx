@@ -201,7 +201,7 @@ const surfaceRenderers: Partial<Record<string, (view: AppView) => ReactNode>> = 
   'workspace-bank-coverage': () => <TeachingBankCoveragePanel />,
   'workspace-authoring-queue': () => <TeachingDataAuthoringQueuePanel />,
   'workspace-draft-validator': () => <TeachingDataDraftValidatorPanel />,
-  'workspace-subjects': () => <SubjectLensesPanel />,
+  'workspace-subjects': (view) => <SubjectLensesPanel showTeacherDetails={view === 'teacher'} />,
   'workspace-safe-code-lab': () => <SafeCodeLabPanel />,
   'workspace-stages': () => <StageLensesPanel />,
   'workspace-inclusive-planning': () => <InclusivePlanningPanel />,

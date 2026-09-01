@@ -19,6 +19,9 @@
 .subject-focus select { min-height:2.5rem; padding:.45rem .6rem; border:1px solid #287566; border-radius:.55rem; background:#eff9f5; color:#172338; font:inherit; }
 .subject-practice-boundary,.subject-curriculum-boundary { display:flex; gap:.7rem; align-items:center; margin:.9rem 0; padding:.65rem .8rem; border-left:5px solid #c99327; background:#fff0c9; color:#5e4a20; font-size:.78rem; }
 .subject-practice-boundary strong,.subject-curriculum-boundary strong { white-space:nowrap; text-transform:uppercase; }
+.subject-practice-boundary>div { display:grid; gap:.2rem; }
+.subject-practice-boundary>div span { color:#3f3218; font-weight:800; line-height:1.4; }
+.subject-practice-boundary>div small { color:#6a582f; line-height:1.4; }
 
 .subject-learner-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; }
 .subject-learner-cards section { min-height:8rem; padding:.9rem; border:1px solid #b5a27c; border-radius:.75rem; background:linear-gradient(145deg,#fff,#f8efd9); }
@@ -41,6 +44,8 @@
 .subject-teacher-notes li+li { margin-top:.35rem; }
 .subject-teacher-notes aside { margin-top:.7rem; border-color:#a85b4b; border-left:4px solid #d27b4e; background:#3a2528; }
 .subject-teacher-notes aside h4 { color:#ffc3a0; }
+.subject-teacher-boundary { margin:1rem 0 0; padding:.8rem 1rem; border-left:5px solid #287566; background:#e4f4ed; color:#31534a; line-height:1.45; }
+.subject-teacher-boundary strong { display:block; color:#174c43; }
 
 @media (max-width:1100px) { .subject-picker { grid-template-columns:repeat(4,minmax(0,1fr)); }.subject-learner-cards { grid-template-columns:1fr; }.subject-learner-cards section { min-height:0; }.subject-lens-columns { grid-template-columns:1fr; } }
 @media (max-width:680px) { .subject-lenses-shell { margin:.65rem; padding:.8rem; }.subject-lenses-shell>header,.subject-focus>header,.subject-practice-boundary,.subject-curriculum-boundary { align-items:flex-start; flex-direction:column; }.subject-picker { grid-template-columns:repeat(2,minmax(0,1fr)); }.subject-focus label,.subject-focus select { width:100%; }.subject-focus { box-shadow:3px 3px 0 #c99327; } }

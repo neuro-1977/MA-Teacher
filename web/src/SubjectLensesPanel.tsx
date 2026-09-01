@@ -5,7 +5,7 @@ import { subjectLenses, type SubjectLensId } from './subject-lenses';
 import { InfoTip } from './InfoTip';
 import './subject-lenses.css';
 
-export function SubjectLensesPanel() {
+export function SubjectLensesPanel({ showTeacherDetails = false }: { showTeacherDetails?: boolean }) {
   const [subjectId, setSubjectId] = useState<SubjectLensId>('science');
   const [stageId, setStageId] = useState<StageLensId>('ks2');
   const subject = useMemo(() => subjectLenses.find((item) => item.id === subjectId) ?? subjectLenses[0], [subjectId]);
@@ -24,14 +24,14 @@ export function SubjectLensesPanel() {
 
     <article className="subject-focus" aria-live="polite">
       <header><div><p>YOU PICKED</p><h3>{subject.label}</h3><strong>{prompt.invitation}</strong></div><label>Learning stage<select value={stageId} onChange={(event) => setStageId(event.target.value as StageLensId)}>{stageLenses.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label></header>
-      <div className="subject-practice-boundary"><strong>{stage.label}</strong><span>This is a practice idea, not a curriculum claim. Ask a teacher to check that it suits you.</span></div>
+      <div className="subject-practice-boundary"><strong>{stage.label}</strong><div><span>{stage.learnerCue}</span><small>This is a practice idea, not a curriculum claim. Ask a teacher to check that it suits you.</small></div></div>
       <div className="subject-learner-cards">
         <section><p>TRY THIS</p><h4>One small activity</h4><span>{prompt.tryThis}</span></section>
         <section><p>SHOW YOUR LEARNING</p><h4>Make your thinking visible</h4><span>{prompt.showIt}</span></section>
         <section><p>YOU CAN RESPOND BY</p><h4>Choose a comfortable way</h4><span>{stage.responseOptions[0]}</span></section>
       </div>
 
-      <details className="subject-teacher-notes"><summary>Open teacher planning and curriculum notes</summary><div className="subject-curriculum-boundary"><strong>{stage.support.replace('-', ' ')}</strong><span>{stage.curriculumBoundary}</span></div><p className="subject-promise">{subject.promise}</p><div className="subject-lens-columns"><section><h4>Ways to think</h4><ul>{subject.disciplinaryHabits.map((item) => <li key={item}>{item}</li>)}</ul></section><section><h4>Ways to show learning</h4><ul>{subject.evidenceForms.map((item) => <li key={item}>{item}</li>)}</ul></section><section><h4>Good planning questions</h4><ul>{subject.planningQuestions.map((item) => <li key={item}>{item}</li>)}</ul></section></div><aside><h4>Be careful</h4><ul>{subject.cautions.map((item) => <li key={item}>{item}</li>)}</ul></aside></details>
+      {showTeacherDetails ? <details className="subject-teacher-notes"><summary>Open teacher planning and curriculum notes</summary><div className="subject-curriculum-boundary"><strong>{stage.support.replace('-', ' ')}</strong><span>{stage.curriculumBoundary}</span></div><p className="subject-promise">{subject.promise}</p><div className="subject-lens-columns"><section><h4>Ways to think</h4><ul>{subject.disciplinaryHabits.map((item) => <li key={item}>{item}</li>)}</ul></section><section><h4>Ways to show learning</h4><ul>{subject.evidenceForms.map((item) => <li key={item}>{item}</li>)}</ul></section><section><h4>Good planning questions</h4><ul>{subject.planningQuestions.map((item) => <li key={item}>{item}</li>)}</ul></section></div><aside><h4>Be careful</h4><ul>{subject.cautions.map((item) => <li key={item}>{item}</li>)}</ul></aside></details> : <p className="subject-teacher-boundary"><strong>Teacher planning stays in Teacher view.</strong> A teacher can open the curriculum boundary, evidence ideas and planning cautions there.</p>}
     </article>
   </section>;
 }
