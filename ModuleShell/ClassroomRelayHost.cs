@@ -23,6 +23,8 @@ internal sealed class ClassroomRelayHost : IDisposable
     private readonly LearningCheckStore _learningChecks;
     private readonly LearnerSafetyStore _learnerSafety;
     private readonly ClassroomPrintStore _printRequests;
+    private readonly int _port;
+    private readonly bool _loopbackOnly;
     private readonly Dictionary<string, ClassroomInvite> _invites = new(StringComparer.Ordinal);
     private readonly Dictionary<string, ClassroomSession> _sessions = new(StringComparer.Ordinal);
     private readonly Dictionary<string, FailedJoinBucket> _failedJoins = new(StringComparer.OrdinalIgnoreCase);
@@ -37,7 +39,9 @@ internal sealed class ClassroomRelayHost : IDisposable
         LessonReviewStore lessonReviews,
         LearningCheckStore learningChecks,
         LearnerSafetyStore learnerSafety,
-        ClassroomPrintStore printRequests)
+        ClassroomPrintStore printRequests,
+        int? listenerPort = null,
+        bool loopbackOnly = false)
     {
         _uiRoot = Path.GetFullPath(uiRoot);
         _teaching = teaching;
@@ -45,6 +49,8 @@ internal sealed class ClassroomRelayHost : IDisposable
         _learningChecks = learningChecks;
         _learnerSafety = learnerSafety;
         _printRequests = printRequests;
+        _port = listenerPort is > 0 and <= 65535 ? listenerPort.Value : Port;
+        _loopbackOnly = loopbackOnly;
     }
 
     internal ClassroomRelayStatus GetStatus()
@@ -150,7 +156,7 @@ internal sealed class ClassroomRelayHost : IDisposable
             try
             {
                 var listener = new HttpListener();
-                listener.Prefixes.Add($"http://+:{Port}/");
+                listener.Prefixes.Add(_loopbackOnly ? $"http://127.0.0.1:{_port}/" : $"http://+:{_port}/");
                 listener.Start();
                 var stopping = new CancellationTokenSource();
                 _listener = listener;
@@ -161,7 +167,7 @@ internal sealed class ClassroomRelayHost : IDisposable
             }
             catch (Exception exception) when (exception is HttpListenerException or InvalidOperationException)
             {
-                _lastError = $"Classroom sharing could not open port {Port}. Ask school IT to allow MA-Teacher on Private/Domain networks and reserve the local URL. {exception.Message}";
+                _lastError = $"Classroom sharing could not open port {_port}. Ask school IT to allow MA-Teacher on Private/Domain networks and reserve the local URL. {exception.Message}";
                 return Task.FromResult(false);
             }
         }
@@ -592,7 +598,11 @@ internal sealed class ClassroomRelayHost : IDisposable
         return candidates.FirstOrDefault()?.Address.ToString();
     }
 
-    private static string? BuildClassroomUrl() => PreferredLanAddress() is { } address ? $"http://{address}:{Port}/classroom" : null;
+    private string? BuildClassroomUrl()
+    {
+        if (_loopbackOnly) return $"http://127.0.0.1:{_port}/classroom";
+        return PreferredLanAddress() is { } address ? $"http://{address}:{_port}/classroom" : null;
+    }
 
     public void Dispose() => StopAsync().GetAwaiter().GetResult();
 

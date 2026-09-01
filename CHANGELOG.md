@@ -1,5 +1,7 @@
 # Changelog
 
+- Release proof now exercises the real classroom relay end to end on an ephemeral loopback listener: teacher invite, learner join, one-use-code refusal, scoped lesson/check read, persisted work submission, and immediate teacher revocation. Production still uses opt-in TCP 5202 and still requires the documented elevated second-device acceptance test.
+
 - Subject exploration now gives a short age-stage approach cue, keeps its fourteen-domain learner activities compact, and reserves dense curriculum/planning notes for Teacher view without presenting practice ideas as official curriculum.
 
 - Progress now keeps the full answer-and-feedback ledger in Teacher view, preserves the internal All subjects filter value, and verifies that trail markers remain gentle activity recognition rather than grades, rankings or streak pressure.

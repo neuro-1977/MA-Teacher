@@ -74,6 +74,7 @@ internal static class ReleaseSelfTest
             if((await client.SendAsync(feedbackRequest)).StatusCode!=HttpStatusCode.OK) return 16;
             var feedbackResponse=await client.GetAsync(new Uri(new Uri(host.BaseAddress),"api/development/feedback?state=open"));
             if(feedbackResponse.StatusCode!=HttpStatusCode.OK||(await feedbackResponse.Content.ReadAsStringAsync()).IndexOf("Synthetic release feedback",StringComparison.Ordinal)<0) return 17;
+            await ClassroomRelaySelfTest.RunAsync();
             return 0;
         }
         catch(Exception exception)

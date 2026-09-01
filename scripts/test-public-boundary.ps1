@@ -14,7 +14,7 @@ $issues = [Collections.Generic.List[string]]::new()
 foreach ($file in $files | Sort-Object FullName -Unique) {
     $text = [IO.File]::ReadAllText($file.FullName)
     foreach ($term in $forbidden) {
-        if ($text.Contains($term, [StringComparison]::OrdinalIgnoreCase)) {
+        if ($text.IndexOf($term, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
             $issues.Add("$($file.FullName.Substring($repo.Length + 1)): forbidden public term '$term'")
         }
     }

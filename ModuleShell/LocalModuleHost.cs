@@ -50,7 +50,8 @@ internal sealed class LocalModuleHost : IDisposable
 
     private readonly bool _includeDiagnosticErrors;
 
-    public LocalModuleHost(string uiRoot, string dataRoot, bool includeDiagnosticErrors = false, int? listenerPort = null)
+    public LocalModuleHost(string uiRoot, string dataRoot, bool includeDiagnosticErrors = false, int? listenerPort = null,
+        int? classroomRelayPort = null, bool classroomLoopbackOnly = false)
     {
         _includeDiagnosticErrors = includeDiagnosticErrors;
         _uiRoot = Path.GetFullPath(uiRoot);
@@ -70,7 +71,8 @@ internal sealed class LocalModuleHost : IDisposable
         _learnerSafety = new LearnerSafetyStore(dataRoot);
         _printRequests = new ClassroomPrintStore(dataRoot);
         _printing = new LocalPrinterService(_printRequests, _teaching, _learningChecks, _learnerSafety);
-        _classroom = new ClassroomRelayHost(_uiRoot, _teaching, _lessonReviews, _learningChecks, _learnerSafety, _printRequests);
+        _classroom = new ClassroomRelayHost(_uiRoot, _teaching, _lessonReviews, _learningChecks, _learnerSafety, _printRequests,
+            classroomRelayPort, classroomLoopbackOnly);
         _teachingOperations = new TeachingOperationsStore(dataRoot, _lessonReviews, _teachingSessions);
         _teachingProposals = new TeachingProposalStore(dataRoot);
         _learningProgress = new LearningProgressStore(dataRoot);
