@@ -35,6 +35,7 @@
 - Subject exploration now gives a short age-stage approach cue, keeps its fourteen-domain learner activities compact, and reserves dense curriculum/planning notes for Teacher view without presenting practice ideas as official curriculum.
 
 - Progress now keeps the full answer-and-feedback ledger in Teacher view, preserves the internal All subjects filter value, and verifies that trail markers remain gentle activity recognition rather than grades, rankings or streak pressure.
+- Feedback now keeps developer commands and storage jargon out of the learner journey, checks common account, age, class, teacher and obfuscated rude-word disclosures, and makes the responsible adult's final decision to post explicit. Public issue forms mirror the expanded privacy boundary.
 
 ## 2026-09-01 - Calm, evidence-based learner progress
 

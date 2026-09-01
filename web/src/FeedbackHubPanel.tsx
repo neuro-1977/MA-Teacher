@@ -36,9 +36,11 @@ const feedbackSafetyRules: ReadonlyArray<{ id: string; message: string; pattern:
   { id: 'web-link', message: 'Remove the web link. An adult can add a safe link later if it is needed.', pattern: /\b(?:https?:\/\/|www\.)\S+/i },
   { id: 'secret', message: 'Remove passwords, passcodes, keys, tokens and recovery codes.', pattern: /\b(?:password|passcode|secret\s+code|recovery\s+code|api[- ]?key|access\s+token)\b/i },
   { id: 'identity', message: 'Remove your name, school, home address or postcode.', pattern: /\b(?:my name is|i am called|my school is|i go to .{0,35}school|i live at|my address is|my postcode is)\b/i },
+  { id: 'account', message: 'Remove usernames, gamer names and account names.', pattern: /\b(?:my username is|my user name is|my gamer(?:tag| name) is|my account is|find me on)\b/i },
+  { id: 'age-or-class', message: 'Remove your age, birthday, class, year group or teacher name.', pattern: /\b(?:i am|i'm)\s+(?:[4-9]|1[0-8])\s*(?:years? old|yo)\b|\b(?:my birthday is|my class is|i am in class|i'm in class|my teacher is|i am in year|i'm in year)\b/i },
   { id: 'health', message: 'Remove private health or diagnosis details.', pattern: /\b(?:my diagnosis|my medical|my medication|my health condition)\b/i },
   { id: 'learner-work', message: 'Do not paste lesson answers or homework into public feedback. Describe the problem with a made-up example.', pattern: /\b(?:my answer is|the answer i wrote|here is my homework|my homework is)\b/i },
-  { id: 'unsafe-language', message: 'Replace unsafe language with “[word removed]”.', pattern: /\b(?:fuck(?:ing|ed)?|shit(?:ty)?|cunt(?:s)?)\b/i },
+  { id: 'unsafe-language', message: 'Remove rude, hateful or unsafe words. Describe what happened without repeating them.', pattern: /\b(?:f[\W_]*u[\W_]*c[\W_]*k(?:ing|ed)?|s[\W_]*h[\W_]*i[\W_]*t(?:ty)?|c[\W_]*u[\W_]*n[\W_]*t(?:s)?|b[\W_]*i[\W_]*t[\W_]*c[\W_]*h(?:es)?|b[\W_]*a[\W_]*s[\W_]*t[\W_]*a[\W_]*r[\W_]*d(?:s)?)\b/i },
 ];
 
 export function inspectFeedbackDraft(value: string): FeedbackFinding[] {
@@ -105,15 +107,15 @@ export function FeedbackHubPanel() {
       <div>
         <p>YOUR IDEAS MATTER</p>
         <h2 id="feedback-hub-title">Tell us what you think.</h2>
-        <span>Make a private draft here. Nothing is sent or saved automatically.</span>
+        <span>Write a private draft here. Nothing leaves this page by itself.</span>
       </div>
-      <InfoTip label="What happens to feedback?">Your draft stays in this page. An adult checks it before anything can be copied or opened on GitHub. Public feedback is evidence to investigate, not automatic proof.</InfoTip>
+      <InfoTip label="What happens to feedback?">Your draft stays on this page. A responsible adult reads it and decides whether it should be shared. A report is something to investigate, not proof that a bug or idea is correct.</InfoTip>
     </header>
 
     <ol className="feedback-hub__steps" aria-label="Three feedback steps">
       <li><strong>1</strong><span>Write a made-up example</span></li>
       <li><strong>2</strong><span>Check it for private details</span></li>
-      <li><strong>3</strong><span>Ask an adult to review it</span></li>
+      <li><strong>3</strong><span>Ask an adult to decide what happens next</span></li>
     </ol>
 
     <form className="feedback-hub__draft" onSubmit={(event) => { event.preventDefault(); setChecked(true); setAdultReviewed(false); setCopyStatus(''); }}>
@@ -146,7 +148,7 @@ export function FeedbackHubPanel() {
           value={draft}
           maxLength={1200}
           rows={6}
-          placeholder="Use a made-up example. Do not use names, school details, addresses, passwords, health details or lesson answers."
+          placeholder="Use a made-up example. Do not use names, ages, school details, usernames, addresses, passwords, health details or lesson answers."
           onChange={(event) => { setDraft(event.target.value); resetReview(); }}
         />
         <small>{draft.length} / 1200 characters</small>
@@ -154,7 +156,7 @@ export function FeedbackHubPanel() {
 
       <aside>
         <strong>Keep private things private.</strong>
-        <span>Do not include a real name, school, address, phone number, email, username, password, health detail, photo, lesson answer or database.</span>
+        <span>Do not include a real name, age, birthday, class, school, teacher, address, phone number, email, username, password, health detail, photo or lesson answer.</span>
       </aside>
 
       <div className="feedback-hub__check-actions">
@@ -166,7 +168,7 @@ export function FeedbackHubPanel() {
     {checked && <section className={`feedback-hub__result ${draftReady ? 'is-ready' : 'has-findings'}`} aria-live="polite">
       {draftReady ? <>
         <strong>Your draft passed these simple checks.</strong>
-        <span>These checks can miss things. A responsible adult must still read every word.</span>
+        <span>These simple checks can miss things. A responsible adult must still read every word and decide whether to share it.</span>
       </> : <>
         <strong>Please change your draft before sharing it.</strong>
         <ul>{findings.map((finding) => <li key={finding.id}>{finding.message}</li>)}</ul>
@@ -177,9 +179,9 @@ export function FeedbackHubPanel() {
       <div>
         <p>ADULT REVIEW</p>
         <h3 id="adult-review-title">A responsible adult checks this next.</h3>
-        <span>The app cannot prove that a draft is safe. Read it, remove anything private, and use a made-up example.</span>
+        <span>The app cannot prove that a draft is safe. Read it, remove anything private, and share it only if it is useful and safe.</span>
       </div>
-      <label><input type="checkbox" checked={adultReviewed} onChange={(event) => { setAdultReviewed(event.target.checked); setCopyStatus(''); }} /> I am a responsible adult and I reviewed this draft.</label>
+      <label><input type="checkbox" checked={adultReviewed} onChange={(event) => { setAdultReviewed(event.target.checked); setCopyStatus(''); }} /> I am a responsible adult. I read every word and will decide whether to post it.</label>
       <textarea className="feedback-hub__reviewed-text" readOnly value={reviewedDraft} rows={9} aria-label="Reviewed feedback draft" />
       <div className="feedback-hub__adult-actions">
         <button type="button" disabled={!canShare} onClick={copyDraft}>Copy reviewed draft</button>
@@ -191,8 +193,8 @@ export function FeedbackHubPanel() {
     </section>}
 
     <details>
-      <summary>For teachers and developers</summary>
-      <p>The draft exists only in browser memory and is discarded when this page reloads. It makes no API call, writes no database or browser storage, invokes no model, and never submits to GitHub. Run <code>./scripts/sync-github-feedback.ps1</code> only after an adult has posted a privacy-safe public report.</p>
+      <summary>For responsible adults</summary>
+      <p>This draft disappears when the page reloads. MA-Teacher does not send it, save it, or post it for you. Copying and opening the public feedback page remain separate adult choices.</p>
     </details>
   </section>;
 }

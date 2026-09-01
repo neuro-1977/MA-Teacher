@@ -5,13 +5,13 @@ labels: ["bug", "needs-triage"]
 body:
   - type: markdown
     attributes:
-      value: "A responsible adult must review learner feedback before it is posted. Never attach learner work, names, school records, passwords, photos, health details, lesson answers, or a database. Use made-up examples."
+      value: "A responsible adult must review learner feedback before it is posted. Never attach learner work, names, ages, classes, school records, usernames, passwords, photos, health details, lesson answers, logs that have not been checked, or a database. Use made-up examples."
   - type: checkboxes
     id: privacy
     attributes:
       label: Privacy and adult review
       options:
-        - label: I removed names, school details, contact details, credentials, health information, learner work and lesson answers.
+        - label: I removed names, ages, classes, school details, account names, contact details, credentials, health information, learner work and lesson answers.
           required: true
         - label: If this report started with a learner, a responsible adult reviewed every word before posting it.
           required: true
