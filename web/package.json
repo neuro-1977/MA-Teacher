@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5201 --strictPort",
-    "build": "tsc -b && vite build && node scripts/verify-simple-shell.mjs && node scripts/verify-subject-explorer.mjs",
+    "build": "tsc -b && vite build && node scripts/verify-simple-shell.mjs && node scripts/verify-subject-explorer.mjs && node scripts/verify-feedback-safety.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 5201",
     "typecheck": "tsc -b --pretty false",
     "verify:shell": "node scripts/verify-simple-shell.mjs"

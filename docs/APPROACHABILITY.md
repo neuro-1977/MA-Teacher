@@ -29,6 +29,6 @@ Reviewed feedback should lead to a small learner-owned action. `Try this again` 
 
 ## Feedback-led development
 
-Students and teachers are invited to explain what was easy, hard, broken, or missing. Public feedback must use made-up examples and contain no learner records or private information. Reports are development input, not automatic truth: the team reproduces the issue, records evidence, and then decides what to change.
+Students and teachers are invited to explain what was easy, hard, broken, or missing. The in-app route uses three visible steps: make a local draft, check it for common private details, then ask a responsible adult to review it. The check deliberately makes no claim of completeness. Public links and copying remain unavailable until adult review is confirmed; the draft is not persisted, transmitted, scored, profiled, or sent to a model. Public feedback must use made-up examples and contain no learner records or private information. Reports are development input, not automatic truth: the team reproduces the issue, records evidence, and then decides what to change.
 
 The public [Issues](https://github.com/neuro-1977/MA-Teacher/issues) and [Discussions](https://github.com/neuro-1977/MA-Teacher/discussions) are part of the product loop. Accepted public issue history can be imported idempotently into the local development queue for Serenity and the team to review before planning work.

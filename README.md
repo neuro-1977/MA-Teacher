@@ -59,7 +59,7 @@ School IT can run Setup in administrator mode and select `Allow supervised stude
 
 ## Feedback
 
-Use [GitHub Issues](https://github.com/neuro-1977/MA-Teacher/issues) for reproducible bugs and workflow feedback. Never post real learner names, submitted work, school records, credentials, or a copied MA-Teacher database. Use synthetic examples.
+Use the in-app `Feedback` page first. It builds a temporary on-device draft, checks for common private details, and keeps public links locked until a responsible adult reviews the text. Nothing is sent or saved automatically. The checks can miss things, so adult review is mandatory. Use [GitHub Issues](https://github.com/neuro-1977/MA-Teacher/issues) for reproducible bugs and workflow feedback only after that review. Never post real learner names, submitted work, school records, contact details, health information, lesson answers, credentials, photos, or a copied MA-Teacher database. Use made-up examples.
 
 Teachers and supervised students may comment on existing issues or use [GitHub Discussions](https://github.com/neuro-1977/MA-Teacher/discussions) for general product feedback. Current issue bodies, labels, and comments can be imported idempotently into MA-Teacher's local development feedback queue so Serenity can review them before planning future work.
 

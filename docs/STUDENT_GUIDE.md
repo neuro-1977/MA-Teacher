@@ -30,4 +30,4 @@ Never upload passwords, recovery codes, private identity documents, or unnecessa
 
 ## Help us make it better
 
-You can tell us what was easy, hard, broken, or missing. Open `Feedback` in the top bar and ask an adult before posting. Use a made-up example. Never post your real name, school, work, health details, passwords, or database.
+You can tell us what was easy, hard, broken, or missing. Open `Feedback` in the top bar, choose the kind of feedback, and write a made-up example. The app checks for some private details, but it can miss things. Nothing is sent or saved automatically. A responsible adult must read every word before the copy button and public feedback page become available. Never post your real name, school, address, contact details, work, lesson answers, health details, passwords, photos, or database.

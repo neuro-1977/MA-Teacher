@@ -1,22 +1,198 @@
+import { useMemo, useState } from 'react';
 import { InfoTip } from './InfoTip';
 import './feedback-hub.css';
 
 const issueUrl = 'https://github.com/neuro-1977/MA-Teacher/issues/new/choose';
 const discussionUrl = 'https://github.com/neuro-1977/MA-Teacher/discussions';
 
+const feedbackKinds = [
+  { id: 'broken', title: 'Something broke', prompt: 'What did you try? What did you expect? What happened instead?' },
+  { id: 'hard', title: 'Something was hard', prompt: 'Which word, button or step was difficult to understand?' },
+  { id: 'idea', title: 'I have an idea', prompt: 'What would make learning or teaching easier?' },
+  { id: 'helped', title: 'Something helped', prompt: 'What worked well, and why did it help?' },
+] as const;
+
+const feedbackAreas = [
+  'Getting started',
+  'Lessons',
+  'Practice and work',
+  'Teacher feedback',
+  'Progress',
+  'Explore subjects',
+  'Printing or setup',
+  'Another part of the app',
+] as const;
+
+type FeedbackKindId = typeof feedbackKinds[number]['id'];
+
+type FeedbackFinding = {
+  id: string;
+  message: string;
+};
+
+const feedbackSafetyRules: ReadonlyArray<{ id: string; message: string; pattern: RegExp }> = [
+  { id: 'email', message: 'Remove the email address.', pattern: /\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b/i },
+  { id: 'phone', message: 'Remove the phone number.', pattern: /(?:\+?\d[\d\s().-]{6,}\d)/ },
+  { id: 'web-link', message: 'Remove the web link. An adult can add a safe link later if it is needed.', pattern: /\b(?:https?:\/\/|www\.)\S+/i },
+  { id: 'secret', message: 'Remove passwords, passcodes, keys, tokens and recovery codes.', pattern: /\b(?:password|passcode|secret\s+code|recovery\s+code|api[- ]?key|access\s+token)\b/i },
+  { id: 'identity', message: 'Remove your name, school, home address or postcode.', pattern: /\b(?:my name is|i am called|my school is|i go to .{0,35}school|i live at|my address is|my postcode is)\b/i },
+  { id: 'health', message: 'Remove private health or diagnosis details.', pattern: /\b(?:my diagnosis|my medical|my medication|my health condition)\b/i },
+  { id: 'learner-work', message: 'Do not paste lesson answers or homework into public feedback. Describe the problem with a made-up example.', pattern: /\b(?:my answer is|the answer i wrote|here is my homework|my homework is)\b/i },
+  { id: 'unsafe-language', message: 'Replace unsafe language with “[word removed]”.', pattern: /\b(?:fuck(?:ing|ed)?|shit(?:ty)?|cunt(?:s)?)\b/i },
+];
+
+export function inspectFeedbackDraft(value: string): FeedbackFinding[] {
+  const text = value.trim();
+  const findings: FeedbackFinding[] = [];
+  if (text.length < 20) findings.push({ id: 'too-short', message: 'Add a little more detail so an adult can understand what happened.' });
+  for (const rule of feedbackSafetyRules) {
+    if (rule.pattern.test(text)) findings.push({ id: rule.id, message: rule.message });
+  }
+  return findings;
+}
+
+function buildReviewedDraft(kindId: FeedbackKindId, area: string, draft: string) {
+  const kind = feedbackKinds.find((entry) => entry.id === kindId) ?? feedbackKinds[0];
+  return [
+    'MA-Teacher feedback',
+    `Type: ${kind.title}`,
+    `Part of the app: ${area}`,
+    '',
+    draft.trim(),
+    '',
+    'Privacy note: this draft was checked in MA-Teacher and reviewed by an adult before sharing. It uses no real learner record.',
+  ].join('\n');
+}
+
 export function FeedbackHubPanel() {
-  const prompts = [
-    ['Something broke', 'Tell us what you clicked, what you expected, and what happened.'],
-    ['Something was hard', 'Tell us which words or steps were confusing.'],
-    ['I have an idea', 'Tell us what would make learning or teaching easier.'],
-    ['Something helped', 'Tell us what worked well so we keep the good parts.'],
-  ] as const;
+  const [kindId, setKindId] = useState<FeedbackKindId>('idea');
+  const [area, setArea] = useState<string>(feedbackAreas[0]);
+  const [draft, setDraft] = useState('');
+  const [checked, setChecked] = useState(false);
+  const [adultReviewed, setAdultReviewed] = useState(false);
+  const [copyStatus, setCopyStatus] = useState('');
+  const selectedKind = feedbackKinds.find((entry) => entry.id === kindId) ?? feedbackKinds[0];
+  const findings = useMemo(() => inspectFeedbackDraft(draft), [draft]);
+  const draftReady = checked && findings.length === 0;
+  const canShare = draftReady && adultReviewed;
+  const reviewedDraft = useMemo(() => buildReviewedDraft(kindId, area, draft), [kindId, area, draft]);
+
+  const resetReview = () => {
+    setChecked(false);
+    setAdultReviewed(false);
+    setCopyStatus('');
+  };
+
+  const copyDraft = async () => {
+    if (!canShare) return;
+    try {
+      await navigator.clipboard.writeText(reviewedDraft);
+      setCopyStatus('Copied. An adult can now paste the reviewed draft into the public form.');
+    } catch {
+      setCopyStatus('Copy did not work. An adult can select the reviewed text below and copy it normally.');
+    }
+  };
+
+  const clearDraft = () => {
+    setDraft('');
+    setKindId('idea');
+    setArea(feedbackAreas[0]);
+    resetReview();
+  };
 
   return <section id="workspace-feedback-hub" className="feedback-hub" aria-labelledby="feedback-hub-title">
-    <header><div><p>YOUR IDEAS MATTER</p><h2 id="feedback-hub-title">Help us build MA-Teacher.</h2><span>You use the app, so you can spot things the builders miss.</span></div><InfoTip label="What happens to feedback?">Public feedback can be copied into the local development queue. Serenity and the project team review it before planning changes.</InfoTip></header>
-    <div className="feedback-hub__prompts">{prompts.map(([title, body]) => <article key={title}><strong>{title}</strong><span>{body}</span></article>)}</div>
-    <aside><strong>Ask an adult before posting.</strong><span>Use made-up examples. Never share your real name, school, work, passwords, health details, or the MA-Teacher database in public.</span></aside>
-    <div className="feedback-hub__actions"><a href={discussionUrl} target="_blank" rel="noreferrer"><strong>Share an idea</strong><span>Join a friendly GitHub Discussion.</span></a><a href={issueUrl} target="_blank" rel="noreferrer"><strong>Report a problem</strong><span>Open a guided GitHub Issue.</span></a></div>
-    <details><summary>For teachers and developers</summary><p>Feedback is evidence to investigate, not proof that a diagnosis is correct. Run <code>./scripts/sync-github-feedback.ps1</code> to bring public issue text and comments into the local feedback queue before planning work.</p></details>
+    <header>
+      <div>
+        <p>YOUR IDEAS MATTER</p>
+        <h2 id="feedback-hub-title">Tell us what you think.</h2>
+        <span>Make a private draft here. Nothing is sent or saved automatically.</span>
+      </div>
+      <InfoTip label="What happens to feedback?">Your draft stays in this page. An adult checks it before anything can be copied or opened on GitHub. Public feedback is evidence to investigate, not automatic proof.</InfoTip>
+    </header>
+
+    <ol className="feedback-hub__steps" aria-label="Three feedback steps">
+      <li><strong>1</strong><span>Write a made-up example</span></li>
+      <li><strong>2</strong><span>Check it for private details</span></li>
+      <li><strong>3</strong><span>Ask an adult to review it</span></li>
+    </ol>
+
+    <form className="feedback-hub__draft" onSubmit={(event) => { event.preventDefault(); setChecked(true); setAdultReviewed(false); setCopyStatus(''); }}>
+      <fieldset>
+        <legend>What would you like to tell us?</legend>
+        <div className="feedback-hub__kind-grid">
+          {feedbackKinds.map((kind) => <button
+            key={kind.id}
+            type="button"
+            aria-pressed={kindId === kind.id}
+            onClick={() => { setKindId(kind.id); resetReview(); }}
+          >
+            <strong>{kind.title}</strong>
+            <span>{kind.prompt}</span>
+          </button>)}
+        </div>
+      </fieldset>
+
+      <label className="feedback-hub__field">
+        <strong>Which part of MA-Teacher?</strong>
+        <select value={area} onChange={(event) => { setArea(event.target.value); resetReview(); }}>
+          {feedbackAreas.map((entry) => <option key={entry}>{entry}</option>)}
+        </select>
+      </label>
+
+      <label className="feedback-hub__field">
+        <strong>{selectedKind.title}</strong>
+        <span>{selectedKind.prompt}</span>
+        <textarea
+          value={draft}
+          maxLength={1200}
+          rows={6}
+          placeholder="Use a made-up example. Do not use names, school details, addresses, passwords, health details or lesson answers."
+          onChange={(event) => { setDraft(event.target.value); resetReview(); }}
+        />
+        <small>{draft.length} / 1200 characters</small>
+      </label>
+
+      <aside>
+        <strong>Keep private things private.</strong>
+        <span>Do not include a real name, school, address, phone number, email, username, password, health detail, photo, lesson answer or database.</span>
+      </aside>
+
+      <div className="feedback-hub__check-actions">
+        <button type="submit">Check my draft</button>
+        <button type="button" onClick={clearDraft}>Clear</button>
+      </div>
+    </form>
+
+    {checked && <section className={`feedback-hub__result ${draftReady ? 'is-ready' : 'has-findings'}`} aria-live="polite">
+      {draftReady ? <>
+        <strong>Your draft passed these simple checks.</strong>
+        <span>These checks can miss things. A responsible adult must still read every word.</span>
+      </> : <>
+        <strong>Please change your draft before sharing it.</strong>
+        <ul>{findings.map((finding) => <li key={finding.id}>{finding.message}</li>)}</ul>
+      </>}
+    </section>}
+
+    {draftReady && <section className="feedback-hub__adult-review" aria-labelledby="adult-review-title">
+      <div>
+        <p>ADULT REVIEW</p>
+        <h3 id="adult-review-title">A responsible adult checks this next.</h3>
+        <span>The app cannot prove that a draft is safe. Read it, remove anything private, and use a made-up example.</span>
+      </div>
+      <label><input type="checkbox" checked={adultReviewed} onChange={(event) => { setAdultReviewed(event.target.checked); setCopyStatus(''); }} /> I am a responsible adult and I reviewed this draft.</label>
+      <textarea className="feedback-hub__reviewed-text" readOnly value={reviewedDraft} rows={9} aria-label="Reviewed feedback draft" />
+      <div className="feedback-hub__adult-actions">
+        <button type="button" disabled={!canShare} onClick={copyDraft}>Copy reviewed draft</button>
+        {canShare
+          ? <a href={kindId === 'broken' ? issueUrl : discussionUrl} target="_blank" rel="noreferrer">Open the adult public feedback page</a>
+          : <span>Public feedback stays locked until an adult checks the box.</span>}
+      </div>
+      {copyStatus && <p className="feedback-hub__copy-status" role="status">{copyStatus}</p>}
+    </section>}
+
+    <details>
+      <summary>For teachers and developers</summary>
+      <p>The draft exists only in browser memory and is discarded when this page reloads. It makes no API call, writes no database or browser storage, invokes no model, and never submits to GitHub. Run <code>./scripts/sync-github-feedback.ps1</code> only after an adult has posted a privacy-safe public report.</p>
+    </details>
   </section>;
 }

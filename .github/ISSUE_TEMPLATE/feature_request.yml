@@ -5,7 +5,16 @@ labels: ["enhancement", "needs-triage"]
 body:
   - type: markdown
     attributes:
-      value: "Do not post learner names, work, school records, or other personal data."
+      value: "A responsible adult must review learner feedback before it is posted. Do not post learner names, work, school records, contact details, health information, lesson answers, credentials, photos, or other personal data. Use a made-up example."
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy and adult review
+      options:
+        - label: I removed names, school details, contact details, credentials, health information, learner work and lesson answers.
+          required: true
+        - label: If this idea started with a learner, a responsible adult reviewed every word before posting it.
+          required: true
   - type: dropdown
     id: audience
     attributes:

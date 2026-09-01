@@ -21,7 +21,7 @@ The interface uses plain language that many nine-year-olds can understand. Lesso
 
 ## Build the app with users
 
-Invite students to say what was easy, hard, broken, or missing. Use the in-app Feedback page, [GitHub Discussions](https://github.com/neuro-1977/MA-Teacher/discussions), or the guided [issue form](https://github.com/neuro-1977/MA-Teacher/issues/new/choose). Help learners use made-up examples and remove names, school details, work, health information, and other private data before posting.
+Invite students to say what was easy, hard, broken, or missing through the in-app `Feedback` page. The draft remains in browser memory, makes no API call, and is discarded on reload. Its checks are a prompt, not a safeguarding guarantee. A responsible adult must review every word, replace real examples with made-up ones, and remove names, school and contact details, addresses, work, lesson answers, health information, credentials, photos, and other private data before the app unlocks copy and public-feedback links. Use [GitHub Discussions](https://github.com/neuro-1977/MA-Teacher/discussions) or the guided [issue form](https://github.com/neuro-1977/MA-Teacher/issues/new/choose) only after that review.
 
 ## Marking work
 
