@@ -38,6 +38,10 @@
 .teacher-workspace>.workspace-anchor-wrap>* { margin:0!important; }
 .teacher-workspace-tools { margin-bottom:1rem; }
 .teacher-workspace-tools>* { margin:0!important; }
+.teacher-workspace-loading { display:grid; gap:.45rem; min-height:11rem; place-content:center; padding:1.5rem; border:1px solid rgba(94,231,178,.32); border-radius:1rem; color:#e9f2fb; background:linear-gradient(145deg,rgba(8,25,50,.92),rgba(5,13,27,.96)); text-align:center; }
+.teacher-workspace-loading span { color:#8cebc7; font-size:.65rem; font-weight:900; letter-spacing:.14em; }
+.teacher-workspace-loading h2 { margin:0; font-size:clamp(1.35rem,3vw,2rem); }
+.teacher-workspace-loading p { margin:0; color:#aebfd2; font-size:.82rem; }
 .teacher-home { display:grid; gap:1.2rem; padding:clamp(1rem,2vw,1.8rem); border:1px solid rgba(244,161,29,.32); border-radius:1.2rem; background:linear-gradient(145deg,rgba(8,25,50,.97),rgba(5,13,27,.98)); box-shadow:0 1.4rem 4rem rgba(0,0,0,.3); }
 .teacher-home__hero { display:grid; grid-template-columns:7rem minmax(0,1fr); align-items:center; gap:1.3rem; padding-bottom:1.2rem; border-bottom:1px solid rgba(244,161,29,.22); }
 .teacher-home__hero img { width:7rem; height:7rem; border:1px solid rgba(244,161,29,.55); border-radius:2rem; object-fit:cover; box-shadow:0 .8rem 2.5rem rgba(0,0,0,.35); }

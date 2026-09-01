@@ -1,65 +1,65 @@
-import { useEffect, type ReactNode } from 'react';
-import { useState } from 'react';
-import { App } from './App';
-import { AccessibilityReviewPanel } from './AccessibilityReviewPanel';
-import { AssessmentPatternsPanel } from './AssessmentPatternsPanel';
-import { ContinuationSnapshotPanel } from './ContinuationSnapshotPanel';
-import { CurriculumCoveragePanel } from './CurriculumCoveragePanel';
-import { CurriculumReferenceCandidatePanel } from './CurriculumReferenceCandidatePanel';
-import { CurriculumReviewGuidePanel } from './CurriculumReviewGuidePanel';
-import { CurriculumSourceAcquisitionPanel } from './CurriculumSourceAcquisitionPanel';
-import { DatabaseBackupPanel } from './DatabaseBackupPanel';
-import { DataStewardshipPanel } from './DataStewardshipPanel';
-import { DevelopmentHistoryPanel } from './DevelopmentHistoryPanel';
-import { DevelopmentReceiptPanel } from './DevelopmentReceiptPanel';
-import { EvidenceLegendPanel } from './EvidenceLegendPanel';
-import { FeedbackPlanningPanel } from './FeedbackPlanningPanel';
-import { FeedbackHubPanel } from './FeedbackHubPanel';
-import { GettingStartedPanel } from './GettingStartedPanel';
+import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
 import { InfoTip } from './InfoTip';
-import { InclusivePlanningPanel } from './InclusivePlanningPanel';
-import { JurisdictionStageGuidePanel } from './JurisdictionStageGuidePanel';
-import { LearningCheckPanel } from './LearningCheckPanel';
-import { LearningProgressPanel } from './LearningProgressPanel';
-import { LearningWorkspacePanel } from './LearningWorkspacePanel';
-import ClassroomPanel from './ClassroomPanel';
-import { LessonDraftPanel } from './LessonDraftPanel';
-import { LessonReaderPanel } from './LessonReaderPanel';
-import { LessonReviewGatePanel } from './LessonReviewGatePanel';
-import { LessonReviewRecordPanel } from './LessonReviewRecordPanel';
-import { MisconceptionResponsePanel } from './MisconceptionResponsePanel';
 import { PrintLessonControl } from './PrintLessonControl';
-import { ProjectReadinessPanel } from './ProjectReadinessPanel';
-import { QuestioningPlanningPanel } from './QuestioningPlanningPanel';
-import { ResourceRightsPanel } from './ResourceRightsPanel';
-import { SafetyPrivacyPanel } from './SafetyPrivacyPanel';
-import { StageLensesPanel } from './StageLensesPanel';
-import { SubjectLensesPanel } from './SubjectLensesPanel';
-import SafeCodeLabPanel from "./SafeCodeLabPanel";
 import { SurfaceErrorBoundary } from './AppErrorBoundary';
-import { TeachingBankCoveragePanel } from './TeachingBankCoveragePanel';
-import { TeachingDataAuthoringQueuePanel } from './TeachingDataAuthoringQueuePanel';
-import { TeachingDataDraftValidatorPanel } from './TeachingDataDraftValidatorPanel';
-import { TeachingDataProvenancePanel } from './TeachingDataProvenancePanel';
-import { TeachingEvidenceAppraisalPanel } from './TeachingEvidenceAppraisalPanel';
-import { TeachingEvidenceChecklistPanel } from './TeachingEvidenceChecklistPanel';
-import { TeachingOperationsPanel } from './TeachingOperationsPanel';
-import { TeachingPatternsPanel } from './TeachingPatternsPanel';
-import { TeachingPlanningPacketPanel } from './TeachingPlanningPacketPanel';
-import { TeachingProposalPanel } from './TeachingProposalPanel';
-import { TeachingReferencePanel } from './TeachingReferencePanel';
-import { TeachingReferenceReviewPanel } from './TeachingReferenceReviewPanel';
-import { TeachingSessionBriefPanel } from './TeachingSessionBriefPanel';
-import { TeachingSessionPanel } from './TeachingSessionPanel';
-import { TeachingToolkitPathPanel } from './TeachingToolkitPathPanel';
-import { ViewModeControl } from './ViewModeControl';
-import { VocabularyPlanningPanel } from './VocabularyPlanningPanel';
-import { WorkedExamplesPanel } from './WorkedExamplesPanel';
-import { WorkspaceIndexPanel } from './WorkspaceIndexPanel';
-import { WorkspaceRegistryAuditPanel } from './WorkspaceRegistryAuditPanel';
 import { workspaceEffectLabels, workspaceGroups, type WorkspaceEffect } from './workspace-surfaces';
 import tutorIcon from '../../icon-large.png';
 import './teacher-shell.css';
+
+const App = lazy(() => import('./App').then((module) => ({ default: module.App })));
+const AccessibilityReviewPanel = lazy(() => import('./AccessibilityReviewPanel').then((module) => ({ default: module.AccessibilityReviewPanel })));
+const AssessmentPatternsPanel = lazy(() => import('./AssessmentPatternsPanel').then((module) => ({ default: module.AssessmentPatternsPanel })));
+const ClassroomPanel = lazy(() => import('./ClassroomPanel'));
+const ContinuationSnapshotPanel = lazy(() => import('./ContinuationSnapshotPanel').then((module) => ({ default: module.ContinuationSnapshotPanel })));
+const CurriculumCoveragePanel = lazy(() => import('./CurriculumCoveragePanel').then((module) => ({ default: module.CurriculumCoveragePanel })));
+const CurriculumReferenceCandidatePanel = lazy(() => import('./CurriculumReferenceCandidatePanel').then((module) => ({ default: module.CurriculumReferenceCandidatePanel })));
+const CurriculumReviewGuidePanel = lazy(() => import('./CurriculumReviewGuidePanel').then((module) => ({ default: module.CurriculumReviewGuidePanel })));
+const CurriculumSourceAcquisitionPanel = lazy(() => import('./CurriculumSourceAcquisitionPanel').then((module) => ({ default: module.CurriculumSourceAcquisitionPanel })));
+const DatabaseBackupPanel = lazy(() => import('./DatabaseBackupPanel').then((module) => ({ default: module.DatabaseBackupPanel })));
+const DataStewardshipPanel = lazy(() => import('./DataStewardshipPanel').then((module) => ({ default: module.DataStewardshipPanel })));
+const DevelopmentHistoryPanel = lazy(() => import('./DevelopmentHistoryPanel').then((module) => ({ default: module.DevelopmentHistoryPanel })));
+const DevelopmentReceiptPanel = lazy(() => import('./DevelopmentReceiptPanel').then((module) => ({ default: module.DevelopmentReceiptPanel })));
+const EvidenceLegendPanel = lazy(() => import('./EvidenceLegendPanel').then((module) => ({ default: module.EvidenceLegendPanel })));
+const FeedbackHubPanel = lazy(() => import('./FeedbackHubPanel').then((module) => ({ default: module.FeedbackHubPanel })));
+const FeedbackPlanningPanel = lazy(() => import('./FeedbackPlanningPanel').then((module) => ({ default: module.FeedbackPlanningPanel })));
+const GettingStartedPanel = lazy(() => import('./GettingStartedPanel').then((module) => ({ default: module.GettingStartedPanel })));
+const InclusivePlanningPanel = lazy(() => import('./InclusivePlanningPanel').then((module) => ({ default: module.InclusivePlanningPanel })));
+const JurisdictionStageGuidePanel = lazy(() => import('./JurisdictionStageGuidePanel').then((module) => ({ default: module.JurisdictionStageGuidePanel })));
+const LearningCheckPanel = lazy(() => import('./LearningCheckPanel').then((module) => ({ default: module.LearningCheckPanel })));
+const LearningProgressPanel = lazy(() => import('./LearningProgressPanel').then((module) => ({ default: module.LearningProgressPanel })));
+const LearningWorkspacePanel = lazy(() => import('./LearningWorkspacePanel').then((module) => ({ default: module.LearningWorkspacePanel })));
+const LessonDraftPanel = lazy(() => import('./LessonDraftPanel').then((module) => ({ default: module.LessonDraftPanel })));
+const LessonReaderPanel = lazy(() => import('./LessonReaderPanel').then((module) => ({ default: module.LessonReaderPanel })));
+const LessonReviewGatePanel = lazy(() => import('./LessonReviewGatePanel').then((module) => ({ default: module.LessonReviewGatePanel })));
+const LessonReviewRecordPanel = lazy(() => import('./LessonReviewRecordPanel').then((module) => ({ default: module.LessonReviewRecordPanel })));
+const MisconceptionResponsePanel = lazy(() => import('./MisconceptionResponsePanel').then((module) => ({ default: module.MisconceptionResponsePanel })));
+const ProjectReadinessPanel = lazy(() => import('./ProjectReadinessPanel').then((module) => ({ default: module.ProjectReadinessPanel })));
+const QuestioningPlanningPanel = lazy(() => import('./QuestioningPlanningPanel').then((module) => ({ default: module.QuestioningPlanningPanel })));
+const ResourceRightsPanel = lazy(() => import('./ResourceRightsPanel').then((module) => ({ default: module.ResourceRightsPanel })));
+const SafeCodeLabPanel = lazy(() => import('./SafeCodeLabPanel'));
+const SafetyPrivacyPanel = lazy(() => import('./SafetyPrivacyPanel').then((module) => ({ default: module.SafetyPrivacyPanel })));
+const StageLensesPanel = lazy(() => import('./StageLensesPanel').then((module) => ({ default: module.StageLensesPanel })));
+const SubjectLensesPanel = lazy(() => import('./SubjectLensesPanel').then((module) => ({ default: module.SubjectLensesPanel })));
+const TeachingBankCoveragePanel = lazy(() => import('./TeachingBankCoveragePanel').then((module) => ({ default: module.TeachingBankCoveragePanel })));
+const TeachingDataAuthoringQueuePanel = lazy(() => import('./TeachingDataAuthoringQueuePanel').then((module) => ({ default: module.TeachingDataAuthoringQueuePanel })));
+const TeachingDataDraftValidatorPanel = lazy(() => import('./TeachingDataDraftValidatorPanel').then((module) => ({ default: module.TeachingDataDraftValidatorPanel })));
+const TeachingDataProvenancePanel = lazy(() => import('./TeachingDataProvenancePanel').then((module) => ({ default: module.TeachingDataProvenancePanel })));
+const TeachingEvidenceAppraisalPanel = lazy(() => import('./TeachingEvidenceAppraisalPanel').then((module) => ({ default: module.TeachingEvidenceAppraisalPanel })));
+const TeachingEvidenceChecklistPanel = lazy(() => import('./TeachingEvidenceChecklistPanel').then((module) => ({ default: module.TeachingEvidenceChecklistPanel })));
+const TeachingOperationsPanel = lazy(() => import('./TeachingOperationsPanel').then((module) => ({ default: module.TeachingOperationsPanel })));
+const TeachingPatternsPanel = lazy(() => import('./TeachingPatternsPanel').then((module) => ({ default: module.TeachingPatternsPanel })));
+const TeachingPlanningPacketPanel = lazy(() => import('./TeachingPlanningPacketPanel').then((module) => ({ default: module.TeachingPlanningPacketPanel })));
+const TeachingProposalPanel = lazy(() => import('./TeachingProposalPanel').then((module) => ({ default: module.TeachingProposalPanel })));
+const TeachingReferencePanel = lazy(() => import('./TeachingReferencePanel').then((module) => ({ default: module.TeachingReferencePanel })));
+const TeachingReferenceReviewPanel = lazy(() => import('./TeachingReferenceReviewPanel').then((module) => ({ default: module.TeachingReferenceReviewPanel })));
+const TeachingSessionBriefPanel = lazy(() => import('./TeachingSessionBriefPanel').then((module) => ({ default: module.TeachingSessionBriefPanel })));
+const TeachingSessionPanel = lazy(() => import('./TeachingSessionPanel').then((module) => ({ default: module.TeachingSessionPanel })));
+const TeachingToolkitPathPanel = lazy(() => import('./TeachingToolkitPathPanel').then((module) => ({ default: module.TeachingToolkitPathPanel })));
+const ViewModeControl = lazy(() => import('./ViewModeControl').then((module) => ({ default: module.ViewModeControl })));
+const VocabularyPlanningPanel = lazy(() => import('./VocabularyPlanningPanel').then((module) => ({ default: module.VocabularyPlanningPanel })));
+const WorkedExamplesPanel = lazy(() => import('./WorkedExamplesPanel').then((module) => ({ default: module.WorkedExamplesPanel })));
+const WorkspaceIndexPanel = lazy(() => import('./WorkspaceIndexPanel').then((module) => ({ default: module.WorkspaceIndexPanel })));
+const WorkspaceRegistryAuditPanel = lazy(() => import('./WorkspaceRegistryAuditPanel').then((module) => ({ default: module.WorkspaceRegistryAuditPanel })));
 
 type WorkspaceEntry = { id: string; label: string; description: string };
 type WorkspaceGroup = { id: string; label: string; eyebrow: string; description: string; entries: WorkspaceEntry[] };
@@ -244,6 +244,14 @@ function Home({ open, view }: { open: (id: string) => void; view: AppView }) {
   </section>;
 }
 
+function WorkspaceLoading({ label }: { label: string }) {
+  return <section className="teacher-workspace-loading" role="status" aria-live="polite" aria-busy="true">
+    <span aria-hidden="true">OPENING</span>
+    <h2>{label}</h2>
+    <p>Getting this page ready. Your saved work is not changing.</p>
+  </section>;
+}
+
 export function TeacherShell() {
   const [view, setView] = useState<AppView>(() => window.localStorage.getItem('ma-teacher-view') === 'teacher' ? 'teacher' : 'simple');
   const initialHash = window.location.hash.slice(1);
@@ -298,7 +306,7 @@ export function TeacherShell() {
       <main id="teacher-main" className="teacher-main" tabIndex={-1}>
         {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <div className="teacher-effect"><strong data-effect={effect}>{workspaceEffectLabels[effect]}</strong><InfoTip label="What does this label mean?">This tells you whether this page can save a record, create a backup, or only read information.</InfoTip></div> : null}</header> : null}
         {activeId === 'workspace-lesson-reader' ? <div className="teacher-workspace-tools"><PrintLessonControl /></div> : null}
-        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}>{activeRenderer()}</SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
+        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}><Suspense fallback={<WorkspaceLoading label={activeEntry.label} />}>{activeRenderer()}</Suspense></SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
       </main>
     </div>
   </div>;

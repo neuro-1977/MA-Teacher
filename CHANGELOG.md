@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0 learner-startup refresh - 2026-09-01
+
+- Kept the full Teacher workspace while moving its individual panels behind on-demand loading boundaries.
+- Reduced the initial production JavaScript from approximately 665 kB to 251 kB; learner and teacher destinations now load as independent chunks when opened.
+- Added a calm, accessible loading card that says saved work is not changing and makes no timer or completion claim.
+- Added a build-time Simple-shell contract that refuses eager panel imports, missing accessibility markers, collapsed chunk ownership or an oversized initial entry.
+- Browser-checked Simple home, Guided setup, Teacher navigation, Advanced workspace index and safe return from Advanced to Simple.
+- Recorded the boundary and evidence in [Simple and Teacher loading boundary](docs/SIMPLE_AND_TEACHER_LOADING.md).
+
 ## 0.1.0 public preview
 
 - Added an explicit, administrator-only installer option for classroom browser links. It creates only the exact TCP 5202 URL reservation and MA-Teacher executable firewall rule on Domain/Private profiles, records ownership, rolls back partial failure, and removes only its owned entries on uninstall; Public networks remain blocked.
