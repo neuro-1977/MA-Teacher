@@ -6,8 +6,9 @@ This guide describes MA-Teacher `0.1.0` as shipped. It is for IT administrators 
 
 - Supported client: 64-bit Windows 10 or Windows 11.
 - End-user dependencies: none installed manually. Setup contains the .NET runtime and carries Microsoft's WebView2 bootstrapper.
-- Local port: TCP `5201` on `127.0.0.1` only.
-- Inbound network rule: none. Do not expose TCP `5201` to the LAN, VPN, Wi-Fi, or internet.
+- Local desktop port: TCP `5201` on `127.0.0.1` only.
+- Optional classroom port: inbound TCP `5202`, only when an administrator selects the classroom-network Setup task. The rule is confined to `MA-Teacher.exe` and Domain/Private profiles.
+- Never expose TCP `5201` to the LAN, VPN, Wi-Fi, or internet. Never enable the classroom rule on the Public profile or port-forward TCP `5202`.
 - Outbound network: HTTPS TCP `443` for first-time WebView2 installation, installer retrieval, and optional curriculum-source capture.
 - Data location: below the selected MA-Teacher installation folder, including SQLite records, attachments, backups, and the WebView2 profile.
 - Authentication: no multi-user or network authentication boundary. Windows account and NTFS isolation are required.
@@ -37,13 +38,16 @@ The app does not require `dotnet.exe`, `node.exe`, `npm`, Inno Setup, a compiler
 | Direction | Protocol and destination | Requirement | Safe policy |
 | --- | --- | --- | --- |
 | Local only | TCP `127.0.0.1:5201` | Required while MA-Teacher is open | Permit the MA-Teacher process to listen on loopback only. Do not create a remote inbound rule. |
+| Inbound school LAN | TCP `5202` to the teacher laptop | Optional supervised student browser link | Allow only `MA-Teacher.exe`, inbound TCP `5202`, on Domain/Private profiles. Keep Public blocked. Do not port-forward or proxy to the internet. |
 | Outbound | HTTPS TCP `443` | Required if WebView2 is missing; optional for updates and curriculum capture | Allow only approved destinations through the school proxy or firewall. |
-| Inbound LAN/WAN | Any address, including TCP `5201` | Not required | Block. |
+| Other inbound LAN/WAN | Any other port or process, including TCP `5201` | Not required | Block. |
 | UDP, multicast, discovery | Any | Not required | Block by default. |
 
-Endpoint protection may describe the loopback listener as a local server. That is expected. The source binds the `HttpListener` prefix `http://127.0.0.1:5201/`; it does not bind `0.0.0.0`, `localhost`, the device LAN address, or an IPv6 wildcard.
+Endpoint protection may describe the loopback listener as a local server. That is expected. The desktop API binds only `http://127.0.0.1:5201/`. The separate classroom relay registers `http://+:5202/` only after a teacher creates an invite, rejects callers outside private address ranges, and stops when sharing is revoked or MA-Teacher closes.
 
-Do not port-forward `5201`, add a Windows Firewall inbound allow rule, publish it through a reverse proxy, or place it behind school single sign-on. The API was designed for the packaged interface on the same Windows account, not remote clients. Mutation routes check the loopback origin and a specific intent header, but a hostile native process running as the same Windows user is still inside the local trust boundary.
+Do not port-forward `5201` or `5202`, create a broad app/folder firewall exemption, publish either listener through a reverse proxy, or place it behind school single sign-on. TCP `5201` was designed for the packaged interface on the same Windows account. TCP `5202` is a short-lived lesson relay with one-use codes, same-origin mutations, private-address checks, bounded failed joins, and lesson/learner scoping; it is not a general remote API.
+
+The classroom URL reservation grants the Windows built-in Users group permission to register that exact listener. Remote firewall admission is narrower: only the installed `MA-Teacher.exe` path can receive TCP `5202` on Domain/Private profiles. Preserve normal NTFS isolation on the per-user installation folder so other users cannot replace that executable.
 
 ## Outbound HTTPS allowlist
 
@@ -88,6 +92,24 @@ Deploy in the interactive user's context because the default install and data ro
 MA-Teacher-Setup-latest.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /DIR="$env:LOCALAPPDATA\Programs\MA-Teacher"
 ```
 
+For a teacher laptop that needs supervised student browser links, run in an elevated interactive deployment context and select only the named network task:
+
+```powershell
+MA-Teacher-Setup-latest.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /ALLUSERS /TASKS=classroomnetwork /DIR="$env:LOCALAPPDATA\Programs\MA-Teacher"
+```
+
+After installation, verify ownership and scope:
+
+```powershell
+netsh http show urlacl url=http://+:5202/
+Get-NetFirewallRule -DisplayName "MA-Teacher Classroom Relay" |
+  Format-List DisplayName,Enabled,Direction,Action,Profile
+Get-NetFirewallRule -DisplayName "MA-Teacher Classroom Relay" | Get-NetFirewallPortFilter
+Get-NetFirewallRule -DisplayName "MA-Teacher Classroom Relay" | Get-NetFirewallApplicationFilter
+```
+
+Expected: one URL reservation, one enabled inbound allow rule, profiles `Domain, Private`, TCP local port `5202`, and the exact installed `MA-Teacher.exe` path. Any Public profile, `Any` program, extra port, or duplicate rule is a deployment failure.
+
 Do not run that command as `SYSTEM` unless the deployment platform deliberately substitutes the intended user's path. A system-context install would place the app under the system profile and make it unavailable or confusing for the learner.
 
 The selected folder must be writable by that user because MA-Teacher deliberately keeps its database, attachments, backups, and WebView2 profile under one root. Do not install it in a read-only `Program Files` location. Do not place the live database on OneDrive, a roaming profile, a synchronised folder, or a network share; SQLite and WebView2 require reliable local filesystem semantics.
@@ -125,12 +147,13 @@ Back up and verify required records before removal. Uninstall behavior and local
 6. Run `Get-NetTCPConnection -State Listen -LocalPort 5201` while the app is open and confirm `LocalAddress` is exactly `127.0.0.1`.
 7. Match `OwningProcess` to `MA-Teacher.exe` with `Get-Process -Id <pid>`.
 8. From another device, verify `Test-NetConnection <test-device-ip> -Port 5201` fails.
-9. Confirm no inbound Windows Firewall allow rule was created for MA-Teacher.
+9. For a single-device install, confirm no inbound Windows Firewall allow rule exists. For a classroom-network install, confirm exactly one owned TCP `5202` rule exists and is confined to `MA-Teacher.exe` plus Domain/Private profiles.
 10. Confirm files are written only beneath the selected install root during ordinary use.
 11. Check NTFS permissions with `icacls <install-root>` and verify another standard user cannot read the learner data.
 12. Create and verify an in-app backup, then test the school's protected backup handling without publishing real data.
-13. Close MA-Teacher and confirm TCP `5201` is no longer listening.
-14. Test silent uninstall and the school's chosen retain-or-remove-data process on the disposable account.
+13. Create one synthetic learner invite. From a second managed device on the same isolated school network, open the displayed link, join once, verify the code cannot be reused, submit synthetic work, and confirm only the assigned lesson/learner records are visible.
+14. Stop classroom sharing and confirm TCP `5202` is no longer listening; close MA-Teacher and confirm TCP `5201` is no longer listening.
+15. Test silent uninstall and confirm the owned `MA-Teacher Classroom Relay` firewall rule and `http://+:5202/` reservation are removed. Confirm an unowned pre-existing reservation is never deleted.
 
 ## Incident and support handling
 

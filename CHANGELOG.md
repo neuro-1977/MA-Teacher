@@ -2,6 +2,7 @@
 
 ## 0.1.0 public preview
 
+- Added an explicit, administrator-only installer option for classroom browser links. It creates only the exact TCP 5202 URL reservation and MA-Teacher executable firewall rule on Domain/Private profiles, records ownership, rolls back partial failure, and removes only its owned entries on uninstall; Public networks remain blocked.
 - Added a child-friendly four-stop activity meter and evidence-backed trail stars for opening a lesson, sending work, receiving human feedback, and trying again. They use existing local records and never become points, grades, streaks, ranks, rewards, ability labels, or mastery claims.
 - Isolated the packaged release self-test onto a free ephemeral loopback port so an installed MA-Teacher already serving the real classroom on port 5201 no longer causes a false release failure; production classroom identity and school-network guidance remain unchanged.
 - Fixed Guided Setup so an interrupted local response cannot expose raw JavaScript JSON parser text: the host now returns a valid, privacy-safe JSON error, the page validates response bodies before parsing, and the packaged self-test checks all four setup APIs.

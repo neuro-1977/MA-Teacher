@@ -26,6 +26,7 @@ Version `0.1.0` is a public preview. It is usable for feedback, but it is not a 
 - Record teaching sessions and progress evidence without inventing scores.
 - Create and verify local database backups.
 - Keep the application, database, WebView data, and assets under the chosen install folder.
+- Create an optional, teacher-controlled classroom link for student browsers on a managed school network; students install no app.
 - Start in a calm Simple view, with the full planning and evidence toolkit available in Teacher view.
 - Explore fourteen subject guides and activity-only progress trail markers without invented grades.
 
@@ -42,6 +43,8 @@ MA-Teacher does **not** automatically grade work, recognise handwriting, diagnos
 The installer is unsigned, so Windows SmartScreen may show an unknown-publisher warning. Do not install a file whose checksum does not match the release.
 
 Teachers and students use the **same installer**. The teacher or operator sets up learners, plans, lessons, checks, and reviews. Students use the supervised lesson and submission surfaces on that installation.
+
+School IT can run Setup in administrator mode and select `Allow supervised student links` to provision the exact TCP `5202` URL reservation and Domain/Private firewall rule. The option is off by default, never enables the Public profile, and is unnecessary for single-device use.
 
 - [Installation and updates](docs/INSTALLER.md)
 - [Teacher guide](docs/TEACHER_GUIDE.md)
