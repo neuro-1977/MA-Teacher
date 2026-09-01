@@ -180,7 +180,7 @@ const surfaceRenderers: Partial<Record<string, (view: AppView) => ReactNode>> = 
   'workspace-lesson-review-records': () => <LessonReviewRecordPanel />,
   'workspace-teaching-sessions': () => <TeachingSessionPanel />,
   'workspace-teaching-operations': () => <TeachingOperationsPanel />,
-  'workspace-learning-checks': () => <LearningCheckPanel />,
+  'workspace-learning-checks': (view) => <LearningCheckPanel mode={view === 'teacher' ? 'teacher' : 'learner'} />,
   'workspace-misconception-response': () => <MisconceptionResponsePanel />,
   'workspace-progress': (view) => <LearningProgressPanel showTeacherDetails={view === 'teacher'} />,
   'workspace-feedback-hub': () => <FeedbackHubPanel />,
@@ -307,7 +307,7 @@ export function TeacherShell() {
         <div>{activeGroup.entries.map((entry) => <button type="button" key={entry.id} className={activeId === entry.id ? 'is-active' : ''} onClick={() => open(entry.id)}><strong>{entry.label}</strong><small>{entry.description}</small></button>)}</div>
       </aside>
       <main id="teacher-main" className="teacher-main" tabIndex={-1}>
-        {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <div className="teacher-effect"><strong data-effect={effect}>{workspaceEffectLabels[effect]}</strong><InfoTip label="What does this label mean?">This tells you whether this page can save a record, create a backup, or only read information.</InfoTip></div> : null}</header> : null}
+        {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <div className="teacher-effect"><strong data-effect={effect}>{view === 'simple' && effect === 'database-write' ? 'SAVES YOUR WORK' : workspaceEffectLabels[effect]}</strong><InfoTip label="What does this label mean?">{view === 'simple' ? 'This page can save the work you choose to send.' : 'This tells you whether this page can save a record, create a backup, or only read information.'}</InfoTip></div> : null}</header> : null}
         {activeId === 'workspace-lesson-reader' ? <div className="teacher-workspace-tools"><PrintLessonControl /></div> : null}
         <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}><Suspense fallback={<WorkspaceLoading label={activeEntry.label} />}>{activeRenderer(view)}</Suspense></SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
       </main>

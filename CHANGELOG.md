@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 - Learner-safe practice and work submission
+
+- Simple view now shows only the learner's current question, answer/file submission and a short explanation of what happens next.
+- Check authoring, human-review controls, currency data, submitted-work ledgers, stable IDs, database wording and SHA-256 evidence remain available in Teacher view only.
+- Learner submissions receive a generated local ID, stay on the teacher's computer and remain explicitly human-reviewed rather than automatically marked.
+- The Simple effect badge now says `SAVES YOUR WORK` instead of exposing database language.
+- Permanent shell and learning-check contracts prevent teacher-only practice controls from leaking back into Simple view.
+
 ## Classroom web asset budget
 
 - Preserved the full 1254 px MA-Teacher artwork as the installer and documentation master while giving all three web shells a dedicated 256 px runtime logo.

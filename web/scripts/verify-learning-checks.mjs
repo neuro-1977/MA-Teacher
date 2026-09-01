@@ -18,6 +18,15 @@ const requiredPanelMarkers = [
   'return () => { cancelled = true; };',
   'Record human review',
   'It is not sent to a model or marked automatically.',
+  "export function LearningCheckPanel({ mode = 'teacher' }",
+  "const isTeacher = mode === 'teacher';",
+  '{isTeacher && <form onSubmit={createCheck}>',
+  '{isTeacher && <form onSubmit={reviewAttempt}>',
+  '{isTeacher && <div className="check-currency-ledger">',
+  '{isTeacher && <div className="attempt-ledger">',
+  'Your work stays on your teacher\'s computer. A person reviews it. A robot does not mark it.',
+  'Send my work for review',
+  'What happens next?',
 ];
 
 for (const marker of requiredPanelMarkers) {

@@ -22,6 +22,8 @@ for (const marker of [
   'role="status" aria-live="polite" aria-busy="true"',
   "const simpleIds = new Set(['workspace-start', 'workspace-lesson-reader', 'workspace-learning-checks', 'workspace-progress', 'workspace-subjects', 'workspace-feedback-hub'])",
   "'workspace-start': (view) => <GettingStartedPanel showTeacherHelp={view === 'teacher'} />",
+  "'workspace-learning-checks': (view) => <LearningCheckPanel mode={view === 'teacher' ? 'teacher' : 'learner'} />",
+  "view === 'simple' && effect === 'database-write' ? 'SAVES YOUR WORK'",
   'function isWorkspaceVisibleInView(id: string, view: AppView)',
   'isWorkspaceVisibleInView(initialHash, initialView)',
   'const next = isWorkspaceVisibleInView(requested, view) ? requested : \'teacher-home\';',
