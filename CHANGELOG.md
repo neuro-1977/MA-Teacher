@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-01 - Calm, evidence-based learner progress
+
+- Added a clear next-step card derived only from saved work and human-review evidence.
+- Added friendly empty-state guidance and explicit `Reached` / `Not yet` marker text so progress is not communicated by colour or symbols alone.
+- Kept trail markers non-competitive: no streaks, leaderboards, invented scores, ability guesses, unlocks, or automated grades.
+- Replaced raw JSON failures with plain-language local-service messages that say no learning work was changed.
+- Preserved the complete teacher evidence ledger and the Simple-to-Teacher navigation path.
+
 ## 0.1.0 learner-startup refresh - 2026-09-01
 
 - Kept the full Teacher workspace while moving its individual panels behind on-demand loading boundaries.
