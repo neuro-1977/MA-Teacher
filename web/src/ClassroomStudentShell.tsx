@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import logoUrl from '../../icon-large.png'
 import './ClassroomStudentShell.css'
 
@@ -35,12 +35,20 @@ export default function ClassroomStudentShell() {
   const [answers, setAnswers] = useState<Record<string,string>>({})
   const [files, setFiles] = useState<Record<string,File|null>>({})
   const [busyCheck, setBusyCheck] = useState<string | null>(null)
+  const hadClassroom = useRef(false)
 
   const load = useCallback(async () => {
     try {
       const response = await fetch('/api/classroom/me', { cache:'no-store', credentials:'same-origin' })
-      if (response.status === 401) { setJoining(true); setView(null); return }
+      if (response.status === 401) {
+        setJoining(true)
+        setView(null)
+        setMessage(hadClassroom.current ? 'Your teacher ended this classroom. Ask for a new code when you are ready.' : 'Enter the code your teacher gave you.')
+        hadClassroom.current = false
+        return
+      }
       const result = await readClassroomJson<ClassroomView>(response)
+      hadClassroom.current = result.ok
       setView(result)
       setJoining(!result.ok)
       if (!result.ok) setMessage(result.error || 'Ask your teacher for a new classroom code.')
@@ -48,6 +56,17 @@ export default function ClassroomStudentShell() {
   }, [])
 
   useEffect(() => { void load() }, [load])
+
+  useEffect(() => {
+    if (!view?.ok) return
+    const refreshActiveClassroom = () => { void load() }
+    const interval = window.setInterval(refreshActiveClassroom, 5000)
+    window.addEventListener('focus', refreshActiveClassroom)
+    return () => {
+      window.clearInterval(interval)
+      window.removeEventListener('focus', refreshActiveClassroom)
+    }
+  }, [load, view?.ok])
 
   const join = async (event: FormEvent) => {
     event.preventDefault()
@@ -91,7 +110,7 @@ export default function ClassroomStudentShell() {
 
   const logout = async () => {
     try { await fetch('/api/classroom/logout',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:'{}'}) } catch {}
-    setView(null); setJoining(true); setCode(''); setMessage('You have left the classroom.')
+    hadClassroom.current = false; setView(null); setJoining(true); setCode(''); setMessage('You have left the classroom.')
   }
 
   const tryAgain = (checkId: string) => {
@@ -236,7 +255,7 @@ export default function ClassroomStudentShell() {
       <button type="button" onClick={() => void requestPrint(tab === 'feedback' ? 'feedback' : 'lesson')}>Ask my teacher to print {tab === 'feedback' ? 'my feedback' : 'this lesson'}</button>
       {(view.printRequests || []).some((request) => request.state === 'pending' && request.documentKind === (tab === 'feedback' ? 'feedback' : 'lesson')) && <strong>Waiting for teacher</strong>}
     </div>
-    {tab==='lesson' && <section className="student-classroom__page"><div className="student-classroom__goal"><span>Today we are learning to</span><strong>{view.lesson.goal}</strong></div>{view.lesson.sections.sort((a,b)=>a.sequence-b.sequence).map((section)=><article key={`${section.sequence}-${section.kind}`}><p>{section.kind}</p><div>{section.content}</div></article>)}</section>}
+    {tab==='lesson' && <section className="student-classroom__page"><div className="student-classroom__goal"><span>Today we are learning to</span><strong>{view.lesson.goal}</strong></div>{[...view.lesson.sections].sort((a,b)=>a.sequence-b.sequence).map((section)=><article key={`${section.sequence}-${section.kind}`}><p>{section.kind}</p><div>{section.content}</div></article>)}</section>}
     {tab==='practice' && <section className="student-classroom__page"><h2>Show what you know</h2><p>Your teacher reads your work. The computer does not invent a score.</p>{(view.checks||[]).length===0?<div className="student-classroom__empty">Your teacher has not added a practice check yet.</div>:(view.checks||[]).map((check)=><article id={`practice-${check.id}`} className="student-classroom__check" key={check.id}><h3>{check.prompt}</h3><p><strong>A good answer will:</strong> {check.successCriteria}</p><label>Your answer<textarea value={answers[check.id]||''} onChange={(event)=>setAnswers((current)=>({...current,[check.id]:event.target.value}))} maxLength={10000} /></label><label className="student-classroom__file">Or add one file<input type="file" accept=".pdf,.docx,.odt,.txt,.png,.jpg,.jpeg,.webp" onChange={(event)=>setFiles((current)=>({...current,[check.id]:event.target.files?.[0]||null}))} /></label><button type="button" onClick={()=>void submit(check)} disabled={busyCheck===check.id}>{busyCheck===check.id?'Saving...':'Send to my teacher'}</button></article>)}</section>}
     {tab==='feedback' && <section className="student-classroom__page"><h2>What my teacher said</h2><p>Feedback is about this attempt. It is not a permanent label about you.</p>{(view.attempts||[]).length===0?<div className="student-classroom__empty">Your feedback will appear here after you send work and your teacher reviews it.</div>:(view.checks||[]).map((check)=><article className="student-classroom__feedback" key={check.id}><h3>{check.prompt}</h3>{(attemptsByCheck.get(check.id)||[]).map((attempt)=><div key={attempt.id}><span>{new Date(attempt.submittedUtc).toLocaleString()}</span><p>{attempt.responseText || attempt.attachmentName || 'File submitted'}</p><strong>{attempt.reviewState==='reviewed'?(attempt.outcome||'Reviewed'):'Waiting for teacher review'}</strong>{attempt.feedback&&<blockquote>{attempt.feedback}</blockquote>}{attempt.reviewState==='reviewed'&&<footer className="student-classroom__feedback-actions"><small>Your earlier attempt and feedback stay saved.</small><button type="button" onClick={()=>tryAgain(check.id)}>Try this again</button></footer>}</div>)}</article>)}</section>}
   </main>

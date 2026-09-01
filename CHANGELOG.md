@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 - Learner classroom state freshness
+
+- An active learner classroom now checks server authority every five seconds and whenever its window regains focus, so stopped sharing or revoked access removes stale lesson content without waiting for another learner action.
+- First-time entry still gives the ordinary code prompt, while a learner whose active classroom was ended receives a clear, non-technical explanation and can request a new code.
+- Lesson sections are now sorted from a copy during rendering instead of mutating the authoritative lesson payload.
+- The permanent classroom journey contract proves refresh cleanup, teacher-ended guidance, and immutable lesson rendering.
+
 ## 0.1.0 - Learner classroom response safety
 
 - The learner classroom now treats empty or malformed local API replies as a recoverable classroom problem instead of allowing a raw JSON parsing error to escape.

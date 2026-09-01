@@ -41,6 +41,13 @@ const requiredStudentMarkers = [
   'The classroom could not be reached. Ask your teacher for help.',
   'Your work could not be sent. It has not been marked as saved.',
   'The print request could not be sent.',
+  'const hadClassroom = useRef(false)',
+  'Your teacher ended this classroom. Ask for a new code when you are ready.',
+  'const interval = window.setInterval(refreshActiveClassroom, 5000)',
+  "window.addEventListener('focus', refreshActiveClassroom)",
+  'window.clearInterval(interval)',
+  "window.removeEventListener('focus', refreshActiveClassroom)",
+  '[...view.lesson.sections].sort((a,b)=>a.sequence-b.sequence)',
 ];
 
 for (const marker of requiredPanelMarkers) {
@@ -59,6 +66,10 @@ if (student.includes('response.json()')) {
   throw new Error('Learner classroom must reject empty or malformed responses before JSON parsing reaches UI state.');
 }
 
+if (student.includes('view.lesson.sections.sort(')) {
+  throw new Error('Learner lesson rendering must not mutate the authoritative lesson-section array.');
+}
+
 const classroomJsonUses = student.match(/readClassroomJson(?:<[^>]+>)?\(/g) ?? [];
 if (classroomJsonUses.length !== 5) {
   throw new Error(`Learner classroom response boundary must cover its helper plus four JSON endpoints; found ${classroomJsonUses.length}.`);
@@ -68,4 +79,4 @@ for (const forbidden of ['public network is allowed', 'code can be reused', 'int
   if (panel.toLowerCase().includes(forbidden)) throw new Error(`Classroom journey contains unsafe guidance: ${forbidden}`);
 }
 
-console.log('Classroom journey contract verified: honest sharing states, one-use access, explicit revocation, managed-network guidance, responsive layout, and child-friendly malformed-response recovery.');
+console.log('Classroom journey contract verified: honest sharing states, one-use access, bounded active-session revocation refresh, managed-network guidance, immutable lesson rendering, responsive layout, and child-friendly malformed-response recovery.');
