@@ -38,7 +38,7 @@ async function readLocalEvidence<T extends LocalEvidencePayload>(endpoint: strin
   return payload;
 }
 
-export function GettingStartedPanel() {
+export function GettingStartedPanel({ showTeacherHelp = false }: { showTeacherHelp?: boolean }) {
   const [loaded, setLoaded] = useState(false); const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false); const refreshActive = useRef(false);
   const [counts, setCounts] = useState({ learners: 0, plans: 0, candidates: 0, lessons: 0, lessonReviews: 0, checks: 0, attempts: 0, attemptReviews: 0 });
@@ -79,7 +79,7 @@ export function GettingStartedPanel() {
   return <section id="workspace-start" className="getting-started-shell" aria-labelledby="getting-started-title">
     <header><div><p>START HERE</p><h2 id="getting-started-title">Let us get ready to learn.</h2><span>Do these steps in order. A teacher does the setup and reviews the work.</span></div><button onClick={() => void refresh()} disabled={refreshing}>{refreshing ? 'Checking...' : 'Check again'}</button></header>
     {error && <div className="getting-started-error"><strong>We could not check your steps.</strong>{error}</div>}
-    <section className="getting-started-preflight" aria-labelledby="getting-started-preflight-title">
+    {showTeacherHelp && <section className="getting-started-preflight" aria-labelledby="getting-started-preflight-title">
       <header><div><p>TEACHER HELP</p><h3 id="getting-started-preflight-title">Need to check how the app is set up?</h3></div><span>These buttons do not change records</span></header>
       <div>
         <article><strong>Choose a view</strong><p>Simple view is calm and learner-friendly. Teacher view shows planning and record tools.</p><button type="button" onClick={() => go('workspace-view-mode')}>View options</button></article>
@@ -87,7 +87,7 @@ export function GettingStartedPanel() {
         <article><strong>Check the menu</strong><p>Use this technical check only when a page seems to be missing.</p><button type="button" onClick={() => go('workspace-registry-audit')}>Check the menu</button></article>
       </div>
       <footer>Opening these help pages does not save learning work or finish a step.</footer>
-    </section>
+    </section>}
     <div className="getting-started-grid">{steps.map((step, index) => <article key={step.id} className={step.count > 0 ? 'present' : firstEmpty?.id === step.id ? 'first-empty' : ''}>
       <span>{index + 1}</span><div><header><strong>{step.title}</strong><em>{step.count > 0 ? `${step.count} SAVED` : firstEmpty?.id === step.id ? 'DO THIS NEXT' : 'NOT READY YET'}</em></header><p>{step.explanation}</p><button onClick={() => go(step.anchor)}>{step.label}</button></div>
     </article>)}</div>

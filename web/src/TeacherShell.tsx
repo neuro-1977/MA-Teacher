@@ -151,7 +151,7 @@ const groups: WorkspaceGroup[] = [
 ];
 
 const surfaceRenderers: Partial<Record<string, (view: AppView) => ReactNode>> = {
-  'workspace-start': () => <GettingStartedPanel />,
+  'workspace-start': (view) => <GettingStartedPanel showTeacherHelp={view === 'teacher'} />,
   'workspace-view-mode': () => <ViewModeControl />,
   'workspace-index': () => <WorkspaceIndexPanel />,
   'workspace-registry-audit': () => <WorkspaceRegistryAuditPanel />,
@@ -218,6 +218,10 @@ const simpleIds = new Set(['workspace-start', 'workspace-lesson-reader', 'worksp
 const simpleGroup: WorkspaceGroup = { id: 'simple', label: 'Learn', eyebrow: 'YOUR LEARNING SPACE', description: 'Lessons, work, progress and ideas.', entries: allEntries.filter((entry) => simpleIds.has(entry.id)).map(({ groupId: _groupId, ...entry }) => entry) };
 type AppView = 'simple' | 'teacher';
 
+function isWorkspaceVisibleInView(id: string, view: AppView) {
+  return id === 'teacher-home' || (validIds.has(id) && (view === 'teacher' || simpleIds.has(id)));
+}
+
 function Home({ open, view }: { open: (id: string) => void; view: AppView }) {
   const actions = view === 'simple' ? [
     ['workspace-lesson-reader', 'Open my lesson', 'Read the lesson chosen by your teacher.'],
@@ -250,16 +254,18 @@ function WorkspaceLoading({ label }: { label: string }) {
 }
 
 export function TeacherShell() {
-  const [view, setView] = useState<AppView>(() => window.localStorage.getItem('ma-teacher-view') === 'teacher' ? 'teacher' : 'simple');
+  const initialView: AppView = window.localStorage.getItem('ma-teacher-view') === 'teacher' ? 'teacher' : 'simple';
+  const [view, setView] = useState<AppView>(initialView);
   const initialHash = window.location.hash.slice(1);
-  const [activeId, setActiveId] = useState(validIds.has(initialHash) ? initialHash : 'teacher-home');
+  const [activeId, setActiveId] = useState(isWorkspaceVisibleInView(initialHash, initialView) ? initialHash : 'teacher-home');
   const visibleGroups = view === 'teacher' ? groups : [simpleGroup];
   const activeEntry = allEntries.find((entry) => entry.id === activeId);
   const activeGroup = visibleGroups.find((group) => group.entries.some((entry) => entry.id === activeId)) ?? visibleGroups[0];
   const activeRenderer = surfaceRenderers[activeId];
 
   function open(id: string, addHistory = true) {
-    const next = validIds.has(id) ? id : 'teacher-home';
+    const requested = validIds.has(id) ? id : 'teacher-home';
+    const next = isWorkspaceVisibleInView(requested, view) ? requested : 'teacher-home';
     setActiveId(next);
     const hash = next === 'teacher-home' ? '' : `#${next}`;
     if (addHistory) window.history.pushState({ workspace: next }, '', `${window.location.pathname}${window.location.search}${hash}`);
@@ -272,11 +278,11 @@ export function TeacherShell() {
 
   useEffect(() => {
     const navigate = (event: Event) => open((event as CustomEvent<{ id: string }>).detail.id);
-    const restore = () => { const id = window.location.hash.slice(1); setActiveId(validIds.has(id) ? id : 'teacher-home'); };
+    const restore = () => open(window.location.hash.slice(1), false);
     window.addEventListener('ma-teacher:navigate', navigate as EventListener);
     window.addEventListener('popstate', restore);
     return () => { window.removeEventListener('ma-teacher:navigate', navigate as EventListener); window.removeEventListener('popstate', restore); };
-  }, []);
+  }, [view]);
 
   useEffect(() => {
     document.title = activeEntry ? `${activeEntry.label} - MA-Teacher` : 'MA-Teacher';

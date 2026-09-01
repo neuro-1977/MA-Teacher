@@ -4,8 +4,10 @@ import { fileURLToPath } from 'node:url';
 
 const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const shellPath = join(webRoot, 'src', 'TeacherShell.tsx');
+const startPath = join(webRoot, 'src', 'GettingStartedPanel.tsx');
 const distRoot = join(webRoot, 'dist');
 const shell = readFileSync(shellPath, 'utf8');
+const start = readFileSync(startPath, 'utf8');
 
 const failures = [];
 const forbiddenEagerImport = /^import\s+.+from ['"]\.\/(?:App|[^'"]*Panel|ViewModeControl)['"];?$/gm;
@@ -19,8 +21,22 @@ for (const marker of [
   '<Suspense fallback={<WorkspaceLoading label={activeEntry.label} />}>',
   'role="status" aria-live="polite" aria-busy="true"',
   "const simpleIds = new Set(['workspace-start', 'workspace-lesson-reader', 'workspace-learning-checks', 'workspace-progress', 'workspace-subjects', 'workspace-feedback-hub'])",
+  "'workspace-start': (view) => <GettingStartedPanel showTeacherHelp={view === 'teacher'} />",
+  'function isWorkspaceVisibleInView(id: string, view: AppView)',
+  'isWorkspaceVisibleInView(initialHash, initialView)',
+  'const next = isWorkspaceVisibleInView(requested, view) ? requested : \'teacher-home\';',
+  'const restore = () => open(window.location.hash.slice(1), false);',
+  '}, [view]);',
 ]) {
   if (!shell.includes(marker)) failures.push(`missing shell boundary marker: ${marker}`);
+}
+
+for (const marker of [
+  'showTeacherHelp = false',
+  '{showTeacherHelp && <section className="getting-started-preflight"',
+  'These buttons do not change records',
+]) {
+  if (!start.includes(marker)) failures.push(`missing learner/teacher start boundary marker: ${marker}`);
 }
 
 const indexHtml = readFileSync(join(distRoot, 'index.html'), 'utf8');
