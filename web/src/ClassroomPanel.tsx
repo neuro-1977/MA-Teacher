@@ -148,6 +148,23 @@ export default function ClassroomPanel() {
     finally { setBusy(false) }
   }
 
+  const joinedLearners = status?.connectedLearners ?? 0
+  const relayStage = status?.error ? 'problem' : joinedLearners > 0 ? 'joined' : status?.running ? 'waiting' : 'ready'
+  const relayHeadline = relayStage === 'problem'
+    ? 'The classroom link needs an IT check.'
+    : relayStage === 'joined'
+      ? `${joinedLearners} learner${joinedLearners === 1 ? '' : 's'} joined.`
+      : relayStage === 'waiting'
+        ? 'The invite is ready. Waiting for the learner.'
+        : 'Ready to make a private classroom link.'
+  const relayDetail = relayStage === 'problem'
+    ? 'No learner access was opened. The message below explains what to check.'
+    : relayStage === 'joined'
+      ? 'The learner can now see only the approved lesson and practice check you shared.'
+      : relayStage === 'waiting'
+        ? 'The learner opens the link on the same school network and enters the one-use code.'
+        : 'Choose one learner and one teacher-approved lesson. The local link starts only when you make the invite.'
+
   return (
     <section className="classroom-panel" aria-labelledby="classroom-panel-title">
       <header>
@@ -156,11 +173,24 @@ export default function ClassroomPanel() {
           <h2 id="classroom-panel-title">Share one lesson</h2>
           <p>Make a short-lived classroom link for one learner and one approved lesson. Students do not install an app.</p>
         </div>
-        <span className={`classroom-panel__state ${status?.running ? 'is-on' : ''}`}>{status?.running ? 'Sharing on' : 'Sharing off'}</span>
+        <span className={`classroom-panel__state ${status?.running ? 'is-on' : ''}`}>{status ? (status.running ? 'Sharing on' : 'Sharing off') : 'Checking'}</span>
       </header>
 
+      <div className={`classroom-panel__readiness is-${relayStage}`} role="status" aria-live="polite">
+        <span className="classroom-panel__readiness-label">Classroom status</span>
+        <strong>{relayHeadline}</strong>
+        <p>{relayDetail}</p>
+        {status?.running && status.classroomUrl && <small>{status.classroomUrl}</small>}
+      </div>
+
+      <ol className="classroom-panel__journey" aria-label="Classroom sharing steps">
+        <li className={relayStage === 'ready' || relayStage === 'problem' ? 'is-current' : 'is-done'}><span>1</span><div><strong>Make invite</strong><small>One learner, one lesson</small></div></li>
+        <li className={relayStage === 'waiting' ? 'is-current' : relayStage === 'joined' ? 'is-done' : ''}><span>2</span><div><strong>Learner joins</strong><small>Same school network</small></div></li>
+        <li className={relayStage === 'joined' ? 'is-current' : ''}><span>3</span><div><strong>Learn safely</strong><small>Stop sharing when done</small></div></li>
+      </ol>
+
       <div className="classroom-panel__notice" role="note">
-        Use a managed Private or Domain school network. The link is local HTTP, so an isolated classroom Wi-Fi/VLAN is part of the safety boundary.
+        <strong>Same managed school network only.</strong> The learner uses a web browser, not another app or an internet account. Ask school IT to use a Private or Domain network.
       </div>
 
       <div className="classroom-panel__form">
@@ -188,19 +218,24 @@ export default function ClassroomPanel() {
 
       <div className="classroom-panel__actions">
         <button type="button" className="classroom-panel__primary" onClick={createInvite} disabled={busy || !learnerId || !lessonId}>Make learner invite</button>
-        <button type="button" onClick={stopSharing} disabled={busy || !status?.running}>Stop and revoke all</button>
+        <button type="button" className="classroom-panel__stop" onClick={stopSharing} disabled={busy || !status?.running}>Stop sharing and sign everyone out</button>
         <button type="button" onClick={() => void refresh()} disabled={busy}>Refresh</button>
       </div>
 
       {invite?.ok && <div className="classroom-panel__invite">
+        <h3>Give these to the named learner</h3>
         <span>Classroom link</span><strong>{invite.classroomUrl}</strong>
-        <span>One-use code</span><strong className="classroom-panel__code">{invite.code}</strong>
+        <span>Code (works once)</span><strong className="classroom-panel__code">{invite.code}</strong>
         <span>Ends</span><strong>{invite.expiresUtc ? new Date(invite.expiresUtc).toLocaleString() : 'Soon'}</strong>
         <button type="button" onClick={copyInvite}>Copy link and code</button>
       </div>}
 
       <p className="classroom-panel__message" aria-live="polite">{message}</p>
-      <footer>{status?.activeInvites ?? 0} active invite(s) · {status?.connectedLearners ?? 0} joined learner(s)</footer>
+      <footer className="classroom-panel__counts">
+        <div><strong>{status?.activeInvites ?? 0}</strong><span>active invite{(status?.activeInvites ?? 0) === 1 ? '' : 's'}</span></div>
+        <div><strong>{joinedLearners}</strong><span>learner{joinedLearners === 1 ? '' : 's'} joined</span></div>
+        <small>Stopping sharing revokes every invite and signs learners out immediately.</small>
+      </footer>
       {(status?.safetyIncidents?.length ?? 0) > 0 && <div className="classroom-panel__safety-reports">
         <h3>Learner safety reports</h3>
         <p>Talk to the learner. These reports are evidence for follow-up, not automatic punishment.</p>

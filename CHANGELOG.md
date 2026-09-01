@@ -1,5 +1,7 @@
 # Changelog
 
+- Classroom sharing now presents a plain three-step teacher journey with distinct ready, waiting, joined and IT-check states, visible invite/learner counts, one-use-code wording, and an explicit stop action that signs learners out and revokes every invite.
+
 - Release proof now exercises the real classroom relay end to end on an ephemeral loopback listener: teacher invite, learner join, one-use-code refusal, scoped lesson/check read, persisted work submission, and immediate teacher revocation. Production still uses opt-in TCP 5202 and still requires the documented elevated second-device acceptance test.
 
 - Subject exploration now gives a short age-stage approach cue, keeps its fourteen-domain learner activities compact, and reserves dense curriculum/planning notes for Teacher view without presenting practice ideas as official curriculum.
