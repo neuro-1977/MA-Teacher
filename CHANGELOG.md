@@ -2,6 +2,7 @@
 
 ## 2026-09-01 - Calm, evidence-based learner progress
 
+- Refreshed the Windows release workflow to the official Node 24 action-runtime generations.
 - Added a clear next-step card derived only from saved work and human-review evidence.
 - Added friendly empty-state guidance and explicit `Reached` / `Not yet` marker text so progress is not communicated by colour or symbols alone.
 - Kept trail markers non-competitive: no streaks, leaderboards, invented scores, ability guesses, unlocks, or automated grades.
