@@ -20,6 +20,13 @@ const requiredPanelMarkers = [
   'Stopping sharing revokes every invite and signs learners out immediately.',
   'Same managed school network only.',
   'Private or Domain network',
+  'const refresh = useCallback(async (announce = true)',
+  'if (announce) setMessage',
+  'if (!status?.running) return',
+  'const interval = window.setInterval(refreshActiveClassroom, 5000)',
+  "window.addEventListener('focus', refreshActiveClassroom)",
+  'window.clearInterval(interval)',
+  "window.removeEventListener('focus', refreshActiveClassroom)",
 ];
 
 const requiredStyleMarkers = [
@@ -63,6 +70,11 @@ for (const marker of requiredStyleMarkers) {
 
 for (const marker of requiredStudentMarkers) {
   if (!student.includes(marker)) throw new Error(`Classroom journey contract missing learner recovery marker: ${marker}`);
+}
+
+const quietTeacherRefreshes = panel.match(/await refresh\(false\)/g) ?? [];
+if (quietTeacherRefreshes.length !== 3) {
+  throw new Error(`Teacher classroom actions must preserve their message across exactly three quiet refreshes; found ${quietTeacherRefreshes.length}.`);
 }
 
 if (student.includes('response.json()')) {

@@ -31,6 +31,7 @@ The final installer must offer an explicit elevated school-network task that res
 - Teacher planning, learner lists, curriculum authoring, raw database access, development tools and attachment download are absent from the relay.
 - Profanity, explicit content, slurs, unsafe links, obfuscation and safety-bypass attempts are blocked and recorded as privacy-minimised teacher incidents.
 - Learner print requests contain only learner, lesson and a server-owned document kind; a teacher must choose a locally detected printer and approve.
+- While sharing is active, the teacher surface refreshes learner joins, safety incidents and print requests every five seconds and when the window regains focus. Background refreshes do not erase the teacher's last action result.
 
 ## Required final acceptance test
 

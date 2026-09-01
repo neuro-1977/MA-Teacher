@@ -4,6 +4,7 @@
 
 - Corrected the learner classroom to recognise the persisted `human-reviewed` state, so reviewed work now advances the learning trail, reveals the feedback-ready state and enables a learner to try again.
 - Expanded the packaged release self-test across anonymous refusal, human-feedback round-trip, unsafe-input blocking and privacy-minimised incident evidence, and a scoped print request that remains pending teacher approval.
+- Made the teacher classroom update joins, safety reports and print requests automatically while sharing, without overwriting the result of invite, stop or print actions.
 - Kept the elevated real second-device classroom test as a separate acceptance gate; loopback runtime proof is not promoted into a LAN claim.
 
 ## 0.1.0 - Learner-safe practice and work submission

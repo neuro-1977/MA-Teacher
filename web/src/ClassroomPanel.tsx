@@ -44,7 +44,7 @@ export default function ClassroomPanel() {
   const [printing, setPrinting] = useState<PrinterOverview | null>(null)
   const [printerName, setPrinterName] = useState('')
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (announce = true) => {
     try {
       const [workspaceResponse, reviewResponse, statusResponse, printerResponse] = await Promise.all([
         fetch('/api/teaching/workspace', { cache: 'no-store' }),
@@ -65,13 +65,23 @@ export default function ClassroomPanel() {
       setStatus(classroom)
       setPrinting(printerStatus)
       setPrinterName((current) => current || printerStatus.printers.find((printer) => printer.isDefault)?.name || printerStatus.printers[0]?.name || '')
-      setMessage(classroom.error || (classroom.running ? 'Classroom sharing is on.' : 'Classroom sharing is off.'))
+      if (announce) setMessage(classroom.error || (classroom.running ? 'Classroom sharing is on.' : 'Classroom sharing is off.'))
     } catch {
-      setMessage('The classroom controls could not be loaded.')
+      if (announce) setMessage('The classroom controls could not be loaded.')
     }
   }, [])
 
   useEffect(() => { void refresh() }, [refresh])
+  useEffect(() => {
+    if (!status?.running) return
+    const refreshActiveClassroom = () => { void refresh(false) }
+    const interval = window.setInterval(refreshActiveClassroom, 5000)
+    window.addEventListener('focus', refreshActiveClassroom)
+    return () => {
+      window.clearInterval(interval)
+      window.removeEventListener('focus', refreshActiveClassroom)
+    }
+  }, [refresh, status?.running])
 
   const planById = useMemo(() => new Map(plans.map((plan) => [plan.id, plan])), [plans])
   const availableLessons = useMemo(() => lessons.filter((lesson) => {
@@ -92,7 +102,7 @@ export default function ClassroomPanel() {
       const result: InviteResult = await response.json()
       setInvite(result)
       setMessage(result.ok ? 'Invite ready. Give this link and code only to the named learner.' : result.error || 'The invite was refused.')
-      await refresh()
+      await refresh(false)
     } catch { setMessage('The invite could not be created.') }
     finally { setBusy(false) }
   }
@@ -108,7 +118,7 @@ export default function ClassroomPanel() {
       const result = await response.json()
       setInvite(null)
       setMessage(result.message || result.error || 'Classroom sharing stopped.')
-      await refresh()
+      await refresh(false)
     } catch { setMessage('Classroom sharing could not be stopped.') }
     finally { setBusy(false) }
   }
@@ -132,7 +142,7 @@ export default function ClassroomPanel() {
       })
       const result = await response.json()
       setMessage(result.ok ? (approve ? 'The approved document was sent to the printer.' : 'The print request was declined.') : result.error || 'The print decision failed.')
-      await refresh()
+      await refresh(false)
     } catch { setMessage('The print decision could not be completed.') }
     finally { setBusy(false) }
   }
@@ -162,7 +172,7 @@ export default function ClassroomPanel() {
     : relayStage === 'joined'
       ? 'The learner can now see only the approved lesson and practice check you shared.'
       : relayStage === 'waiting'
-        ? 'The learner opens the link on the same school network and enters the one-use code.'
+        ? 'The learner opens the link on the same school network and enters the one-use code. This screen updates when they join.'
         : 'Choose one learner and one teacher-approved lesson. The local link starts only when you make the invite.'
 
   return (
