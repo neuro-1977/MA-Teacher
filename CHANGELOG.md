@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0 - Learner classroom response safety
+
+- The learner classroom now treats empty or malformed local API replies as a recoverable classroom problem instead of allowing a raw JSON parsing error to escape.
+- Lesson refresh, joining, work submission, and print requests all use the same bounded response reader while keeping their existing child-friendly guidance and human-authority boundaries.
+- The permanent classroom journey contract now rejects direct `response.json()` parsing in the learner surface and proves all four JSON endpoints use the guarded boundary.
+
 - Simple view now enforces its learner-safe destination list at startup, browser history, internal navigation and clicks; teacher-only setup diagnostics stay hidden until Teacher view is selected.
 
 - Classroom sharing now presents a plain three-step teacher journey with distinct ready, waiting, joined and IT-check states, visible invite/learner counts, one-use-code wording, and an explicit stop action that signs learners out and revokes every invite.

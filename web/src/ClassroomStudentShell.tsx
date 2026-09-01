@@ -15,8 +15,16 @@ type ClassroomView = {
   printRequests?: Array<{ id: string; documentKind: string; state: string }>
   boundaries?: string[]
 }
+type ClassroomActionResult = { ok: boolean; error?: string }
 
 const allowedFileTypes = ['application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.oasis.opendocument.text','text/plain','image/png','image/jpeg','image/webp']
+
+async function readClassroomJson<T>(response: Response): Promise<T> {
+  const body = await response.text()
+  if (!body.trim()) throw new Error('The classroom sent an empty reply.')
+  try { return JSON.parse(body) as T }
+  catch { throw new Error('The classroom sent a reply this screen could not read.') }
+}
 
 export default function ClassroomStudentShell() {
   const [view, setView] = useState<ClassroomView | null>(null)
@@ -32,11 +40,11 @@ export default function ClassroomStudentShell() {
     try {
       const response = await fetch('/api/classroom/me', { cache:'no-store', credentials:'same-origin' })
       if (response.status === 401) { setJoining(true); setView(null); return }
-      const result: ClassroomView = await response.json()
+      const result = await readClassroomJson<ClassroomView>(response)
       setView(result)
       setJoining(!result.ok)
       if (!result.ok) setMessage(result.error || 'Ask your teacher for a new classroom code.')
-    } catch { setJoining(true); setMessage('The teacher classroom is not ready. Ask your teacher to check it.') }
+    } catch { setJoining(true); setView(null); setMessage('The teacher classroom is not ready. Ask your teacher to check it.') }
   }, [])
 
   useEffect(() => { void load() }, [load])
@@ -46,7 +54,7 @@ export default function ClassroomStudentShell() {
     setMessage('Checking your code...')
     try {
       const response = await fetch('/api/classroom/join', { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'same-origin', body:JSON.stringify({code}) })
-      const result = await response.json()
+      const result = await readClassroomJson<ClassroomActionResult>(response)
       if (!result.ok) { setMessage(result.error || 'That code did not work.'); return }
       setMessage('You are in. Your lesson is ready.')
       await load()
@@ -71,7 +79,7 @@ export default function ClassroomStudentShell() {
         method:'POST', headers:{'Content-Type':'application/json'}, credentials:'same-origin',
         body:JSON.stringify({ checkId:check.id, responseText:answers[check.id] || '', attachmentName:file?.name || null, attachmentMediaType:file?.type || null, attachmentBase64:file ? await toBase64(file) : null }),
       })
-      const result = await response.json()
+      const result = await readClassroomJson<ClassroomActionResult>(response)
       if (!result.ok) { setMessage(result.error || 'Your work was not saved.'); return }
       setAnswers((current) => ({...current,[check.id]:''}))
       setFiles((current) => ({...current,[check.id]:null}))
@@ -96,7 +104,7 @@ export default function ClassroomStudentShell() {
     setMessage('Asking your teacher...')
     try {
       const response = await fetch('/api/classroom/print-requests',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({kind})})
-      const result = await response.json()
+      const result = await readClassroomJson<ClassroomActionResult>(response)
       setMessage(result.ok ? 'Print request saved. Your teacher must approve it.' : result.error || 'The print request was not saved.')
       await load()
     } catch { setMessage('The print request could not be sent.') }
