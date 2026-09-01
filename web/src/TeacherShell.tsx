@@ -150,7 +150,7 @@ const groups: WorkspaceGroup[] = [
   },
 ];
 
-const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
+const surfaceRenderers: Partial<Record<string, (view: AppView) => ReactNode>> = {
   'workspace-start': () => <GettingStartedPanel />,
   'workspace-view-mode': () => <ViewModeControl />,
   'workspace-index': () => <WorkspaceIndexPanel />,
@@ -182,7 +182,7 @@ const surfaceRenderers: Partial<Record<string, () => ReactNode>> = {
   'workspace-teaching-operations': () => <TeachingOperationsPanel />,
   'workspace-learning-checks': () => <LearningCheckPanel />,
   'workspace-misconception-response': () => <MisconceptionResponsePanel />,
-  'workspace-progress': () => <LearningProgressPanel />,
+  'workspace-progress': (view) => <LearningProgressPanel showTeacherDetails={view === 'teacher'} />,
   'workspace-feedback-hub': () => <FeedbackHubPanel />,
   'workspace-references': () => <TeachingReferencePanel />,
   'workspace-reference-review': () => <TeachingReferenceReviewPanel />,
@@ -303,7 +303,7 @@ export function TeacherShell() {
       <main id="teacher-main" className="teacher-main" tabIndex={-1}>
         {activeEntry ? <header className="teacher-workspace-heading"><div><p>{activeGroup.label.toUpperCase()}</p><h1>{activeEntry.label}</h1><span>{activeEntry.description}</span></div>{effect ? <div className="teacher-effect"><strong data-effect={effect}>{workspaceEffectLabels[effect]}</strong><InfoTip label="What does this label mean?">This tells you whether this page can save a record, create a backup, or only read information.</InfoTip></div> : null}</header> : null}
         {activeId === 'workspace-lesson-reader' ? <div className="teacher-workspace-tools"><PrintLessonControl /></div> : null}
-        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}><Suspense fallback={<WorkspaceLoading label={activeEntry.label} />}>{activeRenderer()}</Suspense></SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
+        <div className="teacher-workspace">{activeRenderer && activeEntry ? <SurfaceErrorBoundary name={activeEntry.label}><Suspense fallback={<WorkspaceLoading label={activeEntry.label} />}>{activeRenderer(view)}</Suspense></SurfaceErrorBoundary> : <Home open={open} view={view} />}</div>
       </main>
     </div>
   </div>;

@@ -1,5 +1,7 @@
 # Changelog
 
+- Progress now keeps the full answer-and-feedback ledger in Teacher view, preserves the internal All subjects filter value, and verifies that trail markers remain gentle activity recognition rather than grades, rankings or streak pressure.
+
 ## 2026-09-01 - Calm, evidence-based learner progress
 
 - Rebuilt Explore subjects as a single-subject learner journey instead of a long teacher catalogue: fourteen compact choices, one stage-aware practice idea, one way to show learning, and teacher notes kept closed until requested.

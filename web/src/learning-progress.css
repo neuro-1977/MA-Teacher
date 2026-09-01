@@ -20,4 +20,6 @@
 .progress-empty>span { color:#b8791c; font-size:2.4rem; }
 .progress-empty h3,.progress-empty p { margin:0; }
 .progress-empty p { margin-top:5px; color:#665b48; line-height:1.45; }
+.progress-ledger-note { margin:18px 0 0; padding:13px 16px; border-left:5px solid #287566; background:#e7f4ee; color:#24483f; line-height:1.45; }
+.progress-ledger-note strong { display:block; margin-bottom:3px; color:#174c43; }
 @media (max-width:900px) { .progress-next { grid-template-columns:1fr; }.progress-next>span { width:38px; height:38px; } }
