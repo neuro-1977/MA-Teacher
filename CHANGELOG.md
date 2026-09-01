@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0 - Classroom feedback state and runtime safety proof
+
+- Corrected the learner classroom to recognise the persisted `human-reviewed` state, so reviewed work now advances the learning trail, reveals the feedback-ready state and enables a learner to try again.
+- Expanded the packaged release self-test across anonymous refusal, human-feedback round-trip, unsafe-input blocking and privacy-minimised incident evidence, and a scoped print request that remains pending teacher approval.
+- Kept the elevated real second-device classroom test as a separate acceptance gate; loopback runtime proof is not promoted into a LAN claim.
+
 ## 0.1.0 - Learner-safe practice and work submission
 
 - Simple view now shows only the learner's current question, answer/file submission and a short explanation of what happens next.

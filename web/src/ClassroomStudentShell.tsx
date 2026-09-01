@@ -139,8 +139,8 @@ export default function ClassroomStudentShell() {
     const checks = view?.checks || []
     const attempts = view?.attempts || []
     const submittedChecks = new Set(attempts.map((attempt) => attempt.checkId))
-    const reviewedChecks = new Set(attempts.filter((attempt) => attempt.reviewState === 'reviewed').map((attempt) => attempt.checkId))
-    const waitingCount = attempts.filter((attempt) => attempt.reviewState !== 'reviewed').length
+    const reviewedChecks = new Set(attempts.filter((attempt) => attempt.reviewState === 'human-reviewed').map((attempt) => attempt.checkId))
+    const waitingCount = attempts.filter((attempt) => attempt.reviewState !== 'human-reviewed').length
     const nextUnsent = checks.find((check) => !submittedChecks.has(check.id))
 
     if (nextUnsent) return {
@@ -183,7 +183,7 @@ export default function ClassroomStudentShell() {
 
   const trailStars = useMemo(() => {
     const attempts = view?.attempts || []
-    const reviewed = attempts.some((attempt) => attempt.reviewState === 'reviewed')
+    const reviewed = attempts.some((attempt) => attempt.reviewState === 'human-reviewed')
     const attemptsPerCheck = new Map<string,number>()
     for (const attempt of attempts) attemptsPerCheck.set(attempt.checkId,(attemptsPerCheck.get(attempt.checkId)||0)+1)
     return [
@@ -257,6 +257,6 @@ export default function ClassroomStudentShell() {
     </div>
     {tab==='lesson' && <section className="student-classroom__page"><div className="student-classroom__goal"><span>Today we are learning to</span><strong>{view.lesson.goal}</strong></div>{[...view.lesson.sections].sort((a,b)=>a.sequence-b.sequence).map((section)=><article key={`${section.sequence}-${section.kind}`}><p>{section.kind}</p><div>{section.content}</div></article>)}</section>}
     {tab==='practice' && <section className="student-classroom__page"><h2>Show what you know</h2><p>Your teacher reads your work. The computer does not invent a score.</p>{(view.checks||[]).length===0?<div className="student-classroom__empty">Your teacher has not added a practice check yet.</div>:(view.checks||[]).map((check)=><article id={`practice-${check.id}`} className="student-classroom__check" key={check.id}><h3>{check.prompt}</h3><p><strong>A good answer will:</strong> {check.successCriteria}</p><label>Your answer<textarea value={answers[check.id]||''} onChange={(event)=>setAnswers((current)=>({...current,[check.id]:event.target.value}))} maxLength={10000} /></label><label className="student-classroom__file">Or add one file<input type="file" accept=".pdf,.docx,.odt,.txt,.png,.jpg,.jpeg,.webp" onChange={(event)=>setFiles((current)=>({...current,[check.id]:event.target.files?.[0]||null}))} /></label><button type="button" onClick={()=>void submit(check)} disabled={busyCheck===check.id}>{busyCheck===check.id?'Saving...':'Send to my teacher'}</button></article>)}</section>}
-    {tab==='feedback' && <section className="student-classroom__page"><h2>What my teacher said</h2><p>Feedback is about this attempt. It is not a permanent label about you.</p>{(view.attempts||[]).length===0?<div className="student-classroom__empty">Your feedback will appear here after you send work and your teacher reviews it.</div>:(view.checks||[]).map((check)=><article className="student-classroom__feedback" key={check.id}><h3>{check.prompt}</h3>{(attemptsByCheck.get(check.id)||[]).map((attempt)=><div key={attempt.id}><span>{new Date(attempt.submittedUtc).toLocaleString()}</span><p>{attempt.responseText || attempt.attachmentName || 'File submitted'}</p><strong>{attempt.reviewState==='reviewed'?(attempt.outcome||'Reviewed'):'Waiting for teacher review'}</strong>{attempt.feedback&&<blockquote>{attempt.feedback}</blockquote>}{attempt.reviewState==='reviewed'&&<footer className="student-classroom__feedback-actions"><small>Your earlier attempt and feedback stay saved.</small><button type="button" onClick={()=>tryAgain(check.id)}>Try this again</button></footer>}</div>)}</article>)}</section>}
+    {tab==='feedback' && <section className="student-classroom__page"><h2>What my teacher said</h2><p>Feedback is about this attempt. It is not a permanent label about you.</p>{(view.attempts||[]).length===0?<div className="student-classroom__empty">Your feedback will appear here after you send work and your teacher reviews it.</div>:(view.checks||[]).map((check)=><article className="student-classroom__feedback" key={check.id}><h3>{check.prompt}</h3>{(attemptsByCheck.get(check.id)||[]).map((attempt)=><div key={attempt.id}><span>{new Date(attempt.submittedUtc).toLocaleString()}</span><p>{attempt.responseText || attempt.attachmentName || 'File submitted'}</p><strong>{attempt.reviewState==='human-reviewed'?(attempt.outcome||'Reviewed'):'Waiting for teacher review'}</strong>{attempt.feedback&&<blockquote>{attempt.feedback}</blockquote>}{attempt.reviewState==='human-reviewed'&&<footer className="student-classroom__feedback-actions"><small>Your earlier attempt and feedback stay saved.</small><button type="button" onClick={()=>tryAgain(check.id)}>Try this again</button></footer>}</div>)}</article>)}</section>}
   </main>
 }

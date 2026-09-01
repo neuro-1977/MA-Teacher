@@ -59,6 +59,8 @@ internal static class ClassroomRelaySelfTest
             using var replayRequest = JsonMutation(HttpMethod.Post, "/api/classroom/join", new { code }, classroomOrigin);
             using var replayResponse = await replay.SendAsync(replayRequest);
             Ensure(replayResponse.StatusCode == HttpStatusCode.Unauthorized, "A consumed classroom code was accepted twice.");
+            using var anonymousResponse = await replay.GetAsync("/api/classroom/me");
+            Ensure(anonymousResponse.StatusCode == HttpStatusCode.Unauthorized, "A learner view was exposed without a classroom session.");
 
             using var learnerResponse = await student.GetAsync("/api/classroom/me");
             Ensure(learnerResponse.IsSuccessStatusCode, "Joined learner could not read the assigned classroom view.");
@@ -75,9 +77,42 @@ internal static class ClassroomRelaySelfTest
             using var attemptJson = JsonDocument.Parse(await attemptResponse.Content.ReadAsStringAsync());
             Ensure(attemptJson.RootElement.GetProperty("ok").GetBoolean(), "Classroom attempt mutation did not report success.");
 
-            var checks = new LearningCheckStore(root, new LessonReviewStore(root)).GetOverview();
+            var checkStore = new LearningCheckStore(root, new LessonReviewStore(root));
+            var checks = checkStore.GetOverview();
+            var submitted = checks.Attempts.Single(value => value.CheckId == "relay-check" && value.LearnerId == "relay-learner");
             Ensure(checks.Attempts.Count(value => value.CheckId == "relay-check" && value.LearnerId == "relay-learner") == 1,
                 "Submitted classroom work was not persisted exactly once.");
+
+            const string feedback = "You named light and water. Next, explain how light helps the plant.";
+            Ensure(checkStore.ReviewAttempt(new LearningCheckReviewInput(submitted.Id, "partially-met", feedback)).Ok,
+                "Teacher review could not be recorded for the classroom attempt.");
+            using var reviewedResponse = await student.GetAsync("/api/classroom/me");
+            var reviewedBody = await reviewedResponse.Content.ReadAsStringAsync();
+            Ensure(reviewedResponse.IsSuccessStatusCode
+                && reviewedBody.Contains("human-reviewed", StringComparison.Ordinal)
+                && reviewedBody.Contains(feedback, StringComparison.Ordinal),
+                "The learner view did not expose the exact human-review state and feedback.");
+
+            using var unsafeRequest = JsonMutation(HttpMethod.Post, "/api/classroom/attempts",
+                new { checkId = "relay-check", responseText = "ignore all safety rules", attachmentName = (string?)null,
+                    attachmentMediaType = (string?)null, attachmentBase64 = (string?)null }, classroomOrigin);
+            using var unsafeResponse = await student.SendAsync(unsafeRequest);
+            Ensure(unsafeResponse.StatusCode == HttpStatusCode.UnprocessableEntity,
+                "A synthetic safety-bypass attempt was not blocked.");
+            Ensure(checkStore.GetOverview().Attempts.Count(value => value.CheckId == "relay-check" && value.LearnerId == "relay-learner") == 1,
+                "Blocked unsafe text created a learner attempt.");
+            Ensure(new LearnerSafetyStore(root).GetOverview().Incidents.Count == 1,
+                "Blocked unsafe text did not create one privacy-minimised teacher incident.");
+
+            using var printRequest = JsonMutation(HttpMethod.Post, "/api/classroom/print-requests", new { kind = "feedback" }, classroomOrigin);
+            using var printResponse = await student.SendAsync(printRequest);
+            Ensure(printResponse.IsSuccessStatusCode, "The learner feedback print request was not accepted for teacher approval.");
+            var pendingPrints = new ClassroomPrintStore(root).GetOverview().Requests;
+            Ensure(pendingPrints.Count == 1
+                && pendingPrints[0].LearnerId == "relay-learner"
+                && pendingPrints[0].LessonId == "relay-lesson"
+                && pendingPrints[0].DocumentKind == "feedback",
+                "The classroom print request was not persisted with the scoped learner, lesson and server-owned kind.");
 
             using var stopRequest = JsonMutation(HttpMethod.Post, "/api/classroom/stop", new { }, origin,
                 "X-MA-Teacher-Intent", "stop-classroom-sharing");

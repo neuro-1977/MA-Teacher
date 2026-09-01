@@ -34,7 +34,7 @@ The final installer must offer an explicit elevated school-network task that res
 
 ## Required final acceptance test
 
-The packaged `--self-test` now proves a complete one-machine loopback journey using the real stores and HTTP boundaries: an approved synthetic lesson is invited, one learner joins, the code refuses reuse, the scoped lesson/check is read, one response persists, and teacher stop revokes access. This catches release packaging and relay regressions without opening a LAN port. It is not a substitute for the second-device and elevated Windows acceptance steps below.
+The packaged `--self-test` now proves a complete one-machine loopback journey using the real stores and HTTP boundaries: an approved synthetic lesson is invited, one learner joins, anonymous access and code reuse refuse, the scoped lesson/check is read, one response persists, a human review and feedback return to that learner, a safety-bypass submission is blocked and recorded without becoming work, a feedback print request persists for teacher approval, and teacher stop revokes access. This catches release packaging and relay regressions without opening a LAN port. It is not a substitute for the second-device and elevated Windows acceptance steps below.
 
 1. Install using the elevated classroom-network task on a test teacher laptop.
 2. Prove TCP `5201` is unreachable from a second device.

@@ -47,6 +47,9 @@ const requiredStudentMarkers = [
   "window.addEventListener('focus', refreshActiveClassroom)",
   'window.clearInterval(interval)',
   "window.removeEventListener('focus', refreshActiveClassroom)",
+  "attempt.reviewState === 'human-reviewed'",
+  "attempt.reviewState !== 'human-reviewed'",
+  "attempt.reviewState==='human-reviewed'",
   '[...view.lesson.sections].sort((a,b)=>a.sequence-b.sequence)',
 ];
 
@@ -70,6 +73,10 @@ if (student.includes('view.lesson.sections.sort(')) {
   throw new Error('Learner lesson rendering must not mutate the authoritative lesson-section array.');
 }
 
+if (/reviewState\s*!?={2,3}\s*['"]reviewed['"]/.test(student)) {
+  throw new Error('Learner classroom must use the persisted human-reviewed state rather than an invented reviewed alias.');
+}
+
 const classroomJsonUses = student.match(/readClassroomJson(?:<[^>]+>)?\(/g) ?? [];
 if (classroomJsonUses.length !== 5) {
   throw new Error(`Learner classroom response boundary must cover its helper plus four JSON endpoints; found ${classroomJsonUses.length}.`);
@@ -79,4 +86,4 @@ for (const forbidden of ['public network is allowed', 'code can be reused', 'int
   if (panel.toLowerCase().includes(forbidden)) throw new Error(`Classroom journey contains unsafe guidance: ${forbidden}`);
 }
 
-console.log('Classroom journey contract verified: honest sharing states, one-use access, bounded active-session revocation refresh, managed-network guidance, immutable lesson rendering, responsive layout, and child-friendly malformed-response recovery.');
+console.log('Classroom journey contract verified: honest sharing states, one-use access, exact human-review visibility, bounded active-session revocation refresh, managed-network guidance, immutable lesson rendering, responsive layout, and child-friendly malformed-response recovery.');
