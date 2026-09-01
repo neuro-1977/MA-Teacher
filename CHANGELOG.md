@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 - Reliable human marking workspace
+
+- The teacher marking workspace now rejects empty or malformed local responses with bounded explanations instead of exposing raw JSON failures.
+- Refresh now drops deleted lesson selections and already-reviewed attempt selections rather than retaining stale hidden values.
+- Lesson-detail requests are generation-safe: a slower response for an earlier selection cannot overwrite the teacher's newer choice.
+- A permanent contract now binds the UI attachment list to the server allowlist and preserves the 10 MB, SHA-256 integrity, and human-only marking boundaries.
+
 ## 0.1.0 - Learner classroom state freshness
 
 - An active learner classroom now checks server authority every five seconds and whenever its window regains focus, so stopped sharing or revoked access removes stale lesson content without waiting for another learner action.

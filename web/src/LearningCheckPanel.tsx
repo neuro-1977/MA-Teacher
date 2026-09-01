@@ -6,6 +6,16 @@ type LessonEvidence = { id: string; subject: string; learningStage: string; stat
 type LessonDetail = { ok: boolean; lesson: { id: string; learnerId: string; learnerDisplayName: string }; evidence: LessonEvidence[] };
 type Check = { id: string; lessonId: string; lessonTitle: string; learnerId: string; learnerDisplayName: string; prompt: string; successCriteria: string; evidenceState: string; status: string; lessonFingerprint?: string; fingerprintCurrent: boolean; currencyState: string; evidenceCount: number };
 type Attempt = { id: string; checkId: string; learnerId: string; learnerDisplayName: string; responseText: string; reviewState: string; outcome?: string; feedback?: string; attachmentName?: string; attachmentMediaType?: string; attachmentBytes?: number; attachmentSha256?: string };
+type WorkspacePayload = { ok: boolean; error?: string; lessonDrafts?: Draft[] };
+type CheckPayload = { ok: boolean; error?: string; checks?: Check[]; attempts?: Attempt[] };
+type MutationPayload = { ok: boolean; error?: string; state?: string };
+
+async function readLearningCheckJson<T>(response: Response, label: string): Promise<T> {
+  const body = await response.text();
+  if (!body.trim()) throw new Error(`${label} returned no data.`);
+  try { return JSON.parse(body) as T; }
+  catch { throw new Error(`${label} returned a reply this screen could not read.`); }
+}
 
 export function LearningCheckPanel() {
   const [drafts, setDrafts] = useState<Draft[]>([]); const [lessonId, setLessonId] = useState(''); const [detail, setDetail] = useState<LessonDetail | null>(null);
@@ -18,18 +28,29 @@ export function LearningCheckPanel() {
   async function refresh() {
     try {
       const [workspaceResponse, checksResponse] = await Promise.all([fetch('/api/teaching/workspace'), fetch('/api/teaching/checks')]);
-      const workspace = await workspaceResponse.json(); const checkData = await checksResponse.json();
+      const [workspace, checkData] = await Promise.all([readLearningCheckJson<WorkspacePayload>(workspaceResponse, 'Learning workspace'), readLearningCheckJson<CheckPayload>(checksResponse, 'Learning checks')]);
       if (!workspaceResponse.ok || !workspace.ok || !checksResponse.ok || !checkData.ok) throw new Error('Learning-check workspace refused.');
       const nextDrafts = Array.isArray(workspace.lessonDrafts) ? workspace.lessonDrafts : []; const nextChecks = Array.isArray(checkData.checks) ? checkData.checks : []; const nextAttempts = Array.isArray(checkData.attempts) ? checkData.attempts : [];
-      setDrafts(nextDrafts); setChecks(nextChecks); setAttempts(nextAttempts); setLessonId(current => current || nextDrafts[0]?.id || ''); setAttemptCheckId(current => current && nextChecks.some((item: Check) => item.id === current && item.fingerprintCurrent) ? current : nextChecks.find((item: Check) => item.fingerprintCurrent)?.id || ''); setReviewAttemptId(current => current || nextAttempts.find((item: Attempt) => item.reviewState === 'unreviewed')?.id || ''); setState('Manual practice workspace loaded');
+      setDrafts(nextDrafts); setChecks(nextChecks); setAttempts(nextAttempts); setLessonId(current => current && nextDrafts.some((item: Draft) => item.id === current) ? current : nextDrafts[0]?.id || ''); setAttemptCheckId(current => current && nextChecks.some((item: Check) => item.id === current && item.fingerprintCurrent) ? current : nextChecks.find((item: Check) => item.fingerprintCurrent)?.id || ''); setReviewAttemptId(current => current && nextAttempts.some((item: Attempt) => item.id === current && item.reviewState === 'unreviewed') ? current : nextAttempts.find((item: Attempt) => item.reviewState === 'unreviewed')?.id || ''); setState('Manual practice workspace loaded');
     } catch (error) { setState(`Load failed: ${error instanceof Error ? error.message : 'unknown error'}`); }
   }
   useEffect(() => { void refresh(); }, []);
-  useEffect(() => { if (!lessonId) { setDetail(null); return; } fetch(`/api/teaching/lessons/${encodeURIComponent(lessonId)}`).then(response => response.json()).then(value => { setDetail(value.ok ? value : null); setSelectedEvidence([]); }).catch(() => setDetail(null)); }, [lessonId]);
+  useEffect(() => {
+    let cancelled = false;
+    if (!lessonId) { setDetail(null); return () => { cancelled = true; }; }
+    void (async () => {
+      try {
+        const response = await fetch(`/api/teaching/lessons/${encodeURIComponent(lessonId)}`);
+        const value = await readLearningCheckJson<LessonDetail>(response, 'Lesson details');
+        if (!cancelled) { setDetail(response.ok && value.ok ? value : null); setSelectedEvidence([]); }
+      } catch { if (!cancelled) { setDetail(null); setSelectedEvidence([]); } }
+    })();
+    return () => { cancelled = true; };
+  }, [lessonId]);
 
   async function post(path: string, intent: string, body: object) {
     const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-MA-Teacher-Intent': intent }, body: JSON.stringify(body) });
-    const result = await response.json(); if (!response.ok || !result.ok) throw new Error(result.error || result.state || `HTTP ${response.status}`); return result;
+    const result = await readLearningCheckJson<MutationPayload>(response, 'Learning-check action'); if (!response.ok || !result.ok) throw new Error(result.error || result.state || `HTTP ${response.status}`); return result;
   }
   async function createCheck(event: FormEvent) { event.preventDefault(); try { const result = await post('/api/teaching/checks', 'create-evidence-linked-check', { id: checkId, lessonId, prompt, successCriteria: criteria, curriculumCandidateIds: selectedEvidence }); setState(`Check: ${result.state}`); await refresh(); } catch (error) { setState(`Check refused: ${error instanceof Error ? error.message : 'unknown error'}`); } }
   async function submitAttempt(event: FormEvent) { event.preventDefault(); const check = checks.find(value => value.id === attemptCheckId); if (!check) return; try { if (workFile && workFile.size > 10 * 1024 * 1024) throw new Error('Work attachment exceeds the 10 MB boundary.'); let attachmentBase64: string | null = null; if (workFile) { const bytes = new Uint8Array(await workFile.arrayBuffer()); let binary = ''; for (let offset = 0; offset < bytes.length; offset += 32768) binary += String.fromCharCode(...bytes.subarray(offset, offset + 32768)); attachmentBase64 = btoa(binary); } const result = await post('/api/teaching/check-attempts', 'submit-learning-check-attempt', { id: attemptId, checkId: attemptCheckId, learnerId: check.learnerId, responseText: response, attachmentName: workFile?.name ?? null, attachmentMediaType: workFile?.type ?? null, attachmentBase64 }); setState(`Attempt: ${result.state}`); setResponse(''); setWorkFile(null); await refresh(); } catch (error) { setState(`Attempt refused: ${error instanceof Error ? error.message : 'unknown error'}`); } }
