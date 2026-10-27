@@ -94,7 +94,7 @@ internal static partial class LearnerSafetyPolicy
     [GeneratedRegex("\\b(?:ignore|forget|override|remove|disable|break|bypass|evade)\\b.{0,48}\\b(?:rule|rules|filter|filters|safety|system|guard|guards|restriction|restrictions)\\b|\\b(?:jailbreak|developer\\s+mode|pretend\\s+(?:there\\s+are|you\\s+have)\\s+no\\s+rules)\\b", RegexOptions.CultureInvariant)]
     private static partial Regex SafetyBypassRegex();
 
-    [GeneratedRegex("(?:https?://|www\\.|(?:[a-z0-9-]+\\.)+(?:com|net|org|io|xxx|adult|porn)(?:[/\\s]|$))", RegexOptions.CultureInvariant)]
+    [GeneratedRegex("(?:(?:https?|ftp|file|javascript|data)://?|www\\.|(?:[a-z0-9-]+\\.)+(?:com|net|org|io|edu|info|co\\.uk|sch\\.uk|gov\\.uk|xxx|adult|porn)(?:[/\\s]|$))", RegexOptions.CultureInvariant)]
     private static partial Regex ExternalAddressRegex();
 }
 
