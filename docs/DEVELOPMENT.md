@@ -22,7 +22,7 @@ Before planning public-feedback work, Serenity should sync and read the open que
 
 The product promotes feedback in the header, home page, learner guide, teacher guide, and Feedback workspace. Keep learner-facing prompts short and safe. Prefer small, linkable changelog entries so a student or teacher can see what changed because people spoke up.
 
-GitHub Actions runs the same command for pull requests, pushes to `main`, and manual dispatches. Successful runs upload a 30-day artifact. Successful `main` runs create an immutable release tagged with the app version and Actions run number and mark it latest.
+GitHub Actions Windows release workflow is manual-only (`workflow_dispatch`), requiring explicit Captain authorization to execute and publish releases. Ordinary Git pushes and pull requests do not run CI, trigger compute, or publish releases. Successful manual runs upload a 30-day artifact. Publication to GitHub Releases requires explicit `publish_release` input authorization.
 
 A green workflow proves the clean runner built, installed, started, exercised, and removed that artifact. It does not prove curriculum quality, accessibility, teaching effectiveness, upgrade compatibility on every machine, or signing identity.
 
