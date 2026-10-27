@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: ma-teacher-windows-${{ github.ref }}
   cancel-in-progress: true
@@ -16,6 +16,8 @@ jobs:
   verify-and-package:
     runs-on: windows-latest
     timeout-minutes: 35
+    permissions:
+      contents: read
     steps:
       - name: Check out source
         uses: actions/checkout@v7
@@ -47,8 +49,27 @@ jobs:
             artifacts/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 30
+
+  publish-release:
+    needs: verify-and-package
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_release == true && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Check out source for release metadata
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            ma-app.json
+          sparse-checkout-cone-mode: false
+      - name: Download verified Windows installers
+        uses: actions/download-artifact@v6
+        with:
+          name: MA-Teacher-Windows
+          path: artifacts
       - name: Publish verified release
-        if: github.event_name == 'workflow_dispatch' && inputs.publish_release == true && github.ref == 'refs/heads/main'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
