@@ -1,10 +1,12 @@
 name: Windows release
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Explicit Captain authorization to publish verified release to GitHub Releases'
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -46,7 +48,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Publish verified release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && inputs.publish_release == true && github.ref == 'refs/heads/main'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
